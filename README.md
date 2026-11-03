@@ -100,29 +100,31 @@ bash scripts/sync.sh
 
 ## 部署
 
-`index.html`（约 820 KB）为自包含单文件，任意静态托管均可，也可直接通过微信 / 飞书发送给学员离线使用。
+应用分两部分：**前端静态页**（GitHub Pages）+ **登录与同步服务**（WorkBuddy 云托管）。
 
-### GitHub Pages（主发布渠道）
+| 部分 | 地址 |
+|---|---|
+| 学员入口（前端） | <https://2013102249.github.io/ai-pm-interview-platform/> |
+| 服务地址（API） | <https://ai-pm-interview-486.app.workbuddy.host> |
+| 仓库 | <https://github.com/2013102249/ai-pm-interview-platform> |
 
-- 站点地址：<https://2013102249.github.io/ai-pm-interview-platform/>
-- 仓库：<https://github.com/2013102249/ai-pm-interview-platform>
-- 自动部署：`.github/workflows/deploy-pages.yml`，推送到 `main` 后自动发布（仅上传 `index.html`，源码与数据不对外）
-
-更新流程：
+### 更新流程
 
 ```bash
-bash scripts/sync.sh          # 拉取飞书多维表格并重新编译
+bash scripts/sync.sh        # 拉飞书题库并重编译（会保留 API 配置需重新注入）
+AIPM_API_BASE="https://ai-pm-interview-486.app.workbuddy.host" \
+AIPM_API_SHARECODE="ML5MQW3TYD" \
+python3 scripts/build.py    # 重新构建，注入服务地址与分享码
 git add -A && git commit -m "同步题库"
-git push origin main          # 触发 Actions 自动部署
+git push origin main        # Actions 自动发布前端
 ```
 
-### WorkBuddy 云端发布（备用）
+服务端有改动时，重新部署一次该目录（Node 项目，启动命令 `node server/index.js`）。
 
-- 站点地址：<https://ai-pm-interview-486.app.workbuddy.host/?sharecode=ML5MQW3TYD>（应用 ID `wbapp_9y43duPDpjybrl0id6j6u2`）
-- 历史说明：早期版本曾发布到另一账号名下的应用（`wbapp_bQ0VYY4coZ2Sfpk6Uet3SM`），该记录已备份到 `.workbuddy/backup/2026-11-02/`，与本项目当前发布链无关
+### 两个环境细节
 
-> 发布应用的归属由**当前工作区**的 `.workbuddy/applications.yaml` 决定，而不是部署目录。
-> 若该文件指向别的账号创建的应用，发布会报 `SITES_ACCOUNT_MISMATCH`；清空记录后再发布会新建应用
+- WorkBuddy 托管网关要求请求带 `?sharecode=ML5MQW3TYD`，否则返回「链接不完整」；分享码已编译进页面
+- 该网关会**覆盖请求的 `Authorization` 头**，因此会话令牌通过自定义头 `X-Session` 传递（服务端兼容三种：X-Session → Authorization → `?t=`）
 
 ## 当前数据版本
 
