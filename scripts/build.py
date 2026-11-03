@@ -353,7 +353,9 @@ def main():
         sys.exit("[build] 模板中未找到 __DATA_JSON__ 占位符")
     # 登录 / 进度同步服务地址；为空时应用以本地模式运行（不强制登录）
     api_base = os.environ.get("AIPM_API_BASE", "").strip().rstrip("/")
+    api_sharecode = os.environ.get("AIPM_API_SHARECODE", "").strip()
     html = html.replace("__API_BASE__", api_base)
+    html = html.replace("__API_SHARECODE__", api_sharecode)
     html = html.replace("__DATA_JSON__", data_json)
 
     OUTPUT.write_text(html, encoding="utf-8")

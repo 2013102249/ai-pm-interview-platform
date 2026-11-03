@@ -564,6 +564,11 @@ function switchAccount(account){
 
 /* ==================== 登录与进度同步 ==================== */
 const API_BASE = "__API_BASE__".replace(/\/+$/, "");
+const API_SHARECODE = "__API_SHARECODE__";   // WorkBuddy 托管网关的访问参数，非该环境时为空
+function apiUrl(path){
+  if (!API_SHARECODE) return API_BASE + path;
+  return API_BASE + path + (path.includes("?") ? "&" : "?") + "sharecode=" + encodeURIComponent(API_SHARECODE);
+}
 const REMOTE_AUTH = /^https?:\/\//.test(API_BASE);      // 是否接入真实登录服务；否则为本地演示模式
 const AUTH_KEY = "aipm_auth_v1";
 const SYNC_DIRTY_KEY = "aipm_sync_dirty";
@@ -660,7 +665,7 @@ async function pushProgress(keepalive){
     weakType: w.weakType, weakTag: w.weakTag,
   };
   try {
-    const r = await fetch(API_BASE + "/api/progress", {
+    const r = await fetch(apiUrl("/api/progress"), {
       method: "POST", keepalive: !!keepalive,
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH.token },
       body: JSON.stringify({ stats, detail: progressDetail(), device: (navigator.userAgent || "").slice(0, 40) }),
@@ -738,7 +743,7 @@ function renderLogin(msg){
 
     busy = true; btn.disabled = true; btn.textContent = "登录中…";
     try {
-      const r = await fetch(API_BASE + "/api/login", {
+      const r = await fetch(apiUrl("/api/login"), {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account, password }),
       });
@@ -770,7 +775,7 @@ async function restoreFromCloud(token){
   if (!REMOTE_AUTH || !token || token === "local") return;
   if (Object.keys(store.progress).length) return;      // 本机已有进度时以本机为准
   try {
-    const r = await fetch(API_BASE + "/api/progress", { headers: { "Authorization": "Bearer " + token } });
+    const r = await fetch(apiUrl("/api/progress"), { headers: { "Authorization": "Bearer " + token } });
     if (!r.ok) return;
     const j = await r.json();
     if (!j.found || !j.detail) return;
