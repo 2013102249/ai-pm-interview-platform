@@ -14,6 +14,7 @@ build.py — AI 产品经理面试备考平台 · 数据编译脚本
     python3 scripts/build.py
 """
 import json
+import os
 import re
 import sys
 from datetime import datetime, timezone, timedelta
@@ -350,6 +351,9 @@ def main():
     html = TEMPLATE.read_text(encoding="utf-8")
     if "__DATA_JSON__" not in html:
         sys.exit("[build] 模板中未找到 __DATA_JSON__ 占位符")
+    # 登录 / 进度同步服务地址；为空时应用以本地模式运行（不强制登录）
+    api_base = os.environ.get("AIPM_API_BASE", "").strip().rstrip("/")
+    html = html.replace("__API_BASE__", api_base)
     html = html.replace("__DATA_JSON__", data_json)
 
     OUTPUT.write_text(html, encoding="utf-8")
@@ -359,6 +363,7 @@ def main():
     print(f"[build] 难度: {by_level}")
     print(f"[build] 面经分组: {payload['stats']['expGroups']} 套 / 鹅厂 {payload['stats']['txRounds']} 轮")
     print(f"[build] 专题: {facets['counts']['topics']}")
+    print(f"[build] 登录服务: {api_base or '未配置（本地模式）'}")
     print(f"[build] 输出: {OUTPUT} ({size_kb:.0f} KB)")
 
 

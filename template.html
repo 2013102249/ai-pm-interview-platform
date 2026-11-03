@@ -375,6 +375,61 @@ a{color:var(--blue);text-decoration:none}
 .footer{border-top:1px solid var(--line);padding:22px 16px 30px;text-align:center;font-size:12px;color:var(--faint);line-height:2}
 .footer b{color:var(--muted)}
 
+/* ---------- 登录页 ---------- */
+body.auth-mode .nav,body.auth-mode .src-note,body.auth-mode #userbox,body.auth-mode .footer{display:none}
+body.auth-mode .wrap{display:flex;align-items:center;min-height:calc(100vh - 58px)}
+.auth-shell{
+  max-width:940px;width:100%;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;
+  border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card);
+  box-shadow:0 24px 60px -34px rgba(76,29,149,.5);
+}
+.auth-brand{
+  background:linear-gradient(150deg,#4c1d95 0%,var(--purple) 56%,var(--blue) 100%);
+  color:#fff;padding:38px 34px;position:relative;overflow:hidden;display:flex;flex-direction:column;
+}
+.auth-brand::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.auth-brand::before{content:"";position:absolute;right:20px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06)}
+.auth-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;position:relative}
+.auth-logo .logo-mark{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);box-shadow:none}
+.auth-brand h2{font-size:22px;font-weight:800;line-height:1.45;margin-top:26px;position:relative}
+.auth-brand p{font-size:13px;opacity:.85;margin-top:10px;line-height:1.8;position:relative}
+.auth-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:24px;position:relative}
+.auth-stats div{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:10px 8px;text-align:center}
+.auth-stats b{display:block;font-size:18px;font-weight:800}
+.auth-stats span{font-size:11.5px;opacity:.85}
+.auth-tip{margin-top:auto;padding-top:26px;font-size:12px;opacity:.8;line-height:1.75;position:relative}
+.auth-form{padding:38px 34px;display:flex;flex-direction:column;justify-content:center}
+.auth-form h3{font-size:19px;font-weight:800}
+.auth-form .sub{font-size:13px;color:var(--muted);margin-top:6px}
+.auth-field{margin-top:18px}
+.auth-field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px;font-weight:500}
+.auth-input{
+  width:100%;border:1px solid var(--line);background:var(--bg);border-radius:11px;padding:12px 14px;
+  font-size:19px;letter-spacing:6px;font-variant-numeric:tabular-nums;color:var(--text);outline:none;
+  transition:border-color .15s,background .15s;
+}
+.auth-input:focus{border-color:var(--purple);background:#fff;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.auth-input::placeholder{letter-spacing:2px;font-size:14px;color:var(--faint)}
+.auth-err{
+  margin-top:14px;background:var(--red-soft);border:1px solid #f7d4d4;color:var(--red);
+  font-size:12.5px;padding:9px 12px;border-radius:9px;display:none;
+}
+.auth-err.show{display:block}
+.auth-submit{width:100%;margin-top:20px;padding:12px;font-size:15px}
+.auth-note{margin-top:14px;font-size:12px;color:var(--faint);line-height:1.8;text-align:center}
+.auth-warn{
+  margin-top:14px;font-size:12px;background:var(--amber-soft);border:1px solid #f3e2c0;color:var(--amber);
+  padding:9px 12px;border-radius:9px;line-height:1.7;
+}
+.userbox{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.user-chip{display:flex;align-items:center;gap:7px;background:var(--line2);border-radius:20px;padding:4px 11px 4px 5px;font-size:12.5px;color:var(--muted)}
+.user-chip .av{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),var(--blue))}
+.user-chip b{color:var(--text);font-weight:600}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--faint);flex-shrink:0}
+.sync-dot.ok{background:var(--green)} .sync-dot.pending{background:#f59e0b} .sync-dot.err{background:var(--red)}
+.logout-btn{font-size:12.5px;color:var(--muted);padding:5px 9px;border-radius:8px}
+.logout-btn:hover{background:var(--line2);color:var(--text)}
+
 /* ---------- 响应式 ---------- */
 @media (max-width:860px){
   .grid-3{grid-template-columns:1fr}
@@ -391,6 +446,13 @@ a{color:var(--blue);text-decoration:none}
   .p-q{font-size:16px}
   .qcard-head{padding:12px 13px}
   .qno{display:none}
+  .auth-shell{grid-template-columns:1fr;margin-top:0;border-radius:16px}
+  .auth-brand{padding:24px 20px}
+  .auth-brand h2{font-size:18px;margin-top:14px}
+  .auth-brand p,.auth-tip{display:none}
+  .auth-form{padding:24px 20px}
+  .user-chip .nm{display:none}
+  .topbar-inner{gap:10px}
 }
 </style>
 </head>
@@ -404,6 +466,7 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <nav class="nav" id="nav"></nav>
     <span class="src-note">数据底座：飞书多维表格</span>
+    <div class="userbox" id="userbox"></div>
   </div>
 </header>
 
@@ -481,32 +544,276 @@ const COURSE = [
     ["W8D5","模拟面试 II + 谈薪 + 结营","谈薪四步 · offer 决策矩阵"]]}
 ];
 
-/* ==================== 本地进度存储 ==================== */
-const LS_KEY = "aipm_prep_v1";
-function loadStore(){
-  try { const s = JSON.parse(localStorage.getItem(LS_KEY)); return s && typeof s === "object" ? s : {}; }
+/* ==================== 本地进度存储（按账号隔离） ==================== */
+let LS_KEY = "aipm_prep_v1";
+function scopeKey(account){ return "aipm_prep_v1:" + (account || "guest"); }
+function loadStore(key){
+  try { const s = JSON.parse(localStorage.getItem(key)); return s && typeof s === "object" ? s : {}; }
   catch(e){ return {}; }
 }
-const store = loadStore();
+let store = loadStore(LS_KEY);
 store.progress = store.progress || {};
 store.settings = store.settings || {};
 function saveStore(){ try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch(e){} }
+function switchAccount(account){
+  LS_KEY = scopeKey(account);
+  store = loadStore(LS_KEY);
+  store.progress = store.progress || {};
+  store.settings = store.settings || {};
+}
+
+/* ==================== 登录与进度同步 ==================== */
+const API_BASE = "__API_BASE__".replace(/\/+$/, "");
+const REMOTE_AUTH = /^https?:\/\//.test(API_BASE);      // 是否接入真实登录服务；否则为本地演示模式
+const AUTH_KEY = "aipm_auth_v1";
+const SYNC_DIRTY_KEY = "aipm_sync_dirty";
+
+let AUTH = (() => {
+  try {
+    const a = JSON.parse(localStorage.getItem(AUTH_KEY) || "null");
+    if (a && a.account && a.expiresAt > Date.now()) return a;
+  } catch(e){}
+  return null;
+})();
+
+function saveAuth(a){ AUTH = a; try { localStorage.setItem(AUTH_KEY, JSON.stringify(a)); } catch(e){} }
+function clearAuth(){ AUTH = null; try { localStorage.removeItem(AUTH_KEY); } catch(e){} }
+
+let syncTimer = null, syncing = false, lastSyncAt = 0;
+let syncState = (() => { try { return localStorage.getItem(SYNC_DIRTY_KEY) === "1" ? "pending" : "idle"; } catch(e){ return "idle"; } })();
+
+function renderSyncDot(){
+  const d = document.getElementById("sync-dot");
+  if (!d) return;
+  const cls = syncState === "ok" ? "ok" : (syncState === "pending" || syncState === "syncing") ? "pending" : syncState === "error" ? "err" : "";
+  d.className = "sync-dot " + cls;
+  d.title = syncState === "ok"
+    ? "已同步 · " + new Date(lastSyncAt || Date.now()).toLocaleTimeString("zh-CN", {hour:"2-digit", minute:"2-digit"})
+    : syncState === "syncing" ? "正在同步…"
+    : syncState === "error" ? "同步失败，稍后自动重试"
+    : "进度会随练习自动同步";
+}
+
+function renderUserbox(){
+  const box = document.getElementById("userbox");
+  if (!box) return;
+  if (!AUTH){ box.innerHTML = ""; return; }
+  const nm = AUTH.name || AUTH.account;
+  const initial = String(nm).slice(0, 1);
+  box.innerHTML =
+    '<span class="user-chip"><span class="av">' + esc(initial) + '</span>' +
+      '<span class="nm"><b>' + esc(nm) + "</b>" + (AUTH.name ? " · " + esc(AUTH.account) : "") + "</span>" +
+      '<span class="sync-dot" id="sync-dot"></span></span>' +
+    '<button class="logout-btn" id="logout-btn">退出</button>';
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    if (!confirm("退出登录？本机进度会保留，下次登录仍可继续。")) return;
+    flushSync();
+    clearAuth();
+    document.body.classList.add("auth-mode");
+    renderUserbox();
+    renderLogin();
+  });
+  renderSyncDot();
+}
+
+function weakSummary(){
+  const typeCnt = {}, tagCnt = {};
+  for (const q of QS){
+    const p = store.progress[q.id];
+    if (!p || (p.s !== "vague" && p.s !== "unknown")) continue;
+    if (q.type) typeCnt[q.type] = (typeCnt[q.type] || 0) + 1;
+    for (const t of q.tags) tagCnt[t] = (tagCnt[t] || 0) + 1;
+  }
+  const top = o => Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k, v]) => k + " " + v).join("、");
+  return { weakType: top(typeCnt), weakTag: top(tagCnt) };
+}
+
+function progressDetail(){
+  const o = {};
+  for (const id in store.progress){
+    const p = store.progress[id];
+    const s = p.s === "known" ? "k" : p.s === "vague" ? "v" : p.s === "unknown" ? "u" : "";
+    if (!s && !p.fav) continue;
+    o[id] = s ? (p.fav ? [s, 1] : s) : "f";
+  }
+  return JSON.stringify(o);
+}
+
+function scheduleSync(){
+  if (!AUTH || !REMOTE_AUTH) return;
+  syncState = "pending";
+  try { localStorage.setItem(SYNC_DIRTY_KEY, "1"); } catch(e){}
+  renderSyncDot();
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => pushProgress(false), 5000);
+}
+
+async function pushProgress(keepalive){
+  if (!AUTH || !REMOTE_AUTH || syncing) return;
+  clearTimeout(syncTimer);
+  syncing = true; syncState = "syncing"; renderSyncDot();
+  const st = globalStats();
+  const w = weakSummary();
+  const stats = {
+    seen: st.seen, known: st.known, vague: st.vague, unknown: st.unknown, fav: st.fav,
+    total: st.total, rate: st.total ? Math.round(st.known / st.total * 1000) / 10 : 0,
+    weakType: w.weakType, weakTag: w.weakTag,
+  };
+  try {
+    const r = await fetch(API_BASE + "/api/progress", {
+      method: "POST", keepalive: !!keepalive,
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH.token },
+      body: JSON.stringify({ stats, detail: progressDetail(), device: (navigator.userAgent || "").slice(0, 40) }),
+    });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    syncState = "ok"; lastSyncAt = Date.now();
+    try { localStorage.setItem(SYNC_DIRTY_KEY, "0"); } catch(e){}
+  } catch(e){
+    syncState = "error";
+  } finally {
+    syncing = false; renderSyncDot();
+  }
+}
+function flushSync(){
+  if (!AUTH || !REMOTE_AUTH) return;
+  if (syncState === "pending" || syncState === "error") pushProgress(true);
+}
+
+/* ---------------- 登录页 ---------------- */
+function renderLogin(msg){
+  document.body.classList.add("auth-mode");
+  $app.innerHTML =
+    '<div class="auth-shell">' +
+      '<div class="auth-brand">' +
+        '<div class="auth-logo"><span class="logo-mark">PM</span><span>新像素 · AI 产品经理训练营</span></div>' +
+        '<h2>AI 产品经理面试备考平台</h2>' +
+        "<p>" + DB.stats.total + " 道真题、" + DB.stats.srcCount + " 大专项题库、" + DB.stats.expGroups + " 套真实面经，配刷题、限时模考与掌握度跟踪，逐题打到面试通关。</p>" +
+        '<div class="auth-stats">' +
+          "<div><b>" + DB.stats.total + "</b><span>道真题</span></div>" +
+          "<div><b>" + DB.stats.srcCount + "</b><span>大题库</span></div>" +
+          "<div><b>" + DB.stats.expGroups + "</b><span>套面经</span></div>" +
+        "</div>" +
+        '<div class="auth-tip">进度按账号自动同步到飞书多维表格，班主任可查看全班备考情况；换设备登录同一账号即可继续。</div>' +
+      "</div>" +
+      '<div class="auth-form">' +
+        "<h3>学员登录</h3>" +
+        '<div class="sub">使用班主任发放的登记账号登录</div>' +
+        (REMOTE_AUTH ? "" : '<div class="auth-warn">演示模式：尚未配置同步服务，账号密码仅校验格式，进度保存在本机。</div>') +
+        '<div class="auth-field"><label>登记账号</label>' +
+          '<input class="auth-input" id="lg-account" inputmode="numeric" maxlength="4" placeholder="4 位数字，如 1001" autocomplete="username" value=""></div>' +
+        '<div class="auth-field"><label>密码</label>' +
+          '<input class="auth-input" id="lg-pwd" type="password" inputmode="numeric" maxlength="4" placeholder="手机号后 4 位" autocomplete="current-password"></div>' +
+        '<div class="auth-err" id="lg-err"></div>' +
+        '<button class="btn btn-primary auth-submit" id="lg-submit">进入平台 →</button>' +
+        '<div class="auth-note">忘记账号或密码？请联系班主任在飞书「学员账号」表中查询</div>' +
+      "</div>" +
+    "</div>";
+
+  const accEl = document.getElementById("lg-account");
+  const pwdEl = document.getElementById("lg-pwd");
+  const errEl = document.getElementById("lg-err");
+  const btn = document.getElementById("lg-submit");
+  const showErr = m => { errEl.textContent = m; errEl.classList.add("show"); };
+  if (msg) showErr(msg);
+  [accEl, pwdEl].forEach(el => el.addEventListener("input", () => {
+    el.value = el.value.replace(/\D/g, "").slice(0, 4);
+    errEl.classList.remove("show");
+  }));
+  pwdEl.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+  accEl.addEventListener("keydown", e => { if (e.key === "Enter") pwdEl.focus(); });
+  btn.addEventListener("click", submit);
+
+  let busy = false;
+  async function submit(){
+    if (busy) return;
+    const account = accEl.value.trim(), password = pwdEl.value.trim();
+    if (!/^\d{4}$/.test(account)) return showErr("请输入 4 位数字登记账号");
+    if (!/^\d{4}$/.test(password)) return showErr("请输入手机号后 4 位作为密码");
+
+    if (!REMOTE_AUTH){
+      saveAuth({ account, name: "", token: "local", expiresAt: Date.now() + 7 * 864e5 });
+      switchAccount(account); migrateLegacyStore(); enterApp();
+      return;
+    }
+
+    busy = true; btn.disabled = true; btn.textContent = "登录中…";
+    try {
+      const r = await fetch(API_BASE + "/api/login", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account, password }),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "登录失败，请稍后重试");
+      saveAuth({ account: j.account, name: j.name, token: j.token, expiresAt: j.expiresAt });
+      switchAccount(j.account);
+      await restoreFromCloud(j.token);
+      enterApp();
+    } catch(e){
+      showErr(e.message || "网络异常，请稍后重试");
+      busy = false; btn.disabled = false; btn.textContent = "进入平台 →";
+    }
+  }
+}
+
+function migrateLegacyStore(){
+  try {
+    const legacy = JSON.parse(localStorage.getItem("aipm_prep_v1") || "null");
+    if (legacy && legacy.progress && Object.keys(legacy.progress).length && !Object.keys(store.progress).length){
+      store.progress = legacy.progress;
+      store.settings = store.settings || legacy.settings || {};
+      saveStore();
+    }
+  } catch(e){}
+}
+
+async function restoreFromCloud(token){
+  if (!REMOTE_AUTH || !token || token === "local") return;
+  if (Object.keys(store.progress).length) return;      // 本机已有进度时以本机为准
+  try {
+    const r = await fetch(API_BASE + "/api/progress", { headers: { "Authorization": "Bearer " + token } });
+    if (!r.ok) return;
+    const j = await r.json();
+    if (!j.found || !j.detail) return;
+    const d = JSON.parse(j.detail);
+    const map = { k: "known", v: "vague", u: "unknown" };
+    for (const id in d){
+      const v = d[id];
+      if (Array.isArray(v)) store.progress[id] = { s: map[v[0]] || "", fav: v[1] ? 1 : 0, seen: 1, lastAt: Date.now() };
+      else if (v === "f") store.progress[id] = { s: "", fav: 1, seen: 1, lastAt: Date.now() };
+      else if (map[v]) store.progress[id] = { s: map[v], fav: 0, seen: 1, lastAt: Date.now() };
+    }
+    saveStore();
+  } catch(e){}
+}
+
+function enterApp(){
+  document.body.classList.remove("auth-mode");
+  renderUserbox();
+  if (syncState === "pending" || syncState === "error") scheduleSync();
+  location.hash = "#/home";
+  renderNav();
+  renderHome();
+  window.scrollTo({ top: 0 });
+}
 function getProg(qid){ return store.progress[qid] || {s:"", fav:0, seen:0, lastAt:0}; }
 function markSeen(qid){
   const p = getProg(qid);
   p.seen = (p.seen || 0) + 1; p.lastAt = Date.now();
   store.progress[qid] = p; saveStore();
+  scheduleSync();
 }
 function setStatus(qid, s){
   const p = getProg(qid);
   p.s = s; p.lastAt = Date.now();
   if (!p.seen) p.seen = 1;
   store.progress[qid] = p; saveStore();
+  scheduleSync();
 }
 function toggleFav(qid){
   const p = getProg(qid);
   p.fav = p.fav ? 0 : 1;
   store.progress[qid] = p; saveStore();
+  scheduleSync();
   return !!p.fav;
 }
 function globalStats(){
@@ -587,6 +894,7 @@ function renderNav(){
     '<a href="#/' + k + '" class="' + (cur === k ? "on" : "") + '">' + t + "</a>").join("");
 }
 function route(){
+  if (!AUTH){ renderLogin(); return; }
   renderNav();
   // hash 形如 #/bank?src=pm：先剥离查询串再解析路径，否则 view 会带上 "?src=…" 而落到首页
   const raw = (location.hash || "#/home").slice(2);
@@ -1525,9 +1833,21 @@ document.addEventListener("keydown", e => {
 });
 
 /* ==================== 启动 ==================== */
+switchAccount(AUTH ? AUTH.account : null);
 document.getElementById("ft-date").textContent = DB.generatedAt;
-if (!location.hash) location.hash = "#/home";
-route();
+if (!AUTH){
+  document.body.classList.add("auth-mode");
+  renderLogin();
+} else {
+  renderUserbox();
+  if (syncState === "pending" || syncState === "error") scheduleSync();
+  if (!location.hash) location.hash = "#/home";
+  route();
+}
+window.addEventListener("pagehide", flushSync);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") flushSync();
+});
 </script>
 </body>
 </html>

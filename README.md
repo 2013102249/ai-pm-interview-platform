@@ -15,7 +15,33 @@
 | 面经 | 10 套真实面经按候选人背景分组（懂算法有经历 / 有应用不懂算法 / 零基础 / 校招 / 转型 / 技术转产品 / 产品实习 / Agent 方向），另设鹅厂 AI PM 一面→二面→三面全流程专区，含画像说明与讲师提示 |
 | 课程地图 | 8 周 40 天训练营大纲，W7 就业冲刺 / W8 面试通关高亮，题库与课程对齐建议 |
 
-进度数据保存在浏览器 localStorage，换设备不同步。
+## 学员登录与进度同步
+
+- **登录**：学员用 4 位登记账号 + 手机号后 4 位密码登录，账号在飞书多维表格「学员账号」表维护
+- **进度**：逐题掌握状态与收藏存在本机（按账号隔离，localStorage key 形如 `aipm_prep_v1:1001`），聚合指标与逐题明细在练习后 5 秒自动同步到飞书「备考进度」表（按登记账号 upsert，一人一行）
+- **换设备**：登录时若本机无进度，自动从飞书拉回逐题明细继续
+- **离线**：网络异常时进度仍写本机，恢复后自动重试；页面隐藏时兜底再推一次
+
+同步字段：已练习 / 已掌握 / 模糊 / 待重学 / 收藏 / 题库总量 / 掌握率 / 薄弱题型 / 薄弱知识点 / 进度明细 / 设备 / 最近同步。
+
+### 飞书自建应用配置（一次性，约 5 分钟）
+
+1. 打开 <https://open.feishu.cn/app> → 创建企业自建应用（名称如「AI PM 备考平台」）
+2. 应用详情 → 凭证与基础信息，复制 **App ID / App Secret**
+3. 权限管理 → 添加权限：`bitable:app`（多维表格读写）、`bitable:app:readonly`（如需）→ 发布版本
+4. 回到多维表格 → 右上角「⋯」→ 添加文档应用 / 协作者，把该应用加为**可编辑**
+5. 把 App ID / App Secret 写入 `server/.env`（参考 `server/.env.example`），然后部署：
+
+```bash
+# 本地联调
+cd server && npm start              # 等价于 node index.js，默认 3000 端口
+
+# 构建时注入服务地址（服务部署在别处时填其公网地址）
+AIPM_API_BASE="https://your-api-host" python3 scripts/build.py
+```
+
+> `AIPM_API_BASE` 为空时页面以**本地演示模式**运行：仍展示登录页，但账号密码只校验 4 位数字，进度只存本机。
+> 填入服务地址后即切换为真实校验 + 自动同步。
 
 ## 文件结构
 
@@ -25,7 +51,10 @@ ai-pm-interview-platform/
 ├── template.html         # 应用源码（页面结构 + 样式 + 交互逻辑）
 ├── scripts/
 │   ├── sync.sh           # 从飞书多维表格刷新数据并重新编译
-│   └── build.py          # 数据规范化 + 将 JSON 注入模板生成 index.html
+│   └── build.py          # 数据规范化 + 将 JSON / API 地址注入模板生成 index.html
+├── server/
+│   ├── index.js          # 登录与进度同步服务（Node 原生 http，零依赖）
+│   └── .env.example      # 飞书应用凭据模板（复制为 .env，勿提交）
 ├── data/                 # 多维表格导出的原始数据（ndjson）
 │   ├── table1_题库.ndjson            # 34 题 · Agent 深度专项
 │   ├── table2_高频100题.ndjson       # 100 题 · 通用高频
@@ -42,7 +71,7 @@ ai-pm-interview-platform/
 全部题目与参考答案由飞书多维表格统一维护：
 
 - 多维表格：<https://15997672262.feishu.cn/base/UDXYbBLFqaQtrnsF8Mncn2PDndg>
-- 七张数据表：
+- 七张题库数据表：
   - **面试题库** tblEpbl9nGvblJdU（34）
   - **AI PM 高频 100 题** tblrg4pgBXvMT84z（100）
   - **面经实战（10 套）** tbl2bnxvRa8pXzh6（115）
@@ -50,6 +79,9 @@ ai-pm-interview-platform/
   - **鹅厂 AI PM 三轮面经** tblhCV8PeR6CXOqw（36）
   - **大模型 LLMs 八股文** tblWfbxCptbttB00（48）
   - **专题题库** tblnRcNvta6NT5wu（81）
+- 学员数据表：
+  - **学员账号** tblL2xHFCj3Yzaro（登记账号 / 姓名 / 密码 / 手机号 / 班级 / 状态 / 最近登录）
+  - **备考进度** tblhcHe8RI1WCm1E（账号 / 姓名 / 五类计数 / 掌握率 / 薄弱项 / 进度明细 / 设备 / 最近同步）
 
 讲师在表格中增改题目后，一条命令即可同步并重新生成平台：
 
