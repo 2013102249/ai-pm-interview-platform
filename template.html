@@ -667,7 +667,7 @@ async function pushProgress(keepalive){
   try {
     const r = await fetch(apiUrl("/api/progress"), {
       method: "POST", keepalive: !!keepalive,
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + AUTH.token },
+      headers: { "Content-Type": "application/json", "X-Session": AUTH.token },
       body: JSON.stringify({ stats, detail: progressDetail(), device: (navigator.userAgent || "").slice(0, 40) }),
     });
     if (!r.ok) throw new Error("HTTP " + r.status);
@@ -775,7 +775,7 @@ async function restoreFromCloud(token){
   if (!REMOTE_AUTH || !token || token === "local") return;
   if (Object.keys(store.progress).length) return;      // 本机已有进度时以本机为准
   try {
-    const r = await fetch(apiUrl("/api/progress"), { headers: { "Authorization": "Bearer " + token } });
+    const r = await fetch(apiUrl("/api/progress"), { headers: { "X-Session": token } });
     if (!r.ok) return;
     const j = await r.json();
     if (!j.found || !j.detail) return;

@@ -220,7 +220,7 @@ function cors(req, res) {
   if (allow) {
     res.setHeader('Access-Control-Allow-Origin', allow);
     res.setHeader('Vary', 'Origin');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Session');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Max-Age', '86400');
   }
@@ -246,6 +246,14 @@ function readBody(req, limit = 512 * 1024) {
     });
     req.on('error', reject);
   });
+}
+// 网关可能吞掉 Authorization，统一按 X-Session → Authorization → query 依次取
+function sessionOf(req, url) {
+  const custom = String(req.headers['x-session'] || '');
+  const bearer = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+  const query = String(url.searchParams.get('t') || '');
+  // 托管网关会注入自己的 Authorization，故优先使用透传的 X-Session
+  return verify(custom || bearer || query);
 }
 function clientIp(req) {
   return (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
@@ -320,10 +328,18 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { token: sign(payload), account: acc, name: user.name || '', expiresAt: payload.exp });
     }
 
+    if (p === '/api/whoami') {
+      return json(res, 200, {
+        authorization: !!req.headers.authorization,
+        xSession: !!req.headers['x-session'],
+        queryToken: !!url.searchParams.get('t'),
+        secretStable: SESSION_SECRET.length,
+      });
+    }
+
     if (p === '/api/progress' && req.method === 'POST') {
       if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
-      const auth = req.headers.authorization || '';
-      const session = verify(auth.replace(/^Bearer\s+/i, ''));
+      const session = sessionOf(req, url);
       if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
 
       const body = await readBody(req);
@@ -336,8 +352,7 @@ const server = http.createServer(async (req, res) => {
 
     if (p === '/api/progress' && req.method === 'GET') {
       if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
-      const auth = req.headers.authorization || '';
-      const session = verify(auth.replace(/^Bearer\s+/i, ''));
+      const session = sessionOf(req, url);
       if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
       const hit = await findProgress(session.a);
       if (!hit) return json(res, 200, { found: false });
