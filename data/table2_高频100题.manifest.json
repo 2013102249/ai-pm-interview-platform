@@ -1,0 +1,109 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblrg4pgBXvMT84z",
+  "rev": 2,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 100,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table2_高频100题.ndjson",
+  "record_file_size_bytes": 87635,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table2_高频100题.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U1pgxe1R0"
+    },
+    "分类标签": {
+      "field_id": "fldGxqsqgn",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.4
+      },
+      "example": [
+        "机器学习基础"
+      ]
+    },
+    "序号": {
+      "field_id": "fldtnq00EC",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 35,
+        "max": 134,
+        "avg": 84.5
+      },
+      "example": 35
+    },
+    "数据来源": {
+      "field_id": "fld0hnRcqf",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 38
+      },
+      "example": "《AI 产品经理面试高频 100 题（问题+答案）》截图 · 第 1 题"
+    },
+    "答案解析": {
+      "field_id": "fld0hBfTbq",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 562
+      },
+      "example": "自然语言处理（NLP）是一种人工智能领域，涉及计算机理解、处理和生成自然语言文本的技术。NLP应用包括文本分类、语言翻译、情感分析、语音识别等。"
+    },
+    "难度": {
+      "field_id": "fldMmACTeZ",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "初级"
+      ]
+    },
+    "题型": {
+      "field_id": "fldGLrrni0",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "概念解释"
+      ]
+    },
+    "题目": {
+      "field_id": "fldBKdppdU",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 28
+      },
+      "example": "什么是机器学习？"
+    }
+  }
+}

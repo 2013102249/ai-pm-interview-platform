@@ -1,0 +1,15 @@
+{
+  "ok": false,
+  "error": {
+    "type": "validation",
+    "subtype": "invalid_argument",
+    "message": "unknown flag \"--page-all\" for \"lark-cli base +record-list\"",
+    "hint": "run `lark-cli base +record-list --help` to see valid flags",
+    "params": [
+      {
+        "name": "--page-all",
+        "reason": "unknown flag"
+      }
+    ]
+  }
+}

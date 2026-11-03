@@ -1,0 +1,123 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblhCV8PeR6CXOqw",
+  "rev": 3,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 36,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table5_鹅厂三轮面经.ndjson",
+  "record_file_size_bytes": 73897,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table5_鹅厂三轮面经.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U4OC2UWZW"
+    },
+    "分类标签": {
+      "field_id": "fldMtJHJJY",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.1666666666666667
+      },
+      "example": [
+        "产品规划与需求"
+      ]
+    },
+    "序号": {
+      "field_id": "fldvmCUzZw",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 322,
+        "max": 357,
+        "avg": 339.5
+      },
+      "example": 322
+    },
+    "数据来源": {
+      "field_id": "fldzQScu2f",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 22
+      },
+      "example": "《鹅厂 AI 产品经理大厂面经（三轮）》截图"
+    },
+    "答案解析": {
+      "field_id": "fld0nAnUpk",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 942
+      },
+      "example": "（真诚、明确、给出底线）我的最快到岗日期是［具体日期，比如：6月25日］，我可以提前完成学校事务，全职实习。关于加班，我完全可以接受阶段性、项目驱动的加班。我理解在互联网公司，尤其是AI产品处于快速迭代期时，为了赶上线节点或解决突发问题需要投入额外时间。我",
+      "example_truncated": true
+    },
+    "轮次": {
+      "field_id": "fldwFKSpAT",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "一面"
+      ]
+    },
+    "难度": {
+      "field_id": "fldIV0UoJF",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "中级"
+      ]
+    },
+    "题型": {
+      "field_id": "fldg9hqErS",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "经历描述"
+      ]
+    },
+    "题目": {
+      "field_id": "fldccXue8p",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 39
+      },
+      "example": "请做一个自我介绍"
+    }
+  }
+}

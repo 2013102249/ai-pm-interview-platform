@@ -1,0 +1,119 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblnRcNvta6NT5wu",
+  "rev": 8,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 106,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table7_专题题库.ndjson",
+  "record_file_size_bytes": 135626,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table7_专题题库.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U4pGEWBaz"
+    },
+    "专题": {
+      "field_id": "fldH57r47w",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 11
+      },
+      "example": "VibeCoding"
+    },
+    "分类标签": {
+      "field_id": "fldpTbRN4f",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.8773584905660377
+      },
+      "example": [
+        "数据驱动与指标"
+      ]
+    },
+    "序号": {
+      "field_id": "fldjOqTfcw",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 406,
+        "max": 511,
+        "avg": 458.5
+      },
+      "example": 406
+    },
+    "数据来源": {
+      "field_id": "fldRwrZ0z1",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 31
+      },
+      "example": "《某大厂大语言模型面试题》截图"
+    },
+    "答案解析": {
+      "field_id": "fld20S57bN",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 2334
+      },
+      "example": "ANN 算法：\n\n· 乘积量化（PQ）\n· 暴力搜索\n· hnswlib\n\nKD 树。"
+    },
+    "难度": {
+      "field_id": "fldMNobSgs",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "中级"
+      ]
+    },
+    "题型": {
+      "field_id": "fldas12dhi",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "概念解释"
+      ]
+    },
+    "题目": {
+      "field_id": "fldseUX1lw",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 77
+      },
+      "example": "什么是 LangChain？"
+    }
+  }
+}

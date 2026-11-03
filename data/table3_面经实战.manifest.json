@@ -1,0 +1,123 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tbl2bnxvRa8pXzh6",
+  "rev": 8,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 115,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table3_面经实战.ndjson",
+  "record_file_size_bytes": 188694,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table3_面经实战.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U286GERRN"
+    },
+    "分类标签": {
+      "field_id": "fldSt2zkK1",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.3304347826086957
+      },
+      "example": [
+        "AI 伦理与合规"
+      ]
+    },
+    "序号": {
+      "field_id": "fld5jI8J9P",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 135,
+        "max": 249,
+        "avg": 192
+      },
+      "example": 135
+    },
+    "数据来源": {
+      "field_id": "fldbYvFNIL",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 44
+      },
+      "example": "《面经三：没有 AI 基础》截图 · 第 1 题"
+    },
+    "答案解析": {
+      "field_id": "fldv55gCTY",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 1078
+      },
+      "example": "1. 技术翻译与边界判断：能把模型能力、上下文窗口、成本、延迟转化为产品取舍；\n\n2. 数据闭环与评估设计：能定义指标、构建bad case回流、设计A/B，驱动模型持续迭代；\n\n3. 不确定性与风险管理：能识别幻觉、偏见、合规风险，设计防控机制和用户预期",
+      "example_truncated": true
+    },
+    "背景画像": {
+      "field_id": "fldaI8ZQdW",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "面经三·无 AI 基础"
+      ]
+    },
+    "难度": {
+      "field_id": "fldWHMXdDp",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "高级"
+      ]
+    },
+    "题型": {
+      "field_id": "fld13lb4RB",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "经历描述"
+      ]
+    },
+    "题目": {
+      "field_id": "fldo6HTckm",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 95
+      },
+      "example": "自我介绍"
+    }
+  }
+}

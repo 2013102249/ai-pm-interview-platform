@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI 产品经理面试备考平台 · 新像素训练营</title>
+<style>
+:root{
+  --bg:#f4f5fa; --card:#ffffff; --line:#e6e8f2; --line2:#eef0f7;
+  --text:#1d2333; --muted:#6b7285; --faint:#9aa1b5;
+  --purple:#7c3aed; --purple-deep:#5b21b6; --purple-soft:#f3effe;
+  --blue:#2563eb; --blue-soft:#eef4ff;
+  --green:#16a34a; --green-soft:#eaf7ef;
+  --red:#dc2626; --red-soft:#fdf0f0;
+  --amber:#b45309; --amber-soft:#fdf6e8;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(23,26,46,.04),0 6px 20px -8px rgba(23,26,46,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit}
+a{color:var(--blue);text-decoration:none}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{max-width:1120px;margin:0 auto;padding:0 16px;height:58px;display:flex;align-items:center;gap:18px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15.5px;white-space:nowrap}
+.logo-mark{
+  width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:800;
+  background:linear-gradient(135deg,var(--purple),var(--blue));box-shadow:0 3px 8px -2px rgba(124,58,237,.45)
+}
+.logo small{font-weight:500;color:var(--muted);font-size:12px;margin-left:1px}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  padding:7px 13px;border-radius:9px;font-size:14px;color:var(--muted);white-space:nowrap;font-weight:500;
+  transition:all .15s;
+}
+.nav a:hover{color:var(--text);background:var(--line2)}
+.nav a.on{color:var(--purple-deep);background:var(--purple-soft);font-weight:600}
+.topbar .src-note{font-size:12px;color:var(--faint);white-space:nowrap}
+
+/* ---------- 布局 ---------- */
+.wrap{max-width:1120px;margin:0 auto;padding:22px 16px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- 首页 ---------- */
+.hero{
+  background:linear-gradient(135deg,#4c1d95 0%,var(--purple) 45%,var(--blue) 100%);
+  border-radius:18px;padding:30px 28px;color:#fff;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+  background:rgba(255,255,255,.09);
+}
+.hero::before{
+  content:"";position:absolute;right:60px;bottom:-90px;width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+}
+.hero h1{font-size:24px;font-weight:800;letter-spacing:.5px;position:relative}
+.hero p{margin-top:8px;font-size:14px;opacity:.88;max-width:640px;position:relative}
+.hero-stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;position:relative}
+.hstat{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:11px;
+  padding:9px 16px;font-size:13px;backdrop-filter:blur(4px);
+}
+.hstat b{font-size:19px;font-weight:800;margin-right:5px}
+
+.sec-title{font-size:16.5px;font-weight:700;margin:26px 0 13px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:"";width:4px;height:16px;border-radius:2px;background:linear-gradient(var(--purple),var(--blue))}
+.sec-title small{font-size:12.5px;color:var(--muted);font-weight:400}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.src-card{padding:19px;display:block;transition:transform .15s,box-shadow .15s;cursor:pointer}
+.src-card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(23,26,46,.05),0 12px 28px -10px rgba(23,26,46,.16)}
+.src-card .sc-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.src-card h3{font-size:15.5px;font-weight:700}
+.src-card .sc-count{font-size:12.5px;color:var(--purple-deep);background:var(--purple-soft);padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
+.src-card p{font-size:13px;color:var(--muted);margin-top:9px;line-height:1.65}
+.src-card .sc-tags{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
+.mini-tag{font-size:11.5px;color:var(--muted);background:var(--line2);padding:2px 8px;border-radius:6px}
+
+.prog-card{padding:20px}
+.prog-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:15px}
+.pg-item{background:var(--line2);border-radius:11px;padding:12px 8px;text-align:center}
+.pg-item b{display:block;font-size:21px;font-weight:800}
+.pg-item span{font-size:12px;color:var(--muted)}
+.pg-item.k b{color:var(--green)} .pg-item.v b{color:var(--amber)} .pg-item.u b{color:var(--red)}
+.pg-item.f b{color:#d97706}
+.bar{height:8px;background:var(--line2);border-radius:6px;overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .k{background:var(--green)} .bar .v{background:#f59e0b} .bar .u{background:var(--red)}
+.bar-legend{display:flex;gap:14px;margin-top:9px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.bar-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 18px;border-radius:10px;font-size:14px;font-weight:600;transition:all .15s;
+  border:1px solid transparent;
+}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;box-shadow:0 4px 12px -4px rgba(124,58,237,.5)}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:var(--card);border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--purple);color:var(--purple-deep)}
+.btn-sm{padding:6px 13px;font-size:13px;border-radius:8px}
+
+.note-card{padding:15px 18px;font-size:13px;color:var(--muted);line-height:1.8;background:#fbfbfe}
+.note-card b{color:var(--text)}
+.note-card code{background:var(--line2);padding:1px 7px;border-radius:6px;font-size:12px;color:var(--purple-deep)}
+
+/* ---------- 题库页 ---------- */
+.toolbar{padding:14px 16px;margin-bottom:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tab{
+  padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;background:var(--line2);color:var(--muted);
+  border:1px solid transparent;transition:all .15s;
+}
+.tab:hover{color:var(--text)}
+.tab.on{background:var(--purple-soft);color:var(--purple-deep);border-color:#ddd0fb;font-weight:600}
+.tab .n{opacity:.65;font-size:12px;margin-left:2px}
+.toolbar-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search-box{
+  flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;padding:8px 13px;
+}
+.search-box:focus-within{border-color:var(--purple);background:#fff}
+.search-box input{flex:1;border:none;outline:none;background:none;font-size:14px;color:var(--text)}
+.search-box .ic{color:var(--faint)}
+.sel{
+  border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font-size:13.5px;
+  color:var(--text);outline:none;
+}
+.filters{padding:4px 16px 14px;margin-bottom:14px;display:none}
+.filters.show{display:block}
+.f-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px dashed var(--line2)}
+.f-row:first-child{border-top:none}
+.f-label{font-size:13px;color:var(--muted);width:58px;flex-shrink:0;padding-top:5px;font-weight:500}
+.f-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.chip{
+  padding:4px 12px;border-radius:16px;font-size:12.5px;background:var(--card);border:1px solid var(--line);
+  color:var(--muted);transition:all .13s;
+}
+.chip:hover{border-color:var(--purple);color:var(--purple-deep)}
+.chip.on{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:500}
+.result-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:8px}
+.result-bar b{color:var(--purple-deep)}
+
+/* ---------- 题卡 ---------- */
+.qlist{display:flex;flex-direction:column;gap:10px}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.qcard:hover{border-color:#d3d8ea;box-shadow:var(--shadow)}
+.qcard.open{border-color:#c9b8f5}
+.qcard-head{display:flex;align-items:flex-start;gap:11px;padding:14px 16px;cursor:pointer;user-select:none}
+.qno{font-size:12px;color:var(--faint);font-weight:700;padding-top:3px;min-width:34px;font-variant-numeric:tabular-nums}
+.qmain{flex:1;min-width:0}
+.qtitle{font-size:14.5px;font-weight:600;line-height:1.55}
+.qmeta{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.fav-btn{font-size:17px;color:#d4d7e3;padding:2px 4px;line-height:1;transition:color .13s,transform .13s}
+.fav-btn:hover{transform:scale(1.15)}
+.fav-btn.on{color:#f59e0b}
+.chev{color:var(--faint);font-size:12px;padding-top:4px;transition:transform .18s}
+.qcard.open .chev{transform:rotate(180deg)}
+.qcard-body{border-top:1px solid var(--line2);padding:15px 18px 14px;background:#fcfcfe}
+.badge{
+  display:inline-flex;align-items:center;font-size:11.5px;font-weight:500;padding:2px 9px;border-radius:6px;
+  background:var(--line2);color:var(--muted);white-space:nowrap;
+}
+.b-deep{background:var(--purple-soft);color:var(--purple-deep)}
+.b-top{background:var(--blue-soft);color:var(--blue)}
+.b-exp{background:#e8f6f3;color:#0f766e}
+.b-pm{background:var(--amber-soft);color:var(--amber)}
+.b-tx{background:#e6f7fb;color:#0e7490}
+.b-llm{background:#eef0ff;color:#4338ca}
+.b-topic{background:#fdeef4;color:#be185d}
+.b-group{background:#f6f7fb;border:1px solid var(--line);color:#5b6178;font-weight:400}
+.b-expno{background:#fef3c7;color:#92400e;font-weight:600}
+.b-pending{background:var(--amber-soft);color:var(--amber)}
+.lv-1{background:var(--green-soft);color:var(--green)}
+.lv-2{background:var(--blue-soft);color:var(--blue)}
+.lv-3{background:var(--red-soft);color:var(--red)}
+.b-type{background:#f0f1f7;color:#4b5266}
+.b-tag{background:transparent;border:1px solid var(--line);color:var(--faint);font-weight:400}
+.pg-badge{font-weight:600}
+.pg-badge.known{background:var(--green-soft);color:var(--green)}
+.pg-badge.vague{background:var(--amber-soft);color:var(--amber)}
+.pg-badge.unknown{background:var(--red-soft);color:var(--red)}
+
+.ans{white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.9;color:#39415a}
+.ans .l-h{font-weight:700;color:var(--purple-deep)}
+.ans .l-bracket{
+  display:inline-block;background:var(--amber-soft);color:var(--amber);font-weight:600;font-size:12.5px;
+  padding:1px 9px;border-radius:6px;
+}
+.ans-empty{color:var(--faint);font-size:13px}
+.qcard-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.act-label{font-size:12.5px;color:var(--muted)}
+.rbtn{
+  padding:5px 13px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--line);
+  background:var(--card);color:var(--muted);transition:all .13s;
+}
+.rbtn:hover{border-color:var(--purple);color:var(--purple-deep)}
+.rbtn.on-k{background:var(--green);border-color:var(--green);color:#fff}
+.rbtn.on-v{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.rbtn.on-u{background:var(--red);border-color:var(--red);color:#fff}
+.q-src-line{font-size:11.5px;color:var(--faint);margin-left:auto}
+.load-more{display:block;margin:16px auto 0;padding:10px 34px}
+
+/* ---------- 练习页 ---------- */
+.practice-wrap{max-width:760px;margin:0 auto}
+.setup-card{padding:24px}
+.setup-card h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.setup-card .sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.fld{margin-bottom:16px}
+.fld-label{font-size:13.5px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fld-label small{color:var(--faint);font-weight:400}
+.opt-row{display:flex;gap:8px;flex-wrap:wrap}
+.opt{
+  padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:13.5px;
+  color:var(--muted);transition:all .13s;
+}
+.opt:hover{border-color:var(--purple)}
+.opt.on{border-color:var(--purple);background:var(--purple-soft);color:var(--purple-deep);font-weight:600}
+.opt .n{font-size:12px;opacity:.6;margin-left:3px}
+
+.p-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.p-progress{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.p-progress b{color:var(--purple-deep);font-size:15px}
+.p-bar{height:7px;background:var(--line2);border-radius:5px;overflow:hidden;margin-bottom:16px}
+.p-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:5px;transition:width .25s}
+.p-card{padding:26px 24px 20px;min-height:300px;display:flex;flex-direction:column}
+.p-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:13px}
+.p-q{font-size:17.5px;font-weight:700;line-height:1.7;flex:1}
+.p-hint{font-size:12px;color:var(--faint);margin-top:16px;text-align:center}
+.p-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.p-actions .btn{flex:1;min-width:140px}
+.p-ans{margin-top:16px;border-top:1px dashed var(--line);padding-top:15px}
+.reveal-btn{width:100%;padding:13px;font-size:15px}
+.kbd{
+  display:inline-block;background:var(--line2);border:1px solid var(--line);border-bottom-width:2px;
+  border-radius:5px;padding:0 6px;font-size:11px;color:var(--muted);font-family:inherit;
+}
+.p-done{padding:34px 24px;text-align:center}
+.p-done .big{font-size:40px;font-weight:800;background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-done h3{font-size:18px;margin:8px 0 4px}
+.p-done p{font-size:13.5px;color:var(--muted)}
+.p-done .mini-stats{display:flex;justify-content:center;gap:26px;margin:18px 0 22px}
+.ms b{display:block;font-size:22px;font-weight:800}
+.ms span{font-size:12px;color:var(--muted)}
+
+/* ---------- 模考页 ---------- */
+.mock-wrap{max-width:760px;margin:0 auto}
+.m-status{
+  display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:12px 16px;margin-bottom:14px;
+}
+.m-timer{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;min-width:76px}
+.m-timer.warn{color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.m-timer-bar{flex:1;height:7px;background:var(--line2);border-radius:5px;overflow:hidden}
+.m-timer-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 1s linear}
+.m-timer-bar.warn i{background:var(--red)}
+.m-step{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.m-card{padding:24px;min-height:280px;display:flex;flex-direction:column}
+.m-q{font-size:17px;font-weight:700;line-height:1.7}
+.m-timer-note{font-size:12.5px;color:var(--red);font-weight:600;margin-top:6px;display:none}
+.m-timer-note.show{display:block}
+.m-self{margin-top:18px;border-top:1px dashed var(--line);padding-top:15px}
+.m-self .act-label{display:block;margin-bottom:9px;font-size:13px;font-weight:600;color:var(--text)}
+.self-row{display:flex;gap:8px;flex-wrap:wrap}
+.self-btn{
+  flex:1;min-width:100px;padding:10px;border-radius:10px;border:1px solid var(--line);font-size:13.5px;font-weight:500;
+  color:var(--muted);transition:all .13s;
+}
+.self-btn:hover{border-color:var(--purple);color:var(--purple-deep)}
+.self-btn.on-smooth{background:var(--green);border-color:var(--green);color:#fff}
+.self-btn.on-ok{background:#f59e0b;border-color:#f59e0b;color:#fff}
+.self-btn.on-lost{background:var(--red);border-color:var(--red);color:#fff}
+
+.report-card{padding:26px}
+.report-card h2{font-size:19px;font-weight:800;margin-bottom:2px}
+.report-card .sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.r-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.rg{background:var(--line2);border-radius:11px;padding:13px 8px;text-align:center}
+.rg b{display:block;font-size:20px;font-weight:800}
+.rg span{font-size:12px;color:var(--muted)}
+.rg.g b{color:var(--green)} .rg.a b{color:#d97706} .rg.r b{color:var(--red)}
+.r-sec{margin-bottom:16px}
+.r-sec h4{font-size:14px;font-weight:700;margin-bottom:9px}
+.r-bars{display:flex;flex-direction:column;gap:7px}
+.rbar-row{display:flex;align-items:center;gap:10px;font-size:12.5px}
+.rbar-row .nm{width:88px;color:var(--muted);text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rbar-row .track{flex:1;height:9px;background:var(--line2);border-radius:5px;overflow:hidden}
+.rbar-row .track i{display:block;height:100%;border-radius:5px}
+.rbar-row .vl{width:44px;color:var(--faint);font-variant-numeric:tabular-nums}
+.weak-list{display:flex;flex-direction:column;gap:8px}
+.weak-item{border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:13.5px}
+.weak-item .wq{font-weight:600;line-height:1.55}
+.weak-item .wm{font-size:12px;color:var(--faint);margin-top:4px}
+
+/* ---------- 面经页 ---------- */
+.exp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.exp-card{padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.exp-card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(23,26,46,.05),0 12px 28px -10px rgba(23,26,46,.16)}
+.exp-card .eh{display:flex;align-items:center;gap:10px}
+.exp-no{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;
+  background:linear-gradient(135deg,var(--purple),var(--blue));flex-shrink:0;
+}
+.exp-card h3{font-size:14.5px;font-weight:700;line-height:1.4}
+.exp-card .ep{font-size:12px;color:var(--muted);margin-top:2px}
+.exp-card .ec{font-size:12.5px;color:var(--purple-deep);font-weight:600;margin-top:10px}
+.exp-card .emini{display:flex;gap:4px;margin-top:9px;flex-wrap:wrap}
+.exp-card .exp-acts{display:flex;gap:7px;margin-top:11px;padding-top:10px;border-top:1px dashed var(--line2)}
+.mini-btn{
+  font-size:12px;padding:4px 11px;border-radius:7px;border:1px solid var(--line);color:var(--muted);
+  background:var(--card);font-weight:500;transition:all .13s;
+}
+.mini-btn:hover{border-color:var(--purple);color:var(--purple-deep)}
+.mini-btn.pri{background:var(--purple-soft);border-color:#ddd0fb;color:var(--purple-deep);font-weight:600}
+.exp-detail-head{padding:22px;margin-bottom:14px}
+.exp-detail-head .back{font-size:13px;color:var(--muted);margin-bottom:12px;display:inline-flex;align-items:center;gap:5px}
+.exp-detail-head .back:hover{color:var(--purple-deep)}
+.exp-detail-head h2{font-size:19px;font-weight:800}
+.exp-detail-head .ep2{font-size:13.5px;color:var(--muted);margin-top:5px}
+.exp-advice{
+  margin-top:13px;background:var(--purple-soft);border:1px solid #e2d5fb;border-radius:10px;
+  padding:11px 15px;font-size:13px;color:var(--purple-deep);line-height:1.7;
+}
+.exp-detail-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+
+/* ---------- 课程地图 ---------- */
+.course-weeks{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.week-card{padding:16px 17px}
+.week-card.hot{border-color:#d9c8fb;background:linear-gradient(180deg,#fbf9ff,#fff)}
+.wh{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.wno{
+  font-size:11.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--purple),var(--blue));
+  padding:3px 9px;border-radius:7px;
+}
+.week-card.hot .wno{background:linear-gradient(135deg,#d97706,#f59e0b)}
+.wh h3{font-size:14.5px;font-weight:700}
+.wh .flag{font-size:11px;color:var(--amber);background:var(--amber-soft);padding:2px 8px;border-radius:6px;font-weight:600}
+.day{display:flex;gap:9px;padding:6px 0;border-top:1px dashed var(--line2);font-size:12.8px}
+.day:first-of-type{border-top:none}
+.day .dn{color:var(--purple);font-weight:700;min-width:38px;font-variant-numeric:tabular-nums}
+.day .dt{color:var(--text);line-height:1.5}
+.day .dt small{display:block;color:var(--faint);font-size:11.5px;margin-top:1px}
+.course-align{padding:16px 18px;margin-top:14px;font-size:13px;color:var(--muted);line-height:1.9}
+.course-align b{color:var(--text)}
+.align-row{display:flex;gap:9px;padding:5px 0}
+.align-row .k{flex-shrink:0}
+
+/* ---------- 空态 / 提示 ---------- */
+.empty{padding:52px 20px;text-align:center;color:var(--faint)}
+.empty .ei{font-size:34px;margin-bottom:10px}
+.empty p{font-size:13.5px}
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(16px);z-index:99;
+  background:#23283c;color:#fff;font-size:13px;padding:9px 20px;border-radius:22px;opacity:0;
+  transition:all .25s;pointer-events:none;box-shadow:0 8px 24px -6px rgba(0,0,0,.35);white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- 页脚 ---------- */
+.footer{border-top:1px solid var(--line);padding:22px 16px 30px;text-align:center;font-size:12px;color:var(--faint);line-height:2}
+.footer b{color:var(--muted)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:860px){
+  .grid-3{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+  .exp-grid{grid-template-columns:1fr}
+  .course-weeks{grid-template-columns:1fr}
+  .prog-grid{grid-template-columns:repeat(3,1fr)}
+  .r-grid{grid-template-columns:repeat(2,1fr)}
+  .topbar .src-note{display:none}
+  .logo small{display:none}
+  .hero{padding:24px 20px}
+  .hero h1{font-size:20px}
+  .p-q{font-size:16px}
+  .qcard-head{padding:12px 13px}
+  .qno{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">
+      <span class="logo-mark">PM</span>
+      <span>AI 产品经理面试备考平台 <small>新像素训练营</small></span>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <span class="src-note">数据底座：飞书多维表格</span>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer class="footer">
+  <div><b>郑州高新区新像素职业技能培训学校 · AI 产品经理训练营</b> · 面试备考平台</div>
+  <div>内容由飞书多维表格驱动（7 张数据表 · 面试题库 / 高频 100 题 / 面经实战 / 大厂 PM 八股 / 鹅厂三轮面经 / LLM 八股 / 专题题库）· 更新于 <span id="ft-date"></span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ==================== 数据 ==================== */
+const DB = __DATA_JSON__;
+const QS = DB.questions;
+const QMAP = {};
+QS.forEach(q => QMAP[q.id] = q);
+const SRCS = DB.sources || [];
+const SRCMAP = {};
+SRCS.forEach(s => SRCMAP[s.k] = s);
+/* 分册维度：每道题按所属数据表带一个分组字段（章节 / 轮次 / 分部 / 专题） */
+function qGroup(q){ return q.chapter || q.round || q.part || q.topic || ""; }
+
+/* ==================== 课程地图（静态参考，源自训练营 8 周大纲） ==================== */
+const COURSE = [
+  {w:"W1", t:"开营认知", days:[
+    ["W1D1","AI PM 岗位全景","五类岗位地图 · JD 拆解 · 8 周路线图"],
+    ["W1D2","大模型原理通识（产品经理版）","三档能力边界 · 超级接话员类比"],
+    ["W1D3","提示词与上下文工程","五要素教学法 · 调试台评分"],
+    ["W1D4","AI 产品形态拆解","六大形态 · 三维拆解"],
+    ["W1D5","行业选择 + 职业规划","六大赛道对比 · 职业规划书"]]},
+  {w:"W2", t:"模型评测", days:[
+    ["W2D1","模型能力边界与选型","能力-成本-延迟三角 · 选型决策树"],
+    ["W2D2","训练与微调原理","够用原则 · 微调必要性五问"],
+    ["W2D3","模型评测体系","评测集四步法 · badcase 归因"],
+    ["W2D4","AI 合规与安全","五模块合规清单 · 企业嘉宾连线"],
+    ["W2D5","主项目立项启动","三维定题 · 四维可行性 · 立项报告"]]},
+  {w:"W3", t:"Agent / RAG", days:[
+    ["W3D1","Agent 架构原理","四要素 · ReAct · MCP · 人工接管点"],
+    ["W3D2","Agent 产品设计与工作流","Agent vs 工作流 · Dify/Coze 实操"],
+    ["W3D3","RAG 架构与知识库产品","六步链路 · 幻觉对比（样课日）"],
+    ["W3D4","多模态产品设计","四形态对比 · 成本测算 · 版权合规"],
+    ["W3D5","原型评审 I","三维点评法 · 迭代清单"]]},
+  {w:"W4", t:"产品硬功", days:[
+    ["W4D1","用户研究与需求分析","需求真伪四问 · 访谈技巧"],
+    ["W4D2","AI 产品 PRD 写作","五处差异 · 十章骨架 · 提示词即需求"],
+    ["W4D3","方案设计与异常兜底","状态机 · 翻车四件套 · 兜底决策树"],
+    ["W4D4","数据指标体系与 SQL","五大核心指标 · 北极星 · SQL 闯关"],
+    ["W4D5","PRD 评审大会","交叉评审 · 答辩应答公式"]]},
+  {w:"W5", t:"增长商业化", days:[
+    ["W5D1","AI 产品增长","AARRR 落地 · aha 时刻 · 前 1000 用户"],
+    ["W5D2","AB 实验与数据决策","实验四要素 · 三大陷阱 · 异动分析"],
+    ["W5D3","AI 商业化与成本核算","token 成本手算 · 商业画布 · LTV/CAC"],
+    ["W5D4","项目推进与跨团队协作","三角协作 · 风险三栏法 · 向上汇报"],
+    ["W5D5","主项目中期评审","投资人五问 · Scope 决策"]]},
+  {w:"W6", t:"主项目路演", days:[
+    ["W6D1","Vibe Coding 与 AI 工程提效","国产五工具实战 · 10 分钟搭页面"],
+    ["W6D2","开发冲刺 I：核心链路","陪跑巡场 · 三卡点预判"],
+    ["W6D3","开发冲刺 II：功能与体验","三态设计 · 22 项走查清单"],
+    ["W6D4","测试验收与真实用户试用","badcase 归因 · 评测跑分 · ≥10 人试用"],
+    ["W6D5","结业路演","5 分钟路演结构 · 四维评分"]]},
+  {w:"W7", t:"就业冲刺", hot:true, days:[
+    ["W7D1","行业纵深（分赛道分组）","六件套手册 · 企业导师连线"],
+    ["W7D2","作品集方法论","STAR 改写 · 数据呈现"],
+    ["W7D3","简历撰写","黄金结构 · 项目公式 · ATS 关键词"],
+    ["W7D4","1v1 简历诊断","诊断五步 · 高频问题 Top10"],
+    ["W7D5","岗位投递策略","渠道优先级 · 投递漏斗 · 首批 ≥10 家"]]},
+  {w:"W8", t:"面试通关", hot:true, days:[
+    ["W8D1","面试全景地图","五轮流程 · 五大题型 · 准备矩阵"],
+    ["W8D2","高频题精讲 I：项目与场景追问","防御链 · 场景六步框架"],
+    ["W8D3","高频题精讲 II：技术与数据","说人话三步法 · 技术数据题库"],
+    ["W8D4","模拟面试 I","1v1 压力面 · 三遍法复盘"],
+    ["W8D5","模拟面试 II + 谈薪 + 结营","谈薪四步 · offer 决策矩阵"]]}
+];
+
+/* ==================== 本地进度存储 ==================== */
+const LS_KEY = "aipm_prep_v1";
+function loadStore(){
+  try { const s = JSON.parse(localStorage.getItem(LS_KEY)); return s && typeof s === "object" ? s : {}; }
+  catch(e){ return {}; }
+}
+const store = loadStore();
+store.progress = store.progress || {};
+store.settings = store.settings || {};
+function saveStore(){ try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch(e){} }
+function getProg(qid){ return store.progress[qid] || {s:"", fav:0, seen:0, lastAt:0}; }
+function markSeen(qid){
+  const p = getProg(qid);
+  p.seen = (p.seen || 0) + 1; p.lastAt = Date.now();
+  store.progress[qid] = p; saveStore();
+}
+function setStatus(qid, s){
+  const p = getProg(qid);
+  p.s = s; p.lastAt = Date.now();
+  if (!p.seen) p.seen = 1;
+  store.progress[qid] = p; saveStore();
+}
+function toggleFav(qid){
+  const p = getProg(qid);
+  p.fav = p.fav ? 0 : 1;
+  store.progress[qid] = p; saveStore();
+  return !!p.fav;
+}
+function globalStats(){
+  let seen = 0, known = 0, vague = 0, unknown = 0, fav = 0;
+  for (const q of QS){
+    const p = store.progress[q.id];
+    if (!p) continue;
+    if (p.seen) seen++;
+    if (p.s === "known") known++;
+    else if (p.s === "vague") vague++;
+    else if (p.s === "unknown") unknown++;
+    if (p.fav) fav++;
+  }
+  return {seen, known, vague, unknown, fav, total: QS.length};
+}
+
+/* ==================== 工具函数 ==================== */
+const $app = document.getElementById("app");
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g,
+    c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function fmtAnswer(text){
+  if (!text) return '<div class="ans-empty">本题暂无参考详解</div>';
+  const lines = esc(text).split("\n");
+  return lines.map(t => {
+    let cls = "";
+    if (/^\s*【[^】]*】/.test(t)) cls = "l-bracket";
+    else if (/^\s*(第[一二三四五六七八九十]+[部分章节]|[一二三四五六七八九十]+、)/.test(t)) cls = "l-h";
+    else if (/^\s*[·•]\s*/.test(t)) cls = "l-dot";
+    else if (/^\s*\d+[.、)]\s*/.test(t)) cls = "l-num";
+    return cls ? '<span class="' + cls + '">' + t + "</span>" : t;
+  }).join("\n");
+}
+const LEVEL_CLS = {"初级":"lv-1", "中级":"lv-2", "高级":"lv-3"};
+function levelBadge(l){ return l ? '<span class="badge ' + (LEVEL_CLS[l]||"") + '">' + esc(l) + "</span>" : ""; }
+function typeBadge(t){ return t ? '<span class="badge b-type">' + esc(t) + "</span>" : ""; }
+function srcBadge(q){
+  const s = SRCMAP[q.src] || {};
+  return '<span class="badge ' + (s.cls || "") + '">' + esc(q.srcName) + "</span>";
+}
+function groupBadge(q){
+  const g = qGroup(q);
+  return g ? '<span class="badge b-group">' + esc(g) + "</span>" : "";
+}
+function tagBadges(q){
+  return q.tags.map(t => '<span class="badge b-tag">' + esc(t) + "</span>").join("");
+}
+function statusBadge(q){
+  return q.status === "待补充答案" ? '<span class="badge b-pending">框架要点</span>' : "";
+}
+function progBadge(p){
+  if (p.s === "known") return '<span class="badge pg-badge known">已掌握</span>';
+  if (p.s === "vague") return '<span class="badge pg-badge vague">模糊</span>';
+  if (p.s === "unknown") return '<span class="badge pg-badge unknown">重学</span>';
+  return "";
+}
+let toastTimer = null;
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 1600);
+}
+function fmtTime(sec){
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+}
+
+/* ==================== 路由 ==================== */
+const NAV = [
+  ["home","首页"], ["bank","题库"], ["practice","练习"], ["mock","模拟面试"], ["exp","面经"], ["course","课程地图"]
+];
+function renderNav(){
+  const cur = (location.hash || "#/home").replace("#/","").split("/")[0] || "home";
+  document.getElementById("nav").innerHTML = NAV.map(([k,t]) =>
+    '<a href="#/' + k + '" class="' + (cur === k ? "on" : "") + '">' + t + "</a>").join("");
+}
+function route(){
+  renderNav();
+  // hash 形如 #/bank?src=pm：先剥离查询串再解析路径，否则 view 会带上 "?src=…" 而落到首页
+  const raw = (location.hash || "#/home").slice(2);
+  const h = raw.split("?")[0];
+  const parts = h.split("/");
+  const view = parts[0] || "home";
+  let param = parts[1] || "";
+  if (param) { try { param = decodeURIComponent(param); } catch(e){} }
+  window.scrollTo({top:0});
+  if (view === "bank") renderBank();
+  else if (view === "practice") renderPractice();
+  else if (view === "mock") renderMock();
+  else if (view === "exp") renderExp(param);
+  else if (view === "course") renderCourse();
+  else renderHome();
+}
+window.addEventListener("hashchange", route);
+
+/* ==================== 视图：首页 ==================== */
+function renderHome(){
+  const st = globalStats();
+  const weak = st.vague + st.unknown;
+  const pct = st.total ? Math.round(st.known / st.total * 100) : 0;
+  const last = store.settings.lastPool;
+  const bs = DB.stats.bySrc;
+
+  const coreCards = SRCS.filter(s => s.group === "core");
+  const plusCards = SRCS.filter(s => s.group === "plus");
+  const srcCardHtml = c =>
+    '<div class="card src-card" data-go="' + c.k + '">' +
+      '<div class="sc-head"><h3>' + esc(c.name) + '</h3><span class="sc-count">' + c.count + " 题</span></div>" +
+      "<p>" + esc(c.desc) + "</p>" +
+      '<div class="sc-tags">' + c.tags.map(t => '<span class="mini-tag">' + esc(t) + "</span>").join("") + "</div>" +
+    "</div>";
+
+  $app.innerHTML =
+    '<section class="hero">' +
+      "<h1>AI 产品经理面试备考平台</h1>" +
+      "<p>面向 8 周训练营结业学员的面试冲刺工具：" + DB.stats.total + " 道真题、" + DB.stats.srcCount + " 大专项题库、" + DB.stats.expGroups + " 套真实面经，配套刷题、限时模拟面试与掌握度跟踪，目标直指一线城市 AI 产品经理 Offer。</p>" +
+      '<div class="hero-stats">' +
+        '<div class="hstat"><b>' + DB.stats.total + '</b>道面试真题</div>' +
+        '<div class="hstat"><b>' + DB.stats.srcCount + '</b>大专项题库</div>' +
+        '<div class="hstat"><b>' + DB.stats.expGroups + '</b>套真实面经</div>' +
+        '<div class="hstat"><b>' + DB.stats.txRounds + '</b>轮鹅厂全流程</div>' +
+        '<div class="hstat"><b>8</b>周课程地图</div>' +
+      "</div>" +
+    "</section>" +
+
+    '<div class="sec-title">我的备考进度 <small>数据保存在本机浏览器，换设备不同步</small></div>' +
+    '<div class="card prog-card">' +
+      '<div class="prog-grid">' +
+        '<div class="pg-item"><b>' + st.seen + "</b><span>已练习</span></div>" +
+        '<div class="pg-item k"><b>' + st.known + "</b><span>已掌握</span></div>" +
+        '<div class="pg-item v"><b>' + st.vague + "</b><span>模糊</span></div>" +
+        '<div class="pg-item u"><b>' + st.unknown + "</b><span>待重学</span></div>" +
+        '<div class="pg-item f"><b>' + st.fav + "</b><span>收藏</span></div>" +
+      "</div>" +
+      '<div class="bar">' +
+        '<i class="k" style="width:' + (st.total ? st.known/st.total*100 : 0) + '%"></i>' +
+        '<i class="v" style="width:' + (st.total ? st.vague/st.total*100 : 0) + '%"></i>' +
+        '<i class="u" style="width:' + (st.total ? st.unknown/st.total*100 : 0) + '%"></i>' +
+      "</div>" +
+      '<div class="bar-legend">' +
+        "<span><i style=\"background:var(--green)\"></i>已掌握 " + st.known + " 题（" + pct + "%）</span>" +
+        "<span><i style=\"background:#f59e0b\"></i>模糊 " + st.vague + " 题</span>" +
+        "<span><i style=\"background:var(--red)\"></i>待重学 " + st.unknown + " 题</span>" +
+        "<span><i style=\"background:var(--line)\"></i>未开始 " + Math.max(0, st.total - st.seen) + " 题</span>" +
+      "</div>" +
+      '<div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">' +
+        (weak > 0
+          ? '<a class="btn btn-primary" href="#/practice?mode=weak">▶ 攻克薄弱题（' + weak + " 题）</a>"
+          : '<a class="btn btn-primary" href="#/practice">▶ 开始刷题</a>') +
+        (last ? '<a class="btn btn-ghost" href="#/practice?resume=1">↩ 继续上次练习（' + esc(last.label || "") + "）</a>" : "") +
+        '<a class="btn btn-ghost" href="#/mock">⏱ 模拟面试</a>' +
+      "</div>" +
+    "</div>" +
+
+    '<div class="sec-title">核心题库 <small>点击卡片进入浏览</small></div>' +
+    '<div class="grid-3">' + coreCards.map(srcCardHtml).join("") + "</div>" +
+
+    '<div class="sec-title">进阶专项 <small>按章节 / 轮次 / 专题分组，逐册攻克</small></div>' +
+    '<div class="grid-4">' + plusCards.map(srcCardHtml).join("") + "</div>" +
+
+    '<div class="sec-title">面试通关路线</div>' +
+    '<div class="card note-card">' +
+      "<b>建议路径：</b>① 用<b>高频 100 题</b>打底，覆盖通识与经历类问题 → ② 用<b>面试题库</b>攻克 Agent / RAG / 评测深度题 → ③ 用<b>大厂 PM 八股文</b>按 9 大章节补齐产品基本功，用<b>LLM 八股文</b>按基础面 / 进阶面 / 微调面补技术底 → ④ 用<b>专题题库</b>做跨库串联与查漏补缺 → ⑤ 在<b>面经实战 10 套</b>中找到与自身背景最接近的一套精读，再用<b>鹅厂三轮面经</b>体会一面到三面的追问升级 → ⑥ 用<b>模拟面试</b>限时自测，回题库标记掌握状态，循环巩固。" +
+      "<br>课程对齐：高频 100 题对应 W1–W5 专业基础，面试题库对应 W2–W3 模型评测与 Agent/RAG，大厂与 LLM 八股对应 W2 技术底与 W7 面试冲刺，面经实战与鹅厂三轮对应 W8 面试通关周。" +
+    "</div>" +
+
+    '<div class="sec-title">数据底座</div>' +
+    '<div class="card note-card">' +
+      "本平台全部题目与参考答案由<b>飞书多维表格</b>统一维护（" + DB.stats.srcCount + " 张数据表：面试题库 / AI PM 高频 100 题 / 面经实战 / 大厂 PM 八股文 / 鹅厂 AI PM 三轮面经 / 大模型 LLMs 八股文 / 专题题库），讲师在表格中增改内容后执行同步脚本即可重新生成本页面。" +
+      "<br>生成时间：" + esc(DB.generatedAt) + " · 题目 IDs q001–q" + String(DB.stats.total).padStart(3,"0") + " 与表格「序号」字段一致。" +
+    "</div>";
+
+  $app.querySelectorAll("[data-go]").forEach(el =>
+    el.addEventListener("click", () => { location.hash = "#/bank?src=" + el.dataset.go; }));
+}
+
+/* ==================== 视图：题库 ==================== */
+const bankState = {
+  src: "all", level: "", type: "", tags: new Set(), exps: new Set(),
+  chapter: "", round: "", part: "", topic: "",
+  q: "", sort: "no", shown: 24
+};
+function bankFilter(){
+  return QS.filter(q => {
+    if (bankState.src !== "all" && q.src !== bankState.src) return false;
+    if (bankState.level && q.level !== bankState.level) return false;
+    if (bankState.type && q.type !== bankState.type) return false;
+    if (bankState.tags.size && !q.tags.some(t => bankState.tags.has(t))) return false;
+    if (bankState.exps.size && (!q.expNo || !bankState.exps.has(q.expNo))) return false;
+    if (bankState.chapter && q.chapter !== bankState.chapter) return false;
+    if (bankState.round && q.round !== bankState.round) return false;
+    if (bankState.part && q.part !== bankState.part) return false;
+    if (bankState.topic && q.topic !== bankState.topic) return false;
+    if (bankState.q){
+      const kw = bankState.q.toLowerCase();
+      const hay = (q.q + q.a + q.tags.join(" ") + q.type + q.level + (q.expTitle||"") + (q.expNo||"") + qGroup(q)).toLowerCase();
+      if (!hay.includes(kw)) return false;
+    }
+    return true;
+  });
+}
+function bankSort(list){
+  const lv = {"初级":0,"中级":1,"高级":2};
+  const arr = list.slice();
+  if (bankState.sort === "levelAsc") arr.sort((a,b) => (lv[a.level]||0) - (lv[b.level]||0) || a.no - b.no);
+  else if (bankState.sort === "levelDesc") arr.sort((a,b) => (lv[b.level]||0) - (lv[a.level]||0) || a.no - b.no);
+  else if (bankState.sort === "rand") arr.sort(() => Math.random() - 0.5);
+  else arr.sort((a,b) => a.no - b.no);
+  return arr;
+}
+function renderBank(){
+  // 支持 #/bank?src=pm&chapter=xxx 等入口参数（应用一次后清理 hash，避免覆盖用户后续切换的库）
+  const param = (location.hash.split("?")[1] || "");
+  const qp = new URLSearchParams(param);
+  const urlSrc = qp.get("src");
+  if (urlSrc && (urlSrc === "all" || SRCMAP[urlSrc]) && bankState.src !== urlSrc){
+    bankState.src = urlSrc;
+    bankState.chapter = ""; bankState.round = ""; bankState.part = ""; bankState.topic = "";
+    bankState.exps.clear();
+    bankState.shown = 24;
+  }
+  ["chapter","round","part","topic"].forEach(k => {
+    const v = qp.get(k);
+    if (v) bankState[k] = v;
+  });
+  if (urlSrc || qp.get("chapter") || qp.get("round") || qp.get("part") || qp.get("topic")){
+    history.replaceState(null, "", location.pathname + location.search + "#/bank");
+  }
+  const list = bankSort(bankFilter());
+  const bs = DB.stats.bySrc;
+  const F = DB.facets;
+
+  const srcTabs = [["all","全部",DB.stats.total]].concat(SRCS.map(s => [s.k, s.short || s.name, s.count]));
+
+  // 分册维度筛选：仅当前数据源有对应字段时出现（大厂八股→章节 / 鹅厂→轮次 / LLM→分部 / 专题→专题）
+  const GROUP_FACET = {pm:["章节","chapter","chapters"], tx:["轮次","round","rounds"],
+                       llm:["分部","part","parts"], topic:["专题","topic","topics"]};
+  const gf = GROUP_FACET[bankState.src];
+  const groupRow = gf ? fRow(gf[0], F[gf[2]].map(v =>
+    '<button class="chip ' + (bankState[gf[1]] === v ? "on" : "") + '" data-group="' + gf[1] + '" data-val="' + esc(v) + '">' + esc(v) + "</button>").join("")) : "";
+  const showExpRow = bankState.src === "all" || bankState.src === "exp";
+
+  $app.innerHTML =
+    '<div class="card toolbar">' +
+      '<div class="tabs">' +
+        srcTabs.map(([k,t,n]) =>
+          '<button class="tab ' + (bankState.src === k ? "on" : "") + '" data-src="' + k + '">' + t + '<span class="n">' + n + "</span></button>").join("") +
+      "</div>" +
+      '<div class="toolbar-row">' +
+        '<div class="search-box"><span class="ic">⌕</span><input id="bank-search" placeholder="搜索题目 / 答案关键词 / 标签…" value="' + esc(bankState.q) + '"></div>' +
+        '<select class="sel" id="bank-sort">' +
+          '<option value="no"' + (bankState.sort==="no"?" selected":"") + ">按序号</option>" +
+          '<option value="levelAsc"' + (bankState.sort==="levelAsc"?" selected":"") + ">难度：初级→高级</option>" +
+          '<option value="levelDesc"' + (bankState.sort==="levelDesc"?" selected":"") + ">难度：高级→初级</option>" +
+          '<option value="rand"' + (bankState.sort==="rand"?" selected":"") + ">随机排序</option>" +
+        "</select>" +
+        '<button class="btn btn-ghost btn-sm" id="filter-toggle">筛选' +
+          (chipActive() ? " ●" : "") + "</button>" +
+        (hasActiveFilter() ? '<button class="btn btn-ghost btn-sm" id="filter-reset">重置</button>' : "") +
+      "</div>" +
+    "</div>" +
+
+    '<div class="card filters" id="filter-panel">' +
+      fRow("难度", F.levels.map(l =>
+        '<button class="chip ' + (bankState.level === l ? "on" : "") + '" data-level="' + esc(l) + '">' + l + "</button>").join("")) +
+      fRow("题型", F.types.map(t =>
+        '<button class="chip ' + (bankState.type === t ? "on" : "") + '" data-type="' + esc(t) + '">' + t + "</button>").join("")) +
+      fRow("标签", F.tags.map(t =>
+        '<button class="chip ' + (bankState.tags.has(t) ? "on" : "") + '" data-tag="' + esc(t) + '">' + t + "</button>").join("")) +
+      groupRow +
+      (showExpRow ? fRow("面经", Object.keys(F.expMeta).map(no =>
+        F.expMeta[no].count ? '<button class="chip ' + (bankState.exps.has(no) ? "on" : "") + '" data-exp="' + no + '">' + no + " · " + F.expMeta[no].count + " 题</button>" : "").join("")) : "") +
+    "</div>" +
+
+    '<div class="result-bar"><span>共 <b>' + list.length + "</b> 题" +
+      (list.length > bankState.shown ? "（已显示 " + bankState.shown + "）" : "") + "</span>" +
+      '<span>点击题目展开参考详解 · ☆ 收藏 · 右下角标记掌握情况</span></div>' +
+
+    '<div class="qlist" id="qlist">' +
+      (list.length === 0
+        ? '<div class="card empty"><div class="ei">🔍</div><p>没有符合条件的题目，试试放宽筛选条件</p></div>'
+        : list.slice(0, bankState.shown).map(q => qCard(q)).join("")) +
+    "</div>" +
+
+    (list.length > bankState.shown
+      ? '<button class="btn btn-ghost load-more" id="load-more">加载更多（还有 ' + (list.length - bankState.shown) + " 题）</button>"
+      : "");
+
+  bindBank();
+}
+function hasActiveFilter(){
+  return !!(bankState.level || bankState.type || bankState.tags.size || bankState.exps.size ||
+            bankState.chapter || bankState.round || bankState.part || bankState.topic || bankState.q);
+}
+function chipActive(){
+  return !!(bankState.level || bankState.type || bankState.tags.size || bankState.exps.size ||
+            bankState.chapter || bankState.round || bankState.part || bankState.topic);
+}
+function fRow(label, chips){
+  return '<div class="f-row"><span class="f-label">' + label + '</span><div class="f-chips">' + chips + "</div></div>";
+}
+function qCard(q){
+  const p = getProg(q.id);
+  return '<div class="qcard" data-qid="' + q.id + '">' +
+    '<div class="qcard-head">' +
+      '<span class="qno">#' + q.no + "</span>" +
+      '<div class="qmain">' +
+        '<div class="qtitle">' + esc(q.q) + "</div>" +
+        '<div class="qmeta">' + srcBadge(q) + levelBadge(q.level) + typeBadge(q.type) +
+          (q.expNo ? '<span class="badge b-expno">' + esc(q.expNo) + "</span>" : "") +
+          groupBadge(q) + statusBadge(q) + tagBadges(q) + progBadge(p) + "</div>" +
+      "</div>" +
+      '<button class="fav-btn ' + (p.fav ? "on" : "") + '" data-fav title="收藏">' + (p.fav ? "★" : "☆") + "</button>" +
+      '<span class="chev">▾</span>' +
+    "</div>" +
+    '<div class="qcard-body" hidden>' +
+      '<div class="ans">' + fmtAnswer(q.a) + "</div>" +
+      '<div class="qcard-actions">' +
+        '<span class="act-label">掌握情况</span>' +
+        '<button class="rbtn ' + (p.s==="known"?"on-k":"") + '" data-rate="known">✓ 掌握了</button>' +
+        '<button class="rbtn ' + (p.s==="vague"?"on-v":"") + '" data-rate="vague">～ 模糊</button>' +
+        '<button class="rbtn ' + (p.s==="unknown"?"on-u":"") + '" data-rate="unknown">✗ 重学</button>' +
+        '<span class="q-src-line">' + esc(q.origin) + "</span>" +
+      "</div>" +
+    "</div>" +
+  "</div>";
+}
+function bindBank(){
+  const panel = document.getElementById("filter-panel");
+  if (chipActive()) panel.classList.add("show");
+  document.getElementById("filter-toggle").addEventListener("click", () => panel.classList.toggle("show"));
+  const resetBtn = document.getElementById("filter-reset");
+  if (resetBtn) resetBtn.addEventListener("click", () => {
+    bankState.level = ""; bankState.type = ""; bankState.tags.clear(); bankState.exps.clear();
+    bankState.chapter = ""; bankState.round = ""; bankState.part = ""; bankState.topic = "";
+    bankState.q = ""; bankState.shown = 24; renderBank();
+  });
+  document.querySelectorAll("[data-src]").forEach(b => b.addEventListener("click", () => {
+    bankState.src = b.dataset.src;
+    // 分册维度与面经筛选只对各自数据源有效，切换来源时一并清理
+    bankState.chapter = ""; bankState.round = ""; bankState.part = ""; bankState.topic = "";
+    bankState.exps.clear();
+    bankState.shown = 24; renderBank();
+  }));
+  const search = document.getElementById("bank-search");
+  let deb = null;
+  search.addEventListener("input", () => {
+    clearTimeout(deb);
+    deb = setTimeout(() => { bankState.q = search.value.trim(); bankState.shown = 24; renderBank(); }, 160);
+  });
+  document.getElementById("bank-sort").addEventListener("change", e => {
+    bankState.sort = e.target.value; renderBank();
+  });
+  document.querySelectorAll("[data-level]").forEach(b => b.addEventListener("click", () => {
+    bankState.level = bankState.level === b.dataset.level ? "" : b.dataset.level;
+    bankState.shown = 24; renderBank();
+  }));
+  document.querySelectorAll("[data-type]").forEach(b => b.addEventListener("click", () => {
+    bankState.type = bankState.type === b.dataset.type ? "" : b.dataset.type;
+    bankState.shown = 24; renderBank();
+  }));
+  document.querySelectorAll("[data-tag]").forEach(b => b.addEventListener("click", () => {
+    const t = b.dataset.tag;
+    bankState.tags.has(t) ? bankState.tags.delete(t) : bankState.tags.add(t);
+    bankState.shown = 24; renderBank();
+  }));
+  document.querySelectorAll("[data-exp]").forEach(b => b.addEventListener("click", () => {
+    const t = b.dataset.exp;
+    bankState.exps.has(t) ? bankState.exps.delete(t) : bankState.exps.add(t);
+    bankState.shown = 24; renderBank();
+  }));
+  document.querySelectorAll("[data-group]").forEach(b => b.addEventListener("click", () => {
+    const key = b.dataset.group, val = b.dataset.val;
+    bankState[key] = bankState[key] === val ? "" : val;
+    bankState.shown = 24; renderBank();
+  }));
+  const lm = document.getElementById("load-more");
+  if (lm) lm.addEventListener("click", () => { bankState.shown += 24; renderBank(); });
+
+  // 题卡交互（事件委托）
+  document.getElementById("qlist").addEventListener("click", e => {
+    const card = e.target.closest(".qcard");
+    if (!card) return;
+    const qid = card.dataset.qid;
+    const q = QMAP[qid];
+    if (e.target.closest("[data-fav]")){
+      const on = toggleFav(qid);
+      e.target.closest("[data-fav]").classList.toggle("on", on);
+      e.target.closest("[data-fav]").textContent = on ? "★" : "☆";
+      toast(on ? "已收藏" : "已取消收藏");
+      return;
+    }
+    if (e.target.closest("[data-rate]")){
+      const s = e.target.closest("[data-rate]").dataset.rate;
+      setStatus(qid, s);
+      markSeen(qid);
+      card.querySelector(".qmeta").innerHTML =
+        srcBadge(q) + levelBadge(q.level) + typeBadge(q.type) +
+        (q.expNo ? '<span class="badge b-expno">' + esc(q.expNo) + "</span>" : "") +
+        statusBadge(q) + tagBadges(q) + progBadge(getProg(qid));
+      card.querySelectorAll("[data-rate]").forEach(b => {
+        b.classList.remove("on-k","on-v","on-u");
+        const m = {known:"on-k", vague:"on-v", unknown:"on-u"};
+        if (b.dataset.rate === s) b.classList.add(m[s]);
+      });
+      toast(s === "known" ? "标记为已掌握" : s === "vague" ? "标记为模糊，需巩固" : "标记为待重学");
+      return;
+    }
+    if (e.target.closest(".qcard-head")){
+      const body = card.querySelector(".qcard-body");
+      const open = body.hasAttribute("hidden");
+      body.toggleAttribute("hidden", !open);
+      card.classList.toggle("open", open);
+      if (open) markSeen(qid);
+    }
+  });
+}
+
+/* ==================== 视图：练习 ==================== */
+const practice = { pool: [], idx: 0, revealed: false, started: false, onlyWeak: false, log: [] };
+function buildPool(opts){
+  let list = QS.slice();
+  if (opts.src && opts.src !== "all") list = list.filter(q => q.src === opts.src);
+  if (opts.onlyWeak) list = list.filter(q => { const s = getProg(q.id).s; return s === "vague" || s === "unknown" || !s; });
+  if (opts.favOnly) list = list.filter(q => getProg(q.id).fav);
+  if (opts.exp) list = list.filter(q => q.expNo === opts.exp);
+  if (opts.chapter) list = list.filter(q => q.chapter === opts.chapter);
+  if (opts.round) list = list.filter(q => q.round === opts.round);
+  if (opts.part) list = list.filter(q => q.part === opts.part);
+  if (opts.topic) list = list.filter(q => q.topic === opts.topic);
+  if (opts.shuffle) list.sort(() => Math.random() - 0.5); else list.sort((a,b) => a.no - b.no);
+  if (opts.limit && opts.limit > 0) list = list.slice(0, opts.limit);
+  return list;
+}
+function renderPractice(){
+  const params = new URLSearchParams(location.hash.split("?")[1] || "");
+  if (params.get("mode") === "weak" && !practice.started){
+    practice.pool = buildPool({onlyWeak:true, shuffle:false});
+    practice.idx = 0; practice.revealed = false; practice.started = true; practice.log = [];
+    if (practice.pool.length === 0){ practice.started = false; }
+    history.replaceState(null, "", location.pathname + location.search + "#/practice");
+  }
+  if (params.get("resume") === "1" && !practice.started && store.settings.lastPool){
+    const lp = store.settings.lastPool;
+    practice.pool = buildPool(lp);
+    practice.idx = Math.min(lp.idx || 0, practice.pool.length - 1);
+    practice.revealed = false; practice.started = true; practice.log = [];
+    history.replaceState(null, "", location.pathname + location.search + "#/practice");
+  }
+  if (params.get("exp") && !practice.started){
+    practice.pool = buildPool({exp: params.get("exp")});
+    practice.idx = 0; practice.revealed = false; practice.started = true; practice.log = [];
+    history.replaceState(null, "", location.pathname + location.search + "#/practice");
+  }
+  // 支持从题库 / 面经页带着「数据源 + 分册维度」直接开练，如 #/practice?src=tx&round=一面
+  if (!practice.started && (params.get("src") || params.get("chapter") || params.get("round") || params.get("part") || params.get("topic"))){
+    const opts = {src: params.get("src") || "all"};
+    ["chapter","round","part","topic"].forEach(k => { if (params.get(k)) opts[k] = params.get(k); });
+    practice.pool = buildPool(opts);
+    practice.idx = 0; practice.revealed = false; practice.started = true; practice.log = [];
+    history.replaceState(null, "", location.pathname + location.search + "#/practice");
+  }
+
+  if (!practice.started || practice.pool.length === 0){
+    const bs = DB.stats.bySrc;
+    const st = globalStats();
+    const weak = st.vague + st.unknown + (st.total - st.seen);
+    $app.innerHTML =
+      '<div class="practice-wrap">' +
+      '<div class="card setup-card">' +
+        "<h2>刷题练习</h2>" +
+        '<div class="sub">翻卡式练习：先自己作答，再对照参考详解，最后标记掌握情况。支持键盘操作。</div>' +
+        '<div class="fld"><div class="fld-label">题库范围</div><div class="opt-row" id="p-src">' +
+          [["all","全部题库",DB.stats.total]].concat(SRCS.map(s => [s.k, s.name, s.count]))
+            .map(([k,t,n]) => '<button class="opt" data-v="' + k + '">' + t + '<span class="n">' + n + "</span></button>").join("") +
+        "</div></div>" +
+        '<div class="fld"><div class="fld-label">练习设置</div><div class="opt-row">' +
+          '<button class="opt on" data-mode="all">全部题目</button>' +
+          '<button class="opt" data-mode="weak">未掌握 / 薄弱题<span class="n">' + weak + "</span></button>" +
+          '<button class="opt" data-mode="fav">只看收藏<span class="n">' + st.fav + "</span></button>" +
+        "</div></div>" +
+        '<div class="fld"><div class="fld-label">顺序</div><div class="opt-row">' +
+          '<button class="opt on" data-order="seq">按序号</button>' +
+          '<button class="opt" data-order="rand">随机乱序</button>' +
+        "</div></div>" +
+        '<div class="fld"><div class="fld-label">题量 <small>0 表示不限</small></div><div class="opt-row" id="p-limit">' +
+          [10,20,50,0].map(n => '<button class="opt' + (n===20?" on":"") + '" data-v="' + n + '">' + (n===0?"不限":n+" 题") + "</button>").join("") +
+        "</div></div>" +
+        '<button class="btn btn-primary reveal-btn" id="p-start">开始练习 →</button>' +
+        '<div class="p-hint">快捷键：<span class="kbd">空格</span> 翻答案 / 下一题 · <span class="kbd">1</span><span class="kbd">2</span><span class="kbd">3</span> 标记掌握 / 模糊 / 重学</div>' +
+      "</div></div>";
+    bindPracticeSetup();
+    return;
+  }
+
+  const q = practice.pool[practice.idx];
+  const p = getProg(q.id);
+  const pct = Math.round(practice.idx / practice.pool.length * 100);
+
+  $app.innerHTML =
+    '<div class="practice-wrap">' +
+      '<div class="p-head">' +
+        '<span class="p-progress">第 <b>' + (practice.idx + 1) + "</b> / " + practice.pool.length + " 题</span>" +
+        '<button class="btn btn-ghost btn-sm" id="p-quit">退出练习</button>' +
+      "</div>" +
+      '<div class="p-bar"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="card p-card">' +
+        '<div class="p-tags">' + srcBadge(q) + levelBadge(q.level) + typeBadge(q.type) +
+          (q.expNo ? '<span class="badge b-expno">' + esc(q.expNo) + "</span>" : "") + groupBadge(q) + tagBadges(q) + progBadge(p) + "</div>" +
+        '<div class="p-q">' + esc(q.q) + "</div>" +
+        (practice.revealed
+          ? '<div class="p-ans"><div class="ans">' + fmtAnswer(q.a) + "</div></div>"
+          : '<button class="btn btn-primary reveal-btn" id="p-reveal">显示参考详解（空格）</button>') +
+        '<div class="p-hint">' + (practice.revealed
+          ? "自评后自动进入下一题 · <span class=\"kbd\">1</span> 掌握 <span class=\"kbd\">2</span> 模糊 <span class=\"kbd\">3</span> 重学"
+          : "先口头作答，再按空格看答案") + "</div>" +
+      "</div>" +
+      (practice.revealed ?
+        '<div class="p-actions">' +
+          '<button class="rbtn ' + (p.s==="known"?"on-k":"") + '" data-p="known">✓ 掌握了（1）</button>' +
+          '<button class="rbtn ' + (p.s==="vague"?"on-v":"") + '" data-p="vague">～ 模糊（2）</button>' +
+          '<button class="rbtn ' + (p.s==="unknown"?"on-u":"") + '" data-p="unknown">✗ 重学（3）</button>' +
+          '<button class="btn btn-ghost" id="p-next">下一题 →</button>' +
+        "</div>" : "") +
+    "</div>";
+
+  document.getElementById("p-quit").addEventListener("click", endPractice);
+  if (!practice.revealed){
+    document.getElementById("p-reveal").addEventListener("click", revealPractice);
+  } else {
+    document.getElementById("p-next").addEventListener("click", () => practiceNext(null));
+    $app.querySelectorAll("[data-p]").forEach(b => b.addEventListener("click", () => practiceNext(b.dataset.p)));
+  }
+}
+function bindPracticeSetup(){
+  const sel = {src:"all", mode:"all", order:"seq", limit:20};
+  $app.querySelectorAll("#p-src .opt").forEach(b => b.addEventListener("click", () => {
+    $app.querySelectorAll("#p-src .opt").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.src = b.dataset.v;
+  }));
+  $app.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => {
+    $app.querySelectorAll("[data-mode]").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.mode = b.dataset.mode;
+  }));
+  $app.querySelectorAll("[data-order]").forEach(b => b.addEventListener("click", () => {
+    $app.querySelectorAll("[data-order]").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.order = b.dataset.order;
+  }));
+  $app.querySelectorAll("#p-limit .opt").forEach(b => b.addEventListener("click", () => {
+    $app.querySelectorAll("#p-limit .opt").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.limit = parseInt(b.dataset.v, 10);
+  }));
+  document.getElementById("p-start").addEventListener("click", () => {
+    const opts = {
+      src: sel.src,
+      shuffle: sel.order === "rand",
+      limit: sel.limit,
+      onlyWeak: sel.mode === "weak",
+      favOnly: sel.mode === "fav"
+    };
+    practice.pool = buildPool(opts);
+    if (practice.pool.length === 0){
+      toast("该范围内没有题目，请调整设置");
+      return;
+    }
+    practice.idx = 0; practice.revealed = false; practice.started = true; practice.log = [];
+    store.settings.lastPool = Object.assign({idx:0}, opts);
+    saveStore();
+    renderPractice();
+  });
+}
+function revealPractice(){
+  practice.revealed = true;
+  markSeen(practice.pool[practice.idx].id);
+  store.settings.lastPool = store.settings.lastPool || {};
+  store.settings.lastPool.idx = practice.idx;
+  saveStore();
+  renderPractice();
+}
+function practiceNext(rating){
+  const q = practice.pool[practice.idx];
+  markSeen(q.id);
+  if (rating) setStatus(q.id, rating);
+  practice.log.push({qid: q.id, rating: rating || "skip"});
+  if (practice.idx + 1 >= practice.pool.length){ endPractice(); return; }
+  practice.idx++;
+  practice.revealed = false;
+  renderPractice();
+}
+function endPractice(){
+  const done = practice.log.filter(l => l.rating && l.rating !== "skip");
+  const known = done.filter(l => l.rating === "known").length;
+  const vague = done.filter(l => l.rating === "vague").length;
+  const unknown = done.filter(l => l.rating === "unknown").length;
+  const total = practice.log.length;
+  practice.started = false;
+
+  $app.innerHTML =
+    '<div class="practice-wrap"><div class="card p-done">' +
+      '<div class="big">' + total + "</div>" +
+      "<h3>本轮练习完成</h3>" +
+      "<p>坚持刷完一轮，面试时的表达会明显更流畅</p>" +
+      '<div class="mini-stats">' +
+        '<div class="ms" style="color:var(--green)"><b>' + known + "</b><span>掌握</span></div>" +
+        '<div class="ms" style="color:#d97706"><b>' + vague + "</b><span>模糊</span></div>" +
+        '<div class="ms" style="color:var(--red)"><b>' + unknown + "</b><span>重学</span></div>" +
+      "</div>" +
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
+        '<button class="btn btn-primary" id="p-again">再来一轮</button>' +
+        '<a class="btn btn-ghost" href="#/mock">去模拟面试</a>' +
+        '<a class="btn btn-ghost" href="#/home">回首页</a>' +
+      "</div>" +
+    "</div></div>";
+  document.getElementById("p-again").addEventListener("click", () => {
+    practice.pool = buildPool(store.settings.lastPool || {shuffle:true});
+    practice.idx = 0; practice.revealed = false; practice.started = true; practice.log = [];
+    renderPractice();
+  });
+}
+
+/* ==================== 视图：模拟面试 ==================== */
+const mock = {
+  pool: [], idx: 0, per: 90, revealed: false, rated: null,
+  timer: null, remain: 0, timedOut: false,
+  log: [], finished: false, t0: 0, tq: 0
+};
+function mockPoolFrom(opts){
+  let list = QS.slice();
+  if (opts.scope === "level") list = list.filter(q => q.level === opts.level);
+  else if (opts.scope === "type") list = list.filter(q => q.type === opts.type);
+  else if (opts.scope === "expNo") list = list.filter(q => q.expNo === opts.expNo);
+  else if (opts.scope && opts.scope !== "all") list = list.filter(q => q.src === opts.scope);
+  list.sort(() => Math.random() - 0.5);
+  return list.slice(0, opts.count);
+}
+function renderMock(){
+  if (mock.finished){ renderMockReport(); return; }
+  // 模考进行中离开又返回：恢复计时（不重置剩余时间）
+  if (mock.pool.length > 0 && !mock.timer && mock.remain > 0) startMockTimer(false);
+  if (mock.timer === null && mock.pool.length === 0){
+    const bs = DB.stats.bySrc;
+    const F = DB.facets;
+    const expNos = Object.keys(F.expMeta).filter(k => F.expMeta[k].count > 0);
+    $app.innerHTML =
+      '<div class="mock-wrap"><div class="card setup-card">' +
+        "<h2>模拟面试</h2>" +
+        '<div class="sub">限时作答 → 对照参考 → 即时自评 → 生成复盘报告。建议先完成 1–2 轮刷题再进行。</div>' +
+        '<div class="fld"><div class="fld-label">选题范围</div><div class="opt-row" id="m-scope">' +
+          [["all","综合抽题"]].concat(SRCS.map(s => [s.k, s.short + "（" + s.count + "）"])).concat([["level","按难度"],["type","按题型"],["expNo","按面经套别"]])
+            .map(([k,t]) => '<button class="opt' + (k==="all"?" on":"") + '" data-v="' + k + '">' + t + "</button>").join("") +
+        "</div></div>" +
+        '<div class="fld" id="m-sub-wrap" style="display:none"><div class="fld-label">细分</div><div class="opt-row" id="m-sub"></div></div>' +
+        '<div class="fld"><div class="fld-label">题量</div><div class="opt-row" id="m-count">' +
+          [5,10,15,20].map(n => '<button class="opt' + (n===10?" on":"") + '" data-v="' + n + '">' + n + " 题</button>").join("") +
+        "</div></div>" +
+        '<div class="fld"><div class="fld-label">每题思考时限</div><div class="opt-row" id="m-per">' +
+          [60,90,120,180].map(n => '<button class="opt' + (n===90?" on":"") + '" data-v="' + n + '">' + n + " 秒</button>").join("") +
+        "</div></div>" +
+        '<button class="btn btn-primary reveal-btn" id="m-start">开始模拟面试 →</button>' +
+        '<div class="p-hint">时间到会自动展开参考详解；自评「没思路」的题会进入复盘清单</div>' +
+      "</div></div>";
+    bindMockSetup(expNos);
+    return;
+  }
+  renderMockQuestion();
+}
+function bindMockSetup(expNos){
+  const F = DB.facets;
+  const sel = {scope:"all", count:10, per:90, level:"中级", type:F.types[0], expNo:expNos[0]};
+  const subWrap = document.getElementById("m-sub-wrap");
+  const subBox = document.getElementById("m-sub");
+  function refreshSub(){
+    if (sel.scope === "level"){
+      subWrap.style.display = "";
+      subBox.innerHTML = F.levels.map(l => '<button class="opt' + (l===sel.level?" on":"") + '" data-v="' + l + '">' + l + "</button>").join("");
+    } else if (sel.scope === "type"){
+      subWrap.style.display = "";
+      subBox.innerHTML = F.types.map(t => '<button class="opt' + (t===sel.type?" on":"") + '" data-v="' + t + '">' + t + "</button>").join("");
+    } else if (sel.scope === "expNo"){
+      subWrap.style.display = "";
+      subBox.innerHTML = expNos.map(no => '<button class="opt' + (no===sel.expNo?" on":"") + '" data-v="' + no + '">' + no + " · " + F.expMeta[no].count + " 题</button>").join("");
+    } else {
+      subWrap.style.display = "none"; subBox.innerHTML = "";
+      return;
+    }
+    subBox.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
+      subBox.querySelectorAll(".opt").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      if (sel.scope === "level") sel.level = b.dataset.v;
+      if (sel.scope === "type") sel.type = b.dataset.v;
+      if (sel.scope === "expNo") sel.expNo = b.dataset.v;
+    }));
+  }
+  document.querySelectorAll("#m-scope .opt").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#m-scope .opt").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.scope = b.dataset.v; refreshSub();
+  }));
+  document.querySelectorAll("#m-count .opt").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#m-count .opt").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.count = parseInt(b.dataset.v, 10);
+  }));
+  document.querySelectorAll("#m-per .opt").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#m-per .opt").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); sel.per = parseInt(b.dataset.v, 10);
+  }));
+  document.getElementById("m-start").addEventListener("click", () => {
+    mock.pool = mockPoolFrom(sel);
+    if (mock.pool.length === 0){ toast("该范围没有题目，请调整"); return; }
+    mock.per = sel.per;
+    mock.idx = 0; mock.revealed = false; mock.rated = null; mock.timedOut = false;
+    mock.log = []; mock.finished = false; mock.t0 = Date.now(); mock.tq = Date.now();
+    startMockTimer();
+    renderMock();
+  });
+}
+function startMockTimer(reset){
+  stopMockTimer();
+  if (reset !== false) mock.remain = mock.per;
+  mock.timer = setInterval(() => {
+    mock.remain--;
+    const el = document.getElementById("m-remain");
+    const bar = document.getElementById("m-tbar");
+    if (!el){ stopMockTimer(); return; }
+    el.textContent = fmtTime(Math.max(0, mock.remain));
+    if (mock.remain <= 15){ el.classList.add("warn"); bar && bar.classList.add("warn"); }
+    if (bar) bar.firstElementChild.style.width = Math.max(0, mock.remain / mock.per * 100) + "%";
+    if (mock.remain <= 0){
+      stopMockTimer();
+      if (!mock.revealed){
+        mock.revealed = true; mock.timedOut = true;
+        markSeen(mock.pool[mock.idx].id);
+        renderMockQuestion();
+        toast("时间到，已展开参考详解");
+      }
+    }
+  }, 1000);
+}
+function stopMockTimer(){ if (mock.timer){ clearInterval(mock.timer); mock.timer = null; } }
+function renderMockQuestion(){
+  const q = mock.pool[mock.idx];
+  const p = getProg(q.id);
+  const pct = Math.round(mock.idx / mock.pool.length * 100);
+
+  $app.innerHTML =
+    '<div class="mock-wrap">' +
+      '<div class="m-status">' +
+        '<span class="m-timer" id="m-remain">' + fmtTime(Math.max(0, mock.remain)) + "</span>" +
+        '<div class="m-timer-bar" id="m-tbar"><i style="width:' + Math.max(0, mock.remain / mock.per * 100) + '%"></i></div>' +
+        '<span class="m-step">第 ' + (mock.idx + 1) + " / " + mock.pool.length + " 题</span>" +
+        '<button class="btn btn-ghost btn-sm" id="m-quit">退出</button>' +
+      "</div>" +
+      '<div class="card m-card">' +
+        '<div class="p-tags">' + srcBadge(q) + levelBadge(q.level) + typeBadge(q.type) +
+          (q.expNo ? '<span class="badge b-expno">' + esc(q.expNo) + "</span>" : "") + groupBadge(q) + tagBadges(q) + "</div>" +
+        '<div class="m-q">' + esc(q.q) + "</div>" +
+        '<div class="m-timer-note' + (mock.timedOut ? " show" : "") + '" id="m-tnote">⏰ 时间到——参考详解如下，对照自查表达是否完整</div>' +
+        (mock.revealed
+          ? '<div class="p-ans"><div class="ans">' + fmtAnswer(q.a) + "</div></div>"
+          : '<button class="btn btn-primary reveal-btn" id="m-reveal">我答完了，查看参考</button>') +
+      "</div>" +
+      (mock.revealed ?
+        '<div class="card m-self">' +
+          '<span class="act-label">这一题答得怎么样？</span>' +
+          '<div class="self-row">' +
+            '<button class="self-btn ' + (mock.rated==="smooth"?"on-smooth":"") + '" data-m="smooth">😄 流畅作答</button>' +
+            '<button class="self-btn ' + (mock.rated==="ok"?"on-ok":"") + '" data-m="ok">😐 基本答出</button>' +
+            '<button class="self-btn ' + (mock.rated==="lost"?"on-lost":"") + '" data-m="lost">😰 没思路 / 卡壳</button>' +
+          "</div>" +
+        "</div>" : "") +
+    "</div>";
+
+  document.getElementById("m-quit").addEventListener("click", () => { stopMockTimer(); mock.pool = []; mock.finished = false; renderMock(); });
+  if (!mock.revealed){
+    document.getElementById("m-reveal").addEventListener("click", () => {
+      mock.revealed = true; mock.timedOut = false;
+      markSeen(q.id);
+      renderMockQuestion();
+    });
+  } else {
+    $app.querySelectorAll("[data-m]").forEach(b => b.addEventListener("click", () => {
+      mock.rated = b.dataset.m;
+      const spent = Math.round((Date.now() - mock.tq) / 1000);
+      mock.log.push({
+        qid: q.id, rating: mock.rated, timedOut: mock.timedOut, spent: Math.min(spent, mock.per)
+      });
+      if (mock.idx + 1 >= mock.pool.length){ mock.finished = true; stopMockTimer(); renderMockReport(); return; }
+      mock.idx++; mock.revealed = false; mock.rated = null; mock.timedOut = false; mock.tq = Date.now();
+      startMockTimer();
+      renderMockQuestion();
+    }));
+  }
+}
+function renderMockReport(){
+  const log = mock.log;
+  const n = log.length;
+  const totalSpent = log.reduce((s,l) => s + l.spent, 0);
+  const avg = n ? Math.round(totalSpent / n) : 0;
+  const smooth = log.filter(l => l.rating === "smooth").length;
+  const ok = log.filter(l => l.rating === "ok").length;
+  const lost = log.filter(l => l.rating === "lost").length;
+
+  // 薄弱点：没思路 + 超时 的题，按题型 / 标签聚合
+  const weakQs = log.filter(l => l.rating === "lost" || l.timedOut).map(l => QMAP[l.qid]);
+  const byType = {}, byTag = {};
+  weakQs.forEach(q => {
+    if (q.type) byType[q.type] = (byType[q.type]||0) + 1;
+    q.tags.forEach(t => byTag[t] = (byTag[t]||0) + 1);
+  });
+  const topType = Object.entries(byType).sort((a,b) => b[1]-a[1]).slice(0,5);
+  const topTag = Object.entries(byTag).sort((a,b) => b[1]-a[1]).slice(0,5);
+  const maxBar = Math.max(1, ...topType.map(x => x[1]), ...topTag.map(x => x[1]));
+
+  function bars(entries, color){
+    if (!entries.length) return '<div style="font-size:12.5px;color:var(--faint)">无明显薄弱点，保持住 👍</div>';
+    return '<div class="r-bars">' + entries.map(([k,v]) =>
+      '<div class="rbar-row"><span class="nm">' + esc(k) + '</span>' +
+      '<div class="track"><i style="width:' + (v/maxBar*100) + "%;background:" + color + '"></i></div>' +
+      '<span class="vl">' + v + " 题</span></div>").join("") + "</div>";
+  }
+
+  $app.innerHTML =
+    '<div class="mock-wrap"><div class="card report-card">' +
+      "<h2>面试复盘报告</h2>" +
+      '<div class="sub">本场共 ' + n + " 题 · 总用时 " + fmtTime(totalSpent) + " · 平均每题 " + avg + " 秒</div>" +
+      '<div class="r-grid">' +
+        '<div class="rg g"><b>' + smooth + "</b><span>流畅作答</span></div>" +
+        '<div class="rg a"><b>' + ok + "</b><span>基本答出</span></div>" +
+        '<div class="rg r"><b>' + lost + "</b><span>没思路</span></div>" +
+        '<div class="rg"><b>' + log.filter(l => l.timedOut).length + "</b><span>超时</span></div>" +
+      "</div>" +
+      '<div class="r-sec"><h4>薄弱题型</h4>' + bars(topType, "linear-gradient(90deg,#f59e0b,#ef4444)") + "</div>" +
+      '<div class="r-sec"><h4>薄弱知识点</h4>' + bars(topTag, "linear-gradient(90deg,#8b5cf6,#ec4899)") + "</div>" +
+      (weakQs.length ?
+        '<div class="r-sec"><h4>待强化题目（' + weakQs.length + "）</h4>" +
+          '<div class="weak-list">' + weakQs.map(q =>
+            '<div class="weak-item"><div class="wq">#' + q.no + " " + esc(q.q) + "</div>" +
+            '<div class="wm">' + esc(q.srcName) + " · " + esc(q.level) + " · " + esc(q.type) +
+            (q.expNo ? " · " + esc(q.expNo) : "") + " · " + esc(q.tags.join(" / ")) + "</div></div>").join("") +
+        "</div>" : "") +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">' +
+        '<button class="btn btn-primary" id="r-again">再模拟一场</button>' +
+        '<a class="btn btn-ghost" href="#/practice">去刷题巩固</a>' +
+        '<a class="btn btn-ghost" href="#/bank">回题库</a>' +
+      "</div>" +
+    "</div></div>";
+
+  document.getElementById("r-again").addEventListener("click", () => {
+    mock.pool = []; mock.finished = false; mock.log = []; mock.idx = 0;
+    renderMock();
+  });
+}
+
+/* ==================== 视图：面经 ==================== */
+function renderExp(param){
+  const F = DB.facets;
+  const groups = Object.keys(F.expMeta).filter(k => F.expMeta[k].count > 0);
+
+  if (!param || !F.expMeta[param]){
+    $app.innerHTML =
+      '<div class="sec-title">面经实战 · ' + DB.stats.expGroups + ' 套真实面试记录 <small>按候选人背景对号入座</small></div>' +
+      '<div class="exp-grid">' +
+        groups.map(no => {
+          const g = F.expMeta[no];
+          const qs = QS.filter(q => q.expNo === no);
+          const types = {};
+          qs.forEach(q => { if (q.type) types[q.type] = (types[q.type]||0)+1; });
+          const lv = {"初级":0,"中级":1,"高级":2};
+          const topTypes = Object.entries(types).sort((a,b) => b[1]-a[1]).slice(0,3);
+          const maxLv = qs.reduce((m,q) => Math.max(m, lv[q.level]||0), 0);
+          const lvName = ["初级","中级","高级"][maxLv] || "中级";
+          return '<div class="card exp-card" data-exp-card="' + no + '">' +
+            '<div class="eh"><span class="exp-no">' + no.replace("面经","") + "</span>" +
+              "<div><h3>" + esc(g.title) + "</h3>" +
+              '<div class="ep">' + esc(g.persona) + "</div></div></div>" +
+            '<div class="ec">' + g.count + " 道面试问答 · 难度覆盖至" + lvName + "</div>" +
+            '<div class="emini">' + topTypes.map(([t,c]) => '<span class="badge b-type">' + esc(t) + " " + c + "</span>").join("") + "</div>" +
+          "</div>";
+        }).join("") +
+      "</div>" +
+      '<div class="sec-title">鹅厂 AI PM 三轮面经 <small>同一场面试，一面到三面如何层层加码</small></div>' +
+      '<div class="grid-3">' +
+        F.rounds.filter(r => (F.counts.rounds[r] || 0) > 0).map((r, i) => {
+          const qs = QS.filter(q => q.round === r);
+          const types = {};
+          qs.forEach(q => { if (q.type) types[q.type] = (types[q.type]||0)+1; });
+          const topTypes = Object.entries(types).sort((a,b) => b[1]-a[1]).slice(0,3);
+          return '<div class="card exp-card" data-round-card="' + esc(r) + '">' +
+            '<div class="eh"><span class="exp-no">' + (i + 1) + "</span>" +
+              "<div><h3>第 " + esc(r) + "</h3>" +
+              '<div class="ep">腾讯 AI 产品经理 · ' + qs.length + " 题</div></div></div>" +
+            '<div class="ec">' + (i === 0 ? "基础筛选：背景、动机、产品基本功" : i === 1 ? "专业深挖：项目细节与方案设计" : "终面把关：业务判断与岗位匹配") + "</div>" +
+            '<div class="emini">' + topTypes.map(([t,c]) => '<span class="badge b-type">' + esc(t) + " " + c + "</span>").join("") + "</div>" +
+            '<div class="exp-acts">' +
+              '<a class="mini-btn" href="#/bank?src=tx&round=' + encodeURIComponent(r) + '">浏览题目</a>' +
+              '<a class="mini-btn pri" href="#/practice?src=tx&round=' + encodeURIComponent(r) + '">▶ 练这一轮</a>' +
+            "</div>" +
+          "</div>";
+        }).join("") +
+      "</div>" +
+      '<div class="card note-card" style="margin-top:14px">' +
+        "<b>使用方法：</b>先找到与自己背景最接近的一套面经通读全文，理解面试官的提问逻辑与高分答法；再用「练习这套」做输出训练；最后用「模考这套」做限时自测。各套面经的提问点重合度很高，吃透 2–3 套即可覆盖绝大多数真实面试场景。鹅厂三轮建议按一面 → 二面 → 三面顺序连刷，体会同一份简历被逐轮撬深的节奏。" +
+      "</div>";
+    $app.querySelectorAll("[data-exp-card]").forEach(el =>
+      el.addEventListener("click", () => { location.hash = "#/exp/" + encodeURIComponent(el.dataset.expCard); }));
+    $app.querySelectorAll("[data-round-card]").forEach(el =>
+      el.addEventListener("click", e => {
+        if (e.target.closest("a")) return;   // 让「浏览 / 练习」按钮走自己的链接
+        location.hash = "#/bank?src=tx&round=" + encodeURIComponent(el.dataset.roundCard);
+      }));
+    return;
+  }
+
+  const no = param;
+  const g = F.expMeta[no];
+  const qs = QS.filter(q => q.expNo === no).sort((a,b) => a.no - b.no);
+
+  $app.innerHTML =
+    '<div class="card exp-detail-head">' +
+      '<a class="back" href="#/exp">← 返回全部面经</a>' +
+      "<h2>" + esc(no) + "：" + esc(g.title) + "</h2>" +
+      '<div class="ep2">候选人画像：' + esc(g.persona) + " · 共 " + qs.length + " 题</div>" +
+      '<div class="exp-advice">💡 讲师提示：' + esc(g.advice) + "</div>" +
+      '<div class="exp-detail-actions">' +
+        '<a class="btn btn-primary" href="#/practice?exp=' + encodeURIComponent(no) + '">▶ 练习这套（' + qs.length + " 题）</a>" +
+        '<button class="btn btn-ghost" id="exp-mock">⏱ 用这套题模考</button>' +
+      "</div>" +
+    "</div>" +
+    '<div class="qlist">' + qs.map(q => qCard(q)).join("") + "</div>";
+
+  document.getElementById("exp-mock").addEventListener("click", () => {
+    mock.pool = QS.filter(q => q.expNo === no).sort(() => Math.random() - 0.5).slice(0, 10);
+    if (mock.pool.length === 0){ toast("该套题为空"); return; }
+    mock.per = 90; mock.idx = 0; mock.revealed = false; mock.rated = null; mock.timedOut = false;
+    mock.log = []; mock.finished = false; mock.t0 = Date.now(); mock.tq = Date.now();
+    startMockTimer();
+    location.hash = "#/mock";
+  });
+
+  // 题卡交互
+  document.querySelector(".qlist").addEventListener("click", e => {
+    const card = e.target.closest(".qcard");
+    if (!card) return;
+    const qid = card.dataset.qid;
+    const q = QMAP[qid];
+    if (e.target.closest("[data-fav]")){
+      const on = toggleFav(qid);
+      e.target.closest("[data-fav]").classList.toggle("on", on);
+      e.target.closest("[data-fav]").textContent = on ? "★" : "☆";
+      return;
+    }
+    if (e.target.closest("[data-rate]")){
+      const s = e.target.closest("[data-rate]").dataset.rate;
+      setStatus(qid, s); markSeen(qid);
+      card.querySelector(".qmeta").innerHTML =
+        srcBadge(q) + levelBadge(q.level) + typeBadge(q.type) +
+        (q.expNo ? '<span class="badge b-expno">' + esc(q.expNo) + "</span>" : "") +
+        statusBadge(q) + tagBadges(q) + progBadge(getProg(qid));
+      card.querySelectorAll("[data-rate]").forEach(b => {
+        b.classList.remove("on-k","on-v","on-u");
+        const m = {known:"on-k", vague:"on-v", unknown:"on-u"};
+        if (b.dataset.rate === s) b.classList.add(m[s]);
+      });
+      return;
+    }
+    if (e.target.closest(".qcard-head")){
+      const body = card.querySelector(".qcard-body");
+      const open = body.hasAttribute("hidden");
+      body.toggleAttribute("hidden", !open);
+      card.classList.toggle("open", open);
+      if (open) markSeen(qid);
+    }
+  });
+}
+
+/* ==================== 视图：课程地图 ==================== */
+function renderCourse(){
+  $app.innerHTML =
+    '<div class="sec-title">8 周训练营课程地图 <small>面试备考与课程进度对照</small></div>' +
+    '<div class="course-weeks">' +
+      COURSE.map(wk =>
+        '<div class="card week-card' + (wk.hot ? " hot" : "") + '">' +
+          '<div class="wh"><span class="wno">' + wk.w + "</span><h3>" + wk.t + "</h3>" +
+          (wk.hot ? '<span class="flag">求职关键期</span>' : "") + "</div>" +
+          wk.days.map(d =>
+            '<div class="day"><span class="dn">' + d[0] + '</span><span class="dt">' + d[1] + "<small>" + d[2] + "</small></span></div>").join("") +
+        "</div>").join("") +
+    "</div>" +
+    '<div class="card course-align">' +
+      "<b>题库与课程对齐建议：</b>" +
+      '<div class="align-row"><span class="k">📗 高频 100 题</span><span>覆盖 W1–W5 的专业基础面（大模型通识、产品规划、数据指标、增长商业化、合规），适合开营后即开始每日积累。</span></div>' +
+      '<div class="align-row"><span class="k">📘 面试题库</span><span>覆盖 W2–W3 的模型评测与 Agent/RAG 深度面，学完对应课程周后练习效果最佳。</span></div>' +
+      '<div class="align-row"><span class="k">📙 面经实战 ' + DB.stats.expGroups + ' 套</span><span>对应 W8 面试通关周，配合 W8D2/D3 高频题精讲与 W8D4/D5 模拟面试使用。</span></div>' +
+      '<div class="align-row"><span class="k">🎯 鹅厂三轮面经</span><span>一面筛选 → 二面深挖 → 三面把关的完整追问链，配合 W8D4/D5 模拟面试做对照复盘。</span></div>' +
+      '<div class="align-row"><span class="k">📕 大厂 PM 八股文</span><span>9 大章节从个人情况覆盖到行业认知，对应 W7 简历诊断与面试冲刺阶段的背景类问题自查。</span></div>' +
+      '<div class="align-row"><span class="k">📓 LLM 八股文</span><span>基础面 → 进阶面 → 微调面三部曲，对应 W2 训练与微调原理、W3 Agent/RAG 的技术追问。</span></div>' +
+      '<div class="align-row"><span class="k">🗂 专题题库</span><span>6 大专题横向串联，W6 主项目路演前用它补齐 Transformer / 推荐系统 / VibeCoding 等专项。</span></div>' +
+      '<div class="align-row"><span class="k">⏱ 模拟面试</span><span>建议在 W7 完成简历与作品集后启动，每周至少 1 场，重点复盘「没思路」与「超时」的题。</span></div>' +
+    "</div>";
+}
+
+/* ==================== 键盘快捷键（练习视图） ==================== */
+document.addEventListener("keydown", e => {
+  const view = (location.hash || "#/home").replace("#/","").split("/")[0];
+  if (view !== "practice" || !practice.started) return;
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (e.code === "Space" || e.code === "Enter"){
+    e.preventDefault();
+    if (!practice.revealed) revealPractice();
+    else practiceNext(null);
+  } else if (e.key === "1" && practice.revealed) practiceNext("known");
+  else if (e.key === "2" && practice.revealed) practiceNext("vague");
+  else if (e.key === "3" && practice.revealed) practiceNext("unknown");
+});
+
+/* ==================== 启动 ==================== */
+document.getElementById("ft-date").textContent = DB.generatedAt;
+if (!location.hash) location.hash = "#/home";
+route();
+</script>
+</body>
+</html>

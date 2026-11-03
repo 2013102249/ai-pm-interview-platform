@@ -1,0 +1,136 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblEpbl9nGvblJdU",
+  "rev": 2,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 34,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table1_题库.ndjson",
+  "record_file_size_bytes": 69958,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table1_题库.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U0SksaNL2"
+    },
+    "分类标签": {
+      "field_id": "fld7snKNOF",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.6764705882352942
+      },
+      "example": [
+        "意图识别"
+      ]
+    },
+    "序号": {
+      "field_id": "fldQ4ylgYb",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 1,
+        "max": 34,
+        "avg": 17.5
+      },
+      "example": 1
+    },
+    "数据来源": {
+      "field_id": "fldcxvV9ny",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 47
+      },
+      "example": "《AI 大模型 Agent 面试，超详细（+答案）》截图 · 详解第 1 题"
+    },
+    "状态": {
+      "field_id": "flduGx5gRz",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "已有详解"
+      ]
+    },
+    "答案解析": {
+      "field_id": "fldl8T8eET",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 1941
+      },
+      "example": "【答题要点｜原文未给详解，以下为补充框架】\n\n· Models：LLM / ChatModel / Embedding 的统一封装。\n· Prompts：模板、变量、Few-shot 示例管理。\n· Chains：把调用串成可组合的流水线（LCEL）。\n·",
+      "example_truncated": true
+    },
+    "考察维度": {
+      "field_id": "fldNfCULFS",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.6176470588235294
+      },
+      "example": [
+        "多 Agent 协作"
+      ]
+    },
+    "难度": {
+      "field_id": "fldwl5zR9i",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "中级"
+      ]
+    },
+    "题型": {
+      "field_id": "fld0dwUEdW",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "方案设计"
+      ]
+    },
+    "题目": {
+      "field_id": "fldoNqa5ET",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 34
+      },
+      "example": "如何评估 Agent 的好坏？"
+    }
+  }
+}

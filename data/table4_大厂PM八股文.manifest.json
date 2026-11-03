@@ -1,0 +1,135 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblvlwFeOd4qm3oE",
+  "rev": 3,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 72,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table4_大厂PM八股文.ndjson",
+  "record_file_size_bytes": 106435,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table4_大厂PM八股文.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U4CQULEr1"
+    },
+    "分类标签": {
+      "field_id": "fldvBRPnso",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 1.4444444444444444
+      },
+      "example": [
+        "机器学习基础"
+      ]
+    },
+    "序号": {
+      "field_id": "fldgV5Vf3d",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 250,
+        "max": 321,
+        "avg": 285.5
+      },
+      "example": 250
+    },
+    "数据来源": {
+      "field_id": "fldv2wjWq6",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 24
+      },
+      "example": "《大厂产品经理面试题八股文》截图 · 个人情况"
+    },
+    "状态": {
+      "field_id": "fldZuzosSb",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "已有详解"
+      ]
+    },
+    "章节": {
+      "field_id": "flduRquvxU",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "一、个人情况类"
+      ]
+    },
+    "答案解析": {
+      "field_id": "fldtfN36B0",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 1131
+      },
+      "example": "第四章有详细介绍"
+    },
+    "难度": {
+      "field_id": "fld4tkKumo",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "中级"
+      ]
+    },
+    "题型": {
+      "field_id": "fld9cLHAP3",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "观点判断"
+      ]
+    },
+    "题目": {
+      "field_id": "fldquoXJQY",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 66
+      },
+      "example": "自我介绍？"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "UDXYbBLFqaQtrnsF8Mncn2PDndg",
+  "table_id": "tblWfbxCptbttB00",
+  "rev": 3,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 2000,
+  "records_count": 48,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table6_LLM八股文.ndjson",
+  "record_file_size_bytes": 73371,
+  "manifest_file": "/Users/mac/WorkBuddy/2026-10-31-22-06-21/ai-pm-interview-platform/data/table6_LLM八股文.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 16
+      },
+      "example": "reczz28U4eKR8kEh"
+    },
+    "分类标签": {
+      "field_id": "fldL2Csgaw",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 2,
+        "avg_length": 2
+      },
+      "example": [
+        "模型训练与评估",
+        "技术架构与选型"
+      ]
+    },
+    "分部": {
+      "field_id": "fldr3UMl4z",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "基础面"
+      ]
+    },
+    "序号": {
+      "field_id": "fldX64z5WO",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 358,
+        "max": 405,
+        "avg": 381.5
+      },
+      "example": 358
+    },
+    "数据来源": {
+      "field_id": "fldVDRENZ3",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 24
+      },
+      "example": "《大厂大模型（LLMs）八股文》截图 · 基础面"
+    },
+    "答案解析": {
+      "field_id": "fldg5OPurC",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 6386
+      },
+      "example": "模型版本\n\n原模型大小（FP16）\n\n量化后大小（8-bit）\n\n量化后大小（4-bit）"
+    },
+    "难度": {
+      "field_id": "flddxR5HBh",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "高级"
+      ]
+    },
+    "题型": {
+      "field_id": "fldHi0yviW",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "概念解释"
+      ]
+    },
+    "题目": {
+      "field_id": "fldVePkSeI",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 56
+      },
+      "example": "llama 系列问题"
+    }
+  }
+}
