@@ -68,10 +68,25 @@ bash scripts/sync.sh
 
 ## 部署
 
-`index.html`（约 816 KB）为自包含单文件，任意静态托管均可（GitHub Pages、WorkBuddy 发布、Nginx、对象存储等），也可直接通过微信 / 飞书发送给学员离线使用。
+`index.html`（约 820 KB）为自包含单文件，任意静态托管均可，也可直接通过微信 / 飞书发送给学员离线使用。
 
-- 当前线上链接：<https://ai-pm-interview-486.app.workbuddy.host/?sharecode=ML5MQW3TYD>（应用 ID `wbapp_9y43duPDpjybrl0id6j6u2`）
-- 重新发布：构建完成后让助手在当前工作区执行发布，或直接上传 `index.html` 覆盖
+### GitHub Pages（主发布渠道）
+
+- 站点地址：<https://2013102249.github.io/ai-pm-interview-platform/>
+- 仓库：<https://github.com/2013102249/ai-pm-interview-platform>
+- 自动部署：`.github/workflows/deploy-pages.yml`，推送到 `main` 后自动发布（仅上传 `index.html`，源码与数据不对外）
+
+更新流程：
+
+```bash
+bash scripts/sync.sh          # 拉取飞书多维表格并重新编译
+git add -A && git commit -m "同步题库"
+git push origin main          # 触发 Actions 自动部署
+```
+
+### WorkBuddy 云端发布（备用）
+
+- 站点地址：<https://ai-pm-interview-486.app.workbuddy.host/?sharecode=ML5MQW3TYD>（应用 ID `wbapp_9y43duPDpjybrl0id6j6u2`）
 - 历史说明：早期版本曾发布到另一账号名下的应用（`wbapp_bQ0VYY4coZ2Sfpk6Uet3SM`），该记录已备份到 `.workbuddy/backup/2026-11-02/`，与本项目当前发布链无关
 
 > 发布应用的归属由**当前工作区**的 `.workbuddy/applications.yaml` 决定，而不是部署目录。
@@ -79,11 +94,11 @@ bash scripts/sync.sh
 
 ## 当前数据版本
 
-- 题目总数：486（面试题库 34 · 高频 100 题 100 · 面经实战 115 · 大厂 PM 八股文 72 · 鹅厂三轮面经 36 · LLM 八股文 48 · 专题题库 81）
-- 序号连续：1–486，无缺号无重号，题卡 #序号 与表格「序号」一一对应
+- 题目总数：511（面试题库 34 · 高频 100 题 100 · 面经实战 115 · 大厂 PM 八股文 72 · 鹅厂三轮面经 36 · LLM 八股文 48 · 专题题库 106）
+- 序号连续：1–511，无缺号无重号，题卡 #序号 与表格「序号」一一对应
 - 面经分组：10 套（面经一 21 · 面经二 15 · 面经三 10 · 面经四 15 · 面经五 8 · 面经六 8 · 面经七 11 · 面经八 10 · 面经九 9 · 面经十 8）+ 鹅厂三轮各 12 题
-- 分册维度：大厂八股 9 章节 · 鹅厂 3 轮 · LLM 3 分部 · 专题 6 个（某大厂 LLM 26 / Transformer 19 / 产品经理基础 13 / 阿里大模型 8 / VibeCoding 8 / 推荐系统 7）
-- 难度分布：初级 23 · 中级 239 · 高级 224
+- 分册维度：大厂八股 9 章节 · 鹅厂 3 轮 · LLM 3 分部 · 专题 8 个（某大厂 LLM 26 / 鹅厂大模型技术面 22 / Transformer 19 / 产品经理基础 13 / 阿里大模型 8 / VibeCoding 8 / 推荐系统 7 / 智能客服 3）
+- 难度分布：初级 23 · 中级 251 · 高级 237
 - 题型覆盖：概念解释 107 / 方法流程 99 / 观点判断 90 / 经历描述 69 / 对比分析 45 / 方案设计 38 / 场景设计 20 / 概念辨析 12 / 指标设计 6
 
 > 构建脚本会自动识别多维表格中新增的面经套别（中文数字泛匹配）并派生分组元数据，
