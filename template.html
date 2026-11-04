@@ -152,6 +152,9 @@ a{color:var(--blue);text-decoration:none}
 }
 .chip:hover{border-color:var(--purple);color:var(--purple-deep)}
 .chip.on{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:500}
+.chip .cn{font-size:11px;opacity:.6;margin-left:5px}
+.chip.on .cn{opacity:.85}
+.chip.more{border-style:dashed;color:var(--purple-deep)}
 .result-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:8px}
 .result-bar b{color:var(--purple-deep)}
 
@@ -1002,7 +1005,7 @@ function renderHome(){
 /* ==================== 视图：题库 ==================== */
 const bankState = {
   src: "all", level: "", type: "", tags: new Set(), exps: new Set(),
-  chapter: "", round: "", part: "", topic: "",
+  chapter: "", round: "", part: "", topic: "", topicExpanded: false,
   q: "", sort: "no", shown: 24
 };
 function bankFilter(){
@@ -1061,8 +1064,20 @@ function renderBank(){
   const GROUP_FACET = {pm:["章节","chapter","chapters"], tx:["轮次","round","rounds"],
                        llm:["分部","part","parts"], topic:["专题","topic","topics"]};
   const gf = GROUP_FACET[bankState.src];
-  const groupRow = gf ? fRow(gf[0], F[gf[2]].map(v =>
-    '<button class="chip ' + (bankState[gf[1]] === v ? "on" : "") + '" data-group="' + gf[1] + '" data-val="' + esc(v) + '">' + esc(v) + "</button>").join("")) : "";
+  let groupRow = "";
+  if (gf){
+    const all = F[gf[2]];
+    const isTopic = gf[1] === "topic";
+    const LIMIT = 12;
+    const list = isTopic && !bankState.topicExpanded && all.length > LIMIT ? all.slice(0, LIMIT) : all;
+    const chips = list.map(v =>
+      '<button class="chip ' + (bankState[gf[1]] === v ? "on" : "") + '" data-group="' + gf[1] + '" data-val="' + esc(v) + '">' +
+        esc(v) + (isTopic ? '<span class="cn">' + (F.counts.topics[v] || 0) + "</span>" : "") + "</button>").join("");
+    const more = isTopic && all.length > LIMIT
+      ? '<button class="chip more" data-group-more="1">' + (bankState.topicExpanded ? "收起 ⌃" : "更多 " + (all.length - LIMIT) + " 个 ⌄") + "</button>"
+      : "";
+    groupRow = fRow(gf[0], chips + more);
+  }
   const showExpRow = bankState.src === "all" || bankState.src === "exp";
 
   $app.innerHTML =
@@ -1164,6 +1179,7 @@ function bindBank(){
     bankState.src = b.dataset.src;
     // 分册维度与面经筛选只对各自数据源有效，切换来源时一并清理
     bankState.chapter = ""; bankState.round = ""; bankState.part = ""; bankState.topic = "";
+    bankState.topicExpanded = false;
     bankState.exps.clear();
     bankState.shown = 24; renderBank();
   }));
@@ -1193,6 +1209,10 @@ function bindBank(){
     const t = b.dataset.exp;
     bankState.exps.has(t) ? bankState.exps.delete(t) : bankState.exps.add(t);
     bankState.shown = 24; renderBank();
+  }));
+  document.querySelectorAll("[data-group-more]").forEach(b => b.addEventListener("click", () => {
+    bankState.topicExpanded = !bankState.topicExpanded;
+    renderBank();
   }));
   document.querySelectorAll("[data-group]").forEach(b => b.addEventListener("click", () => {
     const key = b.dataset.group, val = b.dataset.val;

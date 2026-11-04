@@ -161,6 +161,24 @@ PART_ORDER = {"基础面": 0, "进阶面": 1, "微调面": 2}
 CHAPTER_PREFIX = re.compile(r"^\s*([一二三四五六七八九十]+)\s*[、.．]")
 
 
+def load_deploy_env():
+    """读取 .deploy.env 里的部署配置（API 地址 / 分享码），不覆盖已有环境变量。
+
+    这样 `bash scripts/sync.sh` 这类只调 build.py 的流程不会把登录配置弄丢。
+    """
+    path = BASE / ".deploy.env"
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key, value = key.strip(), value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
 def load_ndjson(name: str) -> list:
     path = DATA_DIR / name
     if not path.exists():
@@ -314,6 +332,7 @@ def build_facets(questions: list) -> dict:
 
 
 def main():
+    load_deploy_env()
     questions = normalize()
     facets = build_facets(questions)
 

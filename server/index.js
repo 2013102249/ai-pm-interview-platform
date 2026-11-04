@@ -180,6 +180,14 @@ async function findProgress(account) {
   return (data.items || [])[0] || null;
 }
 
+const progressIds = new Map();   // account -> record_id，省掉每次同步的一次检索
+
+async function putProgress(recordId, fields) {
+  await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_PROGRESS}/records/${recordId}`, {
+    method: 'PUT', body: { fields },
+  });
+}
+
 async function upsertProgress(account, name, stats, detail, device) {
   const now = Date.now();
   const fields = {
@@ -198,17 +206,30 @@ async function upsertProgress(account, name, stats, detail, device) {
     进度明细: detail || '',
     设备: device || '',
   };
+
+  const cached = progressIds.get(account);
+  if (cached) {
+    try {
+      await putProgress(cached, fields);
+      return { updated: true, recordId: cached };
+    } catch (e) {
+      if (e.code !== 1254043) throw e;     // 记录被删除了，回落到重新检索
+      progressIds.delete(account);
+    }
+  }
+
   const hit = await findProgress(account);
   if (hit) {
-    await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_PROGRESS}/records/${hit.record_id}`, {
-      method: 'PUT', body: { fields },
-    });
+    progressIds.set(account, hit.record_id);
+    await putProgress(hit.record_id, fields);
     return { updated: true, recordId: hit.record_id };
   }
   const data = await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_PROGRESS}/records`, {
     method: 'POST', body: { fields },
   });
-  return { updated: false, recordId: (data.record || {}).record_id };
+  const recordId = (data.record || {}).record_id;
+  if (recordId) progressIds.set(account, recordId);
+  return { updated: false, recordId };
 }
 
 /* ---------------------------- HTTP 工具 ---------------------------- */
