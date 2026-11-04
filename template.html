@@ -52,6 +52,16 @@ a{color:var(--blue);text-decoration:none}
 .wrap{max-width:1120px;margin:0 auto;padding:22px 16px 60px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
 
+/* ---------- 术语词库 ---------- */
+.terms-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.terms-shell{
+  height:calc(100vh - 156px);min-height:540px;max-height:1150px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.terms-shell iframe{width:100%;height:100%;border:0;display:block}
+@media (max-width:640px){ .terms-shell{height:calc(100vh - 132px);min-height:480px;border-radius:12px} }
+
 /* ---------- 首页 ---------- */
 .hero{
   background:linear-gradient(135deg,#4c1d95 0%,var(--purple) 45%,var(--blue) 100%);
@@ -894,7 +904,7 @@ function fmtTime(sec){
 
 /* ==================== 路由 ==================== */
 const NAV = [
-  ["home","首页"], ["bank","题库"], ["practice","练习"], ["mock","模拟面试"], ["exp","面经"], ["course","课程地图"]
+  ["home","首页"], ["terms","术语"], ["bank","题库"], ["practice","练习"], ["mock","模拟面试"], ["exp","面经"], ["course","课程地图"]
 ];
 function renderNav(){
   const cur = (location.hash || "#/home").replace("#/","").split("/")[0] || "home";
@@ -912,7 +922,8 @@ function route(){
   let param = parts[1] || "";
   if (param) { try { param = decodeURIComponent(param); } catch(e){} }
   window.scrollTo({top:0});
-  if (view === "bank") renderBank();
+  if (view === "terms") renderTerms();
+  else if (view === "bank") renderBank();
   else if (view === "practice") renderPractice();
   else if (view === "mock") renderMock();
   else if (view === "exp") renderExp(param);
@@ -920,6 +931,24 @@ function route(){
   else renderHome();
 }
 window.addEventListener("hashchange", route);
+
+/* ==================== 视图：术语词库 ==================== */
+let termsFrame = null;
+function renderTerms(){
+  $app.innerHTML =
+    '<div class="terms-head">' +
+      '<div class="sec-title" style="margin:0">术语概念词库 <small>AI 核心术语 × 题库频次标注 · 搜索 / 分类筛选 / 随机自测</small></div>' +
+      '<a class="btn btn-ghost" href="glossary/index.html" target="_blank" rel="noopener">新窗口打开 ↗</a>' +
+    "</div>" +
+    '<div class="terms-shell" id="termsShell"></div>';
+  const shell = document.getElementById("termsShell");
+  if (!termsFrame){
+    termsFrame = document.createElement("iframe");
+    termsFrame.src = "glossary/index.html";
+    termsFrame.title = "AI 产品经理术语概念词库";
+  }
+  shell.appendChild(termsFrame);
+}
 
 /* ==================== 视图：首页 ==================== */
 function renderHome(){

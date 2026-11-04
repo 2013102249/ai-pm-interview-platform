@@ -26,9 +26,10 @@ jobs:
 
       - name: Stage site
         run: |
-          mkdir -p _site
+          mkdir -p _site/glossary
           cp index.html _site/index.html
-          # 站点为单文件零依赖应用，仅发布 index.html，不暴露源码与数据表导出
+          cp glossary/index.html _site/glossary/index.html
+          # 站点为单文件零依赖应用，仅发布 index.html 与术语词库页，不暴露源码与数据表导出
 
       - name: Configure Pages
         uses: actions/configure-pages@v4
