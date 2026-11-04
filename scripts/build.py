@@ -333,6 +333,7 @@ def build_facets(questions: list) -> dict:
 
 def main():
     load_deploy_env()
+    inline = ("--inline" in sys.argv) or os.environ.get("AIPM_INLINE") == "1"
     questions = normalize()
     facets = build_facets(questions)
 
@@ -363,18 +364,36 @@ def main():
     }
 
     # 防 </script> 提前闭合：< 统一转义为 \u003c（JSON 合法转义）
-    data_json = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    def dump(obj):
+        return json.dumps(obj, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
 
     if not TEMPLATE.exists():
         sys.exit(f"[build] 缺少模板文件: {TEMPLATE}")
     html = TEMPLATE.read_text(encoding="utf-8")
     if "__DATA_JSON__" not in html:
         sys.exit("[build] 模板中未找到 __DATA_JSON__ 占位符")
+
+    # 默认拆分：HTML 只带统计与维度，题库走 data/qbank.json 异步加载，首屏不被 1MB 数据拖住
+    # --inline：把题库内联进单文件，便于离线双击使用（体积约 1.2MB）
+    if inline:
+        data_json = dump(payload)
+        data_mode = "inline"
+    else:
+        boot = {k: v for k, v in payload.items() if k != "questions"}
+        boot["questionCount"] = len(payload["questions"])
+        data_json = dump(boot)
+        data_mode = "split"
+        qbank = BASE / "data" / "qbank.json"
+        qbank.write_text(
+            dump({"generatedAt": payload["generatedAt"], "questions": payload["questions"]}),
+            encoding="utf-8",
+        )
     # 登录 / 进度同步服务地址；为空时应用以本地模式运行（不强制登录）
     api_base = os.environ.get("AIPM_API_BASE", "").strip().rstrip("/")
     api_sharecode = os.environ.get("AIPM_API_SHARECODE", "").strip()
     html = html.replace("__API_BASE__", api_base)
     html = html.replace("__API_SHARECODE__", api_sharecode)
+    html = html.replace("__DATA_MODE__", data_mode)
     html = html.replace("__DATA_JSON__", data_json)
 
     OUTPUT.write_text(html, encoding="utf-8")
@@ -384,6 +403,11 @@ def main():
     print(f"[build] 难度: {by_level}")
     print(f"[build] 面经分组: {payload['stats']['expGroups']} 套 / 鹅厂 {payload['stats']['txRounds']} 轮")
     print(f"[build] 专题: {facets['counts']['topics']}")
+    qbank_path = BASE / "data" / "qbank.json"
+    if inline:
+        print("[build] 数据模式: 内联单文件（可离线双击）")
+    else:
+        print(f"[build] 数据模式: 拆分（data/qbank.json {qbank_path.stat().st_size / 1024:.0f} KB）")
     print(f"[build] 登录服务: {api_base or '未配置（本地模式）'}")
     print(f"[build] 输出: {OUTPUT} ({size_kb:.0f} KB)")
 

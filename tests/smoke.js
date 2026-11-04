@@ -6,8 +6,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
 
-const HTML = path.resolve(__dirname, '..', 'index.html');
-const html = fs.readFileSync(HTML, 'utf8');
+const ROOT = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const qbank = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'qbank.json'), 'utf8'));
 
 let pass = 0, fail = 0;
 const ok = (cond, label, extra) => {
@@ -30,8 +31,11 @@ const dom = new JSDOM(html, {
     win.localStorage.setItem('aipm_auth_v1', JSON.stringify({
       account: '1001', name: '测试学员', token: 'test', expiresAt: Date.now() + 864e5,
     }));
-    // 避免同步请求打到真实服务
-    win.fetch = () => Promise.reject(new Error('offline'));
+    // 题库走本地 JSON，其余请求视为离线
+    win.fetch = async (u) => {
+      if (String(u).includes('qbank.json')) return { ok: true, status: 200, json: async () => qbank };
+      throw new Error('offline');
+    };
   },
 });
 const win = dom.window, doc = win.document;
@@ -43,6 +47,7 @@ const go = async h => { win.location.hash = h; await tick(); await tick(); };
 
 (async () => {
   await new Promise(r => win.addEventListener('load', r, { once: true }));
+  for (let i = 0; i < 60 && !win.eval('DATA_READY'); i++) await tick();
   await tick();
 
   const DB = win.eval('DB');

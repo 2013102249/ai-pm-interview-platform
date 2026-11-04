@@ -389,6 +389,15 @@ a{color:var(--blue);text-decoration:none}
 .footer{border-top:1px solid var(--line);padding:22px 16px 30px;text-align:center;font-size:12px;color:var(--faint);line-height:2}
 .footer b{color:var(--muted)}
 
+/* ---------- 加载态 ---------- */
+.load-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 140px)}
+.load-card{padding:34px 40px;text-align:center;max-width:420px}
+.load-card b{display:block;font-size:15px;margin-top:14px}
+.load-card .sub{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.7}
+.load-spin{width:34px;height:34px;margin:0 auto;border-radius:50%;border:3px solid var(--line);border-top-color:var(--purple);animation:spin .8s linear infinite}
+.load-err{font-size:30px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 /* ---------- 登录页 ---------- */
 body.auth-mode .nav,body.auth-mode .src-note,body.auth-mode #userbox,body.auth-mode .footer{display:none}
 body.auth-mode .wrap{display:flex;align-items:center;min-height:calc(100vh - 58px)}
@@ -508,14 +517,35 @@ body.auth-mode .wrap{display:flex;align-items:center;min-height:calc(100vh - 58p
 "use strict";
 /* ==================== 数据 ==================== */
 const DB = __DATA_JSON__;
-const QS = DB.questions;
+const DATA_MODE = "__DATA_MODE__";
+let QS = DB.questions || [];
 const QMAP = {};
 QS.forEach(q => QMAP[q.id] = q);
+let DATA_READY = DATA_MODE === "inline";
 const SRCS = DB.sources || [];
 const SRCMAP = {};
 SRCS.forEach(s => SRCMAP[s.k] = s);
 /* 分册维度：每道题按所属数据表带一个分组字段（章节 / 轮次 / 分部 / 专题） */
 function qGroup(q){ return q.chapter || q.round || q.part || q.topic || ""; }
+
+/* 题库数据异步加载：HTML 外壳先到，1MB 题库在后台下载，不阻塞首屏与登录 */
+let bankPromise = null;
+function ensureBank(){
+  if (DATA_READY) return Promise.resolve(true);
+  if (bankPromise) return bankPromise;
+  const ver = (DB.generatedAt || "").replace(/\D/g, "");
+  bankPromise = fetch("data/qbank.json?v=" + ver)
+    .then(r => { if (!r.ok) throw new Error("题库加载失败（HTTP " + r.status + "）"); return r.json(); })
+    .then(j => {
+      const list = j.questions || [];
+      QS.length = 0;
+      for (const q of list){ QS.push(q); QMAP[q.id] = q; }
+      DATA_READY = true;
+      return true;
+    })
+    .catch(e => { bankPromise = null; throw e; });
+  return bankPromise;
+}
 
 /* ==================== 课程地图（静态参考，源自训练营 8 周大纲） ==================== */
 const COURSE = [
@@ -709,6 +739,29 @@ function flushSync(){
   if (syncState === "pending" || syncState === "error") pushProgress(true);
 }
 
+/* ---------------- 加载态 ---------------- */
+function renderLoading(){
+  document.body.classList.remove("auth-mode");
+  document.getElementById("nav") && (document.getElementById("nav").innerHTML = "");
+  $app.innerHTML =
+    '<div class="load-wrap"><div class="card load-card">' +
+      '<div class="load-spin"></div>' +
+      "<b>正在加载题库</b>" +
+      '<div class="sub">共 ' + (DB.stats ? DB.stats.total : 0) + " 道真题 · 首次打开需要几秒，之后会走浏览器缓存</div>" +
+    "</div></div>";
+}
+function renderLoadError(e){
+  $app.innerHTML =
+    '<div class="load-wrap"><div class="card load-card">' +
+      '<div class="load-err">⚠️</div>' +
+      "<b>题库加载失败</b>" +
+      '<div class="sub">' + esc(e && e.message ? e.message : "网络异常") + "</div>" +
+      '<button class="btn btn-primary" id="load-retry" style="margin-top:14px">重新加载</button>' +
+    "</div></div>";
+  const b = document.getElementById("load-retry");
+  if (b) b.addEventListener("click", () => { renderLoading(); ensureBank().then(() => route()).catch(err => renderLoadError(err)); });
+}
+
 /* ---------------- 登录页 ---------------- */
 function renderLogin(msg){
   document.body.classList.add("auth-mode");
@@ -776,6 +829,7 @@ function renderLogin(msg){
       if (!r.ok) throw new Error(j.error || "登录失败，请稍后重试");
       saveAuth({ account: j.account, name: j.name, token: j.token, expiresAt: j.expiresAt });
       switchAccount(j.account);
+      if (!DATA_READY){ btn.textContent = "加载题库…"; await ensureBank(); }
       await restoreFromCloud(j.token);
       enterApp();
     } catch(e){
@@ -925,6 +979,11 @@ function renderNav(){
 }
 function route(){
   if (!AUTH){ renderLogin(); return; }
+  if (!DATA_READY){
+    renderLoading();
+    ensureBank().then(() => route()).catch(e => renderLoadError(e));
+    return;
+  }
   renderNav();
   // hash 形如 #/bank?src=pm：先剥离查询串再解析路径，否则 view 会带上 "?src=…" 而落到首页
   const raw = (location.hash || "#/home").slice(2);
@@ -1904,6 +1963,7 @@ document.getElementById("ft-date").textContent = DB.generatedAt;
 if (!AUTH){
   document.body.classList.add("auth-mode");
   renderLogin();
+  ensureBank().catch(() => {});      // 边登录边下题库
 } else {
   renderUserbox();
   if (syncState === "pending" || syncState === "error") scheduleSync();

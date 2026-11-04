@@ -15,6 +15,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const zlib = require('node:zlib');
 
 /* ------------------------------ 配置 ------------------------------ */
 function loadEnv(file) {
@@ -281,7 +282,21 @@ function clientIp(req) {
 }
 
 /* ---------------------------- 静态文件 ---------------------------- */
-const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+
+// 静态资源 gzip（带 mtime 缓存，避免重复压缩 1MB 题库）
+const gzipCache = new Map();
+function gzipFor(file, buf) {
+  let st;
+  try { st = fs.statSync(file); } catch { return null; }
+  const key = file + ':' + st.mtimeMs + ':' + buf.length;
+  const hit = gzipCache.get(key);
+  if (hit) return hit;
+  const gz = zlib.gzipSync(buf, { level: 6 });
+  if (gzipCache.size > 20) gzipCache.clear();
+  gzipCache.set(key, gz);
+  return gz;
+}
 
 function serveStatic(req, res, pathname) {
   let rel = decodeURIComponent(pathname);
@@ -298,7 +313,14 @@ function serveStatic(req, res, pathname) {
       });
       return;
     }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
+    const type = MIME[path.extname(file)] || 'application/octet-stream';
+    const headers = { 'Content-Type': type, 'Cache-Control': 'no-cache', Vary: 'Accept-Encoding' };
+    if (buf.length > 1024 && /text|json|javascript|css|svg/.test(type) && /\bgzip\b/.test(String(req.headers['accept-encoding'] || ''))) {
+      const gz = gzipFor(file, buf);
+      if (gz) { headers['Content-Encoding'] = 'gzip'; headers['Content-Length'] = gz.length; res.writeHead(200, headers); return res.end(gz); }
+    }
+    headers['Content-Length'] = buf.length;
+    res.writeHead(200, headers);
     res.end(buf);
   });
 }
