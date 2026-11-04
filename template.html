@@ -530,17 +530,38 @@ function qGroup(q){ return q.chapter || q.round || q.part || q.topic || ""; }
 
 /* 题库数据异步加载：HTML 外壳先到，1MB 题库在后台下载，不阻塞首屏与登录 */
 let bankPromise = null;
+const QBANK_CACHE = "aipm_qbank_v1";
+
+function applyBank(list){
+  QS.length = 0;
+  for (const q of list){ QS.push(q); QMAP[q.id] = q; }
+  DATA_READY = true;
+}
+
+/* 版本一致的本地缓存直接命中，二次打开几乎瞬时 */
+function readBankCache(){
+  try {
+    const raw = localStorage.getItem(QBANK_CACHE);
+    if (!raw) return null;
+    const o = JSON.parse(raw);
+    if (o && o.v === DB.generatedAt && Array.isArray(o.questions) && o.questions.length) return o.questions;
+  } catch(e){}
+  return null;
+}
+
 function ensureBank(){
   if (DATA_READY) return Promise.resolve(true);
   if (bankPromise) return bankPromise;
+  const cached = readBankCache();
+  if (cached){ applyBank(cached); return Promise.resolve(true); }
+
   const ver = (DB.generatedAt || "").replace(/\D/g, "");
   bankPromise = fetch("data/qbank.json?v=" + ver)
     .then(r => { if (!r.ok) throw new Error("题库加载失败（HTTP " + r.status + "）"); return r.json(); })
     .then(j => {
       const list = j.questions || [];
-      QS.length = 0;
-      for (const q of list){ QS.push(q); QMAP[q.id] = q; }
-      DATA_READY = true;
+      applyBank(list);
+      try { localStorage.setItem(QBANK_CACHE, JSON.stringify({ v: DB.generatedAt, questions: list })); } catch(e){}
       return true;
     })
     .catch(e => { bankPromise = null; throw e; });
