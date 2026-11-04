@@ -58,7 +58,7 @@ ai-pm-interview-platform/
 ├── server/
 │   ├── index.js          # 登录与进度同步服务（Node 原生 http，零依赖）
 │   └── .env.example      # 飞书应用凭据模板（复制为 .env，勿提交）
-├── data/                 # 多维表格导出的原始数据（ndjson）
+├── data/                 # 多维表格导出的原始数据（ndjson）+ 构建产物 qbank.json
 │   ├── table1_题库.ndjson            # 34 题 · Agent 深度专项
 │   ├── table2_高频100题.ndjson       # 100 题 · 通用高频
 │   ├── table3_面经实战.ndjson        # 115 题 · 10 套真实面经
@@ -128,6 +128,20 @@ git push origin main        # Actions 自动发布前端
 
 - WorkBuddy 托管网关要求请求带 `?sharecode=ML5MQW3TYD`，否则返回「链接不完整」；分享码已编译进页面
 - 该网关会**覆盖请求的 `Authorization` 头**，因此会话令牌通过自定义头 `X-Session` 传递（服务端兼容三种：X-Session → Authorization → `?t=`）
+
+## 加载性能
+
+首屏拆成两段，登录页不再等题库：
+
+| 资源 | 原始 | gzip | 作用 |
+|---|---|---|---|
+| `index.html` | 111 KB | **32 KB** | 页面外壳 + 统计 + 交互逻辑，决定首屏 |
+| `data/qbank.json` | 1.1 MB | **358 KB** | 775 道题全文，登录页渲染后后台下载 |
+
+- 题库加载有**版本缓存**（localStorage `aipm_qbank_v1`）：数据没变时二次打开不再下载
+- 题库未就绪时显示「正在加载题库」，失败可重试；登录成功后若仍未就绪会等待加载完成
+- 需要离线单文件（可双击打开、微信发送）时，用 `python3 scripts/build.py --inline`，会把题库内联回 HTML
+- 部署注意：GitHub Actions 需一并发布 `data/qbank.json`（工作流已包含）
 
 ## 当前数据版本
 

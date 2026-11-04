@@ -112,7 +112,26 @@ const go = async h => { win.location.hash = h; await tick(); await tick(); };
   await go('#/course');
   ok($$('.week-card').length === 8, '课程地图 8 周');
 
-  console.log('[6] 运行期');
+  console.log('[6] 首屏不依赖题库数据');
+  {
+    const dom2 = new JSDOM(html, {
+      runScripts: 'dangerously', pretendToBeVisual: true,
+      url: 'https://example.com/', virtualConsole: new VirtualConsole(),
+      beforeParse(w) {
+        w.scrollTo = () => {};
+        w.fetch = () => new Promise(() => {});   // 题库请求永不返回，模拟慢网
+      },
+    });
+    const w2 = dom2.window;
+    await new Promise(r => w2.addEventListener('load', r, { once: true }));
+    await tick();
+    const loginVisible = !!w2.document.querySelector('#lg-account');
+    ok(loginVisible, '题库未就绪时登录页已渲染', loginVisible ? '' : '未渲染');
+    ok(w2.eval('DATA_READY') === false, '此时题库确实未加载');
+    dom2.window.close();
+  }
+
+  console.log('[7] 运行期');
   ok(errors.length === 0, '无 JS 运行错误', errors.slice(0, 2).join(' | '));
 
   console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
