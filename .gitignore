@@ -5,3 +5,6 @@ _site/
 server/.env
 .deploy.env
 node_modules/
+
+server/env.json
+server/*.bak-*

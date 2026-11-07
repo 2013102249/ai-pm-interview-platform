@@ -26,10 +26,11 @@ jobs:
 
       - name: Stage site
         run: |
-          mkdir -p _site/glossary _site/data
+          mkdir -p _site/glossary _site/data _site/assets
           cp index.html _site/index.html
           cp glossary/index.html _site/glossary/index.html
           cp data/qbank.json _site/data/qbank.json
+          cp -r assets/. _site/assets/
           # 站点为单文件零依赖应用，仅发布 index.html 与术语词库页，不暴露源码与数据表导出
 
       - name: Configure Pages

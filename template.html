@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AI 产品经理面试备考平台 · 新像素训练营</title>
+<link rel="icon" href="assets/favicon.png" type="image/png">
 <style>
 :root{
   --bg:#f4f5fa; --card:#ffffff; --line:#e6e8f2; --line2:#eef0f7;
@@ -39,6 +40,7 @@ a{color:var(--blue);text-decoration:none}
   background:linear-gradient(135deg,var(--purple),var(--blue));box-shadow:0 3px 8px -2px rgba(124,58,237,.45)
 }
 .logo small{font-weight:500;color:var(--muted);font-size:12px;margin-left:1px}
+.logo-img{height:30px;width:auto;display:block;flex-shrink:0}
 .nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
 .nav::-webkit-scrollbar{display:none}
 .nav a{
@@ -413,7 +415,8 @@ body.auth-mode .wrap{display:flex;align-items:center;min-height:calc(100vh - 58p
 .auth-brand::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
 .auth-brand::before{content:"";position:absolute;right:20px;bottom:-90px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06)}
 .auth-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;position:relative}
-.auth-logo .logo-mark{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);box-shadow:none}
+.auth-logo-chip{background:#fff;border-radius:9px;padding:5px 9px;display:inline-flex;align-items:center;box-shadow:0 4px 14px -6px rgba(0,0,0,.35)}
+.auth-logo-chip img{height:40px;width:auto;display:block}
 .auth-brand h2{font-size:22px;font-weight:800;line-height:1.45;margin-top:26px;position:relative}
 .auth-brand p{font-size:13px;opacity:.85;margin-top:10px;line-height:1.8;position:relative}
 .auth-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:24px;position:relative}
@@ -496,8 +499,8 @@ body.auth-mode .wrap{display:flex;align-items:center;min-height:calc(100vh - 58p
 <header class="topbar">
   <div class="topbar-inner">
     <div class="logo">
-      <span class="logo-mark">PM</span>
-      <span>AI 产品经理面试备考平台 <small>新像素训练营</small></span>
+      <img class="logo-img" src="assets/logo-mark.png" alt="新像素" width="87" height="30">
+      <span>AI 产品经理面试备考平台</span>
     </div>
     <nav class="nav" id="nav"></nav>
     <div class="userbox" id="userbox"></div>
@@ -772,11 +775,15 @@ function renderLoading(){
     "</div></div>";
 }
 function renderLoadError(e){
+  const local = location.protocol === "file:";
+  const tip = local
+    ? "当前离线单文件模式不支持拆分加载：请改用在线链接，或用 <code>python3 scripts/build.py --inline</code> 生成可双击的离线版"
+    : esc(e && e.message ? e.message : "网络异常");
   $app.innerHTML =
     '<div class="load-wrap"><div class="card load-card">' +
       '<div class="load-err">⚠️</div>' +
       "<b>题库加载失败</b>" +
-      '<div class="sub">' + esc(e && e.message ? e.message : "网络异常") + "</div>" +
+      '<div class="sub">' + tip + "</div>" +
       '<button class="btn btn-primary" id="load-retry" style="margin-top:14px">重新加载</button>' +
     "</div></div>";
   const b = document.getElementById("load-retry");
@@ -789,7 +796,7 @@ function renderLogin(msg){
   $app.innerHTML =
     '<div class="auth-shell">' +
       '<div class="auth-brand">' +
-        '<div class="auth-logo"><span class="logo-mark">PM</span><span>新像素 · AI 产品经理训练营</span></div>' +
+        '<div class="auth-logo"><span class="auth-logo-chip"><img src="assets/logo.png" alt="新像素" width="82" height="40"></span><span>AI 产品经理训练营</span></div>' +
         '<h2>AI 产品经理面试备考平台</h2>' +
         "<p>" + DB.stats.total + " 道真题、" + DB.stats.srcCount + " 大专项题库、" + DB.stats.expGroups + " 套真实面经，配刷题、限时模考与掌握度跟踪，逐题打到面试通关。</p>" +
         '<div class="auth-stats">' +

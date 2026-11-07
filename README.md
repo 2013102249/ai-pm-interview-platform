@@ -55,6 +55,9 @@ ai-pm-interview-platform/
 ├── scripts/
 │   ├── sync.sh           # 从飞书多维表格刷新数据并重新编译
 │   └── build.py          # 数据规范化 + 将 JSON / API 地址注入模板生成 index.html
+├── assets/
+│   ├── logo.png          # 新像素完整 logo（新像素 + UIXS.COM），用于登录页
+│   └── logo-mark.png     # 只含「新像素」主标，用于顶栏与 favicon
 ├── server/
 │   ├── index.js          # 登录与进度同步服务（Node 原生 http，零依赖）
 │   └── .env.example      # 飞书应用凭据模板（复制为 .env，勿提交）

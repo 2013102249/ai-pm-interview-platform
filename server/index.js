@@ -32,6 +32,13 @@ function loadEnv(file) {
   }
 }
 loadEnv(path.join(__dirname, '.env'));
+// 托管环境若过滤隐藏文件（.env），用同目录 env.json 兜底，避免线上服务变成未配置状态
+try {
+  const fallback = JSON.parse(fs.readFileSync(path.join(__dirname, 'env.json'), 'utf8'));
+  for (const [k, v] of Object.entries(fallback)) {
+    if (!(k in process.env)) process.env[k] = String(v);
+  }
+} catch { /* 没有兜底文件时保持原逻辑 */ }
 
 const PORT = Number(process.env.PORT || 3000);
 const APP_ID = process.env.FEISHU_APP_ID || '';
@@ -39,6 +46,8 @@ const APP_SECRET = process.env.FEISHU_APP_SECRET || '';
 const BASE_TOKEN = process.env.FEISHU_BASE_TOKEN || 'UDXYbBLFqaQtrnsF8Mncn2PDndg';
 const T_ACCOUNT = process.env.FEISHU_TABLE_ACCOUNT || 'tblL2xHFCj3Yzaro';
 const T_PROGRESS = process.env.FEISHU_TABLE_PROGRESS || 'tblhcHe8RI1WCm1E';
+const T_LEARN = process.env.FEISHU_TABLE_LEARN || 'tblgBY1Psa8z94xi';   // 学习平台「学习进度」表（独立表，不与刷题进度互相覆盖）
+const T_ANIM = process.env.FEISHU_TABLE_ANIM || 'tbldEwNzVEQaxkLb';     // 2D 教学动画「动画学习进度」表（独立表）
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const SESSION_TTL = 7 * 24 * 3600 * 1000;                       // 7 天
 const ALLOW_ORIGINS = (process.env.ALLOW_ORIGIN || '*').split(',').map(s => s.trim()).filter(Boolean);
@@ -233,6 +242,125 @@ async function upsertProgress(account, name, stats, detail, device) {
   return { updated: false, recordId };
 }
 
+/* ------------------------ 学习平台进度（独立表，互不影响） ------------------------ */
+const learnIds = new Map();   // account -> record_id
+
+async function findLearn(account) {
+  const data = await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_LEARN}/records/search`, {
+    method: 'POST',
+    body: {
+      filter: { conjunction: 'and', conditions: [{ field_name: '登记账号', operator: 'is', value: [account] }] },
+      automatic_fields: false,
+    },
+  });
+  return (data.items || [])[0] || null;
+}
+
+async function putLearn(recordId, fields) {
+  await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_LEARN}/records/${recordId}`, {
+    method: 'PUT', body: { fields },
+  });
+}
+
+async function upsertLearn(account, name, stats, detail, device) {
+  const now = Date.now();
+  const fields = {
+    登记账号: account,
+    姓名: name || '',
+    完成天数: Number(stats.days) || 0,
+    习题掌握: Number(stats.quiz) || 0,
+    面试真题: Number(stats.qbank) || 0,
+    里程碑: Number(stats.milestones) || 0,
+    交付物归档: Number(stats.deliverables) || 0,
+    综合进度: Number(stats.rate) || 0,
+    学习明细: detail || '',
+    设备: device || '',
+    最近同步: now,
+  };
+  const cached = learnIds.get(account);
+  if (cached) {
+    try {
+      await putLearn(cached, fields);
+      return { updated: true, recordId: cached };
+    } catch (e) {
+      if (e.code !== 1254043) throw e;
+      learnIds.delete(account);
+    }
+  }
+  const hit = await findLearn(account);
+  if (hit) {
+    learnIds.set(account, hit.record_id);
+    await putLearn(hit.record_id, fields);
+    return { updated: true, recordId: hit.record_id };
+  }
+  const data = await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_LEARN}/records`, {
+    method: 'POST', body: { fields },
+  });
+  const recordId = (data.record || {}).record_id;
+  if (recordId) learnIds.set(account, recordId);
+  return { updated: false, recordId };
+}
+
+/* ------------------------ 动画学习进度（独立表，互不影响） ------------------------ */
+const animIds = new Map();   // account -> record_id
+
+async function findAnim(account) {
+  const data = await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_ANIM}/records/search`, {
+    method: 'POST',
+    body: {
+      filter: { conjunction: 'and', conditions: [{ field_name: '登记账号', operator: 'is', value: [account] }] },
+      automatic_fields: false,
+    },
+  });
+  return (data.items || [])[0] || null;
+}
+
+async function putAnim(recordId, fields) {
+  await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_ANIM}/records/${recordId}`, {
+    method: 'PUT', body: { fields },
+  });
+}
+
+async function upsertAnim(account, name, klass, stats, detail, device, lastStudy) {
+  const now = Date.now();
+  const fields = {
+    登记账号: account,
+    姓名: name || '',
+    已完成动画数: Number(stats.done) || 0,
+    完成率: Number(stats.rate) || 0,
+    流程动画完成: Number(stats.flow) || 0,
+    步骤动画完成: Number(stats.steps) || 0,
+    对比动画完成: Number(stats.compare) || 0,
+    动画明细: detail || '',
+    最近学习: Number(lastStudy) || now,
+    设备: device || '',
+    最近同步: now,
+  };
+  if (klass) fields.班级 = klass;   // 不传时保留表中已有班级，避免被空值覆盖
+  const cached = animIds.get(account);
+  if (cached) {
+    try {
+      await putAnim(cached, fields);
+      return { updated: true, recordId: cached };
+    } catch (e) {
+      if (e.code !== 1254043) throw e;
+      animIds.delete(account);
+    }
+  }
+  const hit = await findAnim(account);
+  if (hit) {
+    animIds.set(account, hit.record_id);
+    await putAnim(hit.record_id, fields);
+    return { updated: true, recordId: hit.record_id };
+  }
+  const data = await feishuApi(`/bitable/v1/apps/${BASE_TOKEN}/tables/${T_ANIM}/records`, {
+    method: 'POST', body: { fields },
+  });
+  const recordId = (data.record || {}).record_id;
+  if (recordId) animIds.set(account, recordId);
+  return { updated: false, recordId };
+}
+
 /* ---------------------------- HTTP 工具 ---------------------------- */
 function cors(req, res) {
   const origin = req.headers.origin || '';
@@ -407,6 +535,72 @@ const server = http.createServer(async (req, res) => {
           seen: f['已练习'] || 0, known: f['已掌握'] || 0, vague: f['模糊'] || 0,
           unknown: f['待重学'] || 0, fav: f['收藏'] || 0, total: f['题库总量'] || 0,
         },
+        syncedAt: f['最近同步'] || 0,
+      });
+    }
+
+    // 学习平台：共用同一套学员会话，进度写独立的「学习进度」表
+    if (p === '/api/learn-progress' && req.method === 'POST') {
+      if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
+      const session = sessionOf(req, url);
+      if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
+      const body = await readBody(req);
+      const stats = body.stats || {};
+      const detail = typeof body.detail === 'string' ? body.detail.slice(0, 120000) : '';
+      const device = typeof body.device === 'string' ? body.device.slice(0, 40) : '';
+      const r = await upsertLearn(session.a, session.n, stats, detail, device);
+      return json(res, 200, { ok: true, ...r, syncedAt: Date.now() });
+    }
+
+    if (p === '/api/learn-progress' && req.method === 'GET') {
+      if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
+      const session = sessionOf(req, url);
+      if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
+      const hit = await findLearn(session.a);
+      if (!hit) return json(res, 200, { found: false });
+      const f = hit.fields || {};
+      return json(res, 200, {
+        found: true,
+        detail: fieldText(f['学习明细']),
+        stats: {
+          days: f['完成天数'] || 0, quiz: f['习题掌握'] || 0, qbank: f['面试真题'] || 0,
+          milestones: f['里程碑'] || 0, deliverables: f['交付物归档'] || 0, rate: f['综合进度'] || 0,
+        },
+        syncedAt: f['最近同步'] || 0,
+      });
+    }
+
+    // 2D 教学动画学习页：共用同一套学员会话，进度写独立的「动画学习进度」表
+    if (p === '/api/animation-progress' && req.method === 'POST') {
+      if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
+      const session = sessionOf(req, url);
+      if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
+      const body = await readBody(req);
+      const stats = body.stats || {};
+      const detail = typeof body.detail === 'string' ? body.detail.slice(0, 120000) : '';
+      const device = typeof body.device === 'string' ? body.device.slice(0, 40) : '';
+      const klass = typeof body.klass === 'string' ? body.klass.slice(0, 40) : '';
+      const lastStudy = Number(body.lastStudy) || Date.now();
+      const r = await upsertAnim(session.a, session.n, klass, stats, detail, device, lastStudy);
+      return json(res, 200, { ok: true, ...r, syncedAt: Date.now() });
+    }
+
+    if (p === '/api/animation-progress' && req.method === 'GET') {
+      if (!CONFIGURED) return json(res, 503, { error: '同步服务未配置' });
+      const session = sessionOf(req, url);
+      if (!session) return json(res, 401, { error: '登录已过期，请重新登录' });
+      const hit = await findAnim(session.a);
+      if (!hit) return json(res, 200, { found: false });
+      const f = hit.fields || {};
+      return json(res, 200, {
+        found: true,
+        detail: fieldText(f['动画明细']),
+        stats: {
+          done: f['已完成动画数'] || 0, rate: f['完成率'] || 0,
+          flow: f['流程动画完成'] || 0, steps: f['步骤动画完成'] || 0, compare: f['对比动画完成'] || 0,
+        },
+        klass: fieldText(f['班级']),
+        lastStudy: f['最近学习'] || 0,
         syncedAt: f['最近同步'] || 0,
       });
     }
