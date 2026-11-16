@@ -40,6 +40,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .mode-btn{appearance:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#E4DFFF;font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:999px;cursor:pointer;transition:.18s}
 .mode-btn:hover{background:rgba(255,255,255,.18)}
 .mode-btn.on{background:#fff;color:var(--primary-deep);border-color:#fff}
+.mode-btn.match{background:linear-gradient(120deg,#8B5CF6,#4C3A9E);border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.4)}
+.mode-btn.match:hover{filter:brightness(1.08);background:linear-gradient(120deg,#7C3AED,#4338CA)}
 
 /* ===== 工具栏（悬浮卡） ===== */
 .toolbar-wrap{max-width:1200px;margin:-52px auto 0;padding:0 20px;position:relative;z-index:5}
@@ -188,6 +190,7 @@ body.embedded footer{padding-bottom:28px}
       <div class="stat"><b>775</b><span>真题提炼</span></div>
     </div>
     <div class="modebar">
+      <button class="mode-btn match" id="btnMatch" title="按周/天配对术语与解释，边玩边记">🧩 术语配对</button>
       <button class="mode-btn on" id="btnBrowse">📖 词条浏览</button>
       <button class="mode-btn" id="btnFlash">🎴 随机自测</button>
     </div>
@@ -424,6 +427,11 @@ $("#overlay").addEventListener("click", e=>{
 });
 $("#btnBrowse").addEventListener("click", ()=>setFlashMode(false));
 $("#btnFlash").addEventListener("click", ()=>setFlashMode(true));
+$("#btnMatch").addEventListener("click", ()=>{
+  var url = new URL("matching.html", window.location.href).href;
+  if (window.self !== window.top) { window.open(url, "_top"); }
+  else { window.open(url, "_blank", "noopener"); }
+});
 $("#flashCard").addEventListener("click", flipCard);
 $("#fFlip").addEventListener("click", flipCard);
 $("#fNext").addEventListener("click", nextCard);
