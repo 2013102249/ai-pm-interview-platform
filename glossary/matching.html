@@ -151,30 +151,32 @@ footer{max-width:1240px;margin:0 auto;padding:0 18px 22px}
   .toolbar{padding:8px 10px;border-radius:12px}
   .filter-row{padding:4px 0;gap:6px}
   .filter-label{min-width:34px;font-size:11px}
-  /* 筛选 chip 与按钮：触控目标 ≥ 36px，且可横向滑动不换行挤压 */
-  .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .chips::-webkit-scrollbar{display:none}
-  .chip,.chip.wk{padding:7px 11px;font-size:12px;min-height:36px;display:inline-flex;align-items:center;flex:0 0 auto}
+  /* 筛选 chip 与按钮：触控目标 ≥ 36px；允许换行，确保每周/每天全部选项可见 */
+  .chips{flex-wrap:wrap}
+  /* spacer 会与 chips 平分宽度，把每天 chips 压到 104px 只剩 2 列——手机端移除 */
+  .spacer{display:none}
+  .chip,.chip.wk{padding:6px 10px;font-size:12px;min-height:36px;display:inline-flex;align-items:center}
   .chip .topic{display:none}
-  .mini-btn{min-height:36px;padding:7px 12px;font-size:12px}
+  .mini-btn{min-height:36px;padding:7px 12px;font-size:12px;margin-left:auto}
   /* 进度条：定位胶囊允许换行，杜绝横向溢出 */
   .statbar{gap:7px;padding-top:5px;font-size:11px;flex-wrap:wrap}
   .locate{font-size:10.5px;padding:3px 9px;white-space:normal;word-break:break-word;max-width:100%}
   .bar{min-width:70px}
   .tip{display:none}
   main{padding:0 12px 14px;margin-top:9px}
-  .groups{gap:7px}
-  .group-hd{padding:6px 9px;font-size:11px;gap:4px}
-  .group-hd .g-range{font-size:9.5px;white-space:nowrap}
-  .cols{gap:6px;padding:7px}
-  .col-hd{padding-bottom:4px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .list{gap:4px}
-  /* 卡片：触控目标 ≥ 40px，字号提升到可读区间 */
-  .card{padding:7px 7px;min-height:40px;border-radius:8px}
-  .card .main{font-size:11.5px}
-  .card .definition{font-size:10.5px;line-height:1.4;-webkit-line-clamp:3;overflow-wrap:anywhere}
-  .card .idx{min-width:17px;height:17px;font-size:9px;margin-right:5px}
-  .card.matched::after{right:6px;top:6px;font-size:12px}
+  /* 两组上下堆叠：每组占满全宽，组内仍是「术语 | 解释」两列，可读性优先 */
+  .groups{grid-template-columns:1fr;gap:10px}
+  .group-hd{padding:8px 12px;font-size:12.5px;gap:4px}
+  .group-hd .g-range{font-size:10.5px;white-space:nowrap}
+  .cols{gap:8px;padding:9px}
+  .col-hd{padding-bottom:4px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .list{gap:5px}
+  /* 卡片：触控目标 ≥ 44px，字号提升到可读区间 */
+  .card{padding:9px 11px;min-height:44px;border-radius:9px}
+  .card .main{font-size:13px}
+  .card .definition{font-size:12px;line-height:1.5;-webkit-line-clamp:3;overflow-wrap:anywhere}
+  .card .idx{min-width:20px;height:20px;font-size:10px;margin-right:7px}
+  .card.matched::after{right:8px;top:8px;font-size:13px}
   .toast{left:12px;right:12px;transform:translateY(20px);max-width:none;text-align:center}
   .toast.show{transform:translateY(0)}
   footer{padding:0 12px calc(14px + env(safe-area-inset-bottom))}
@@ -186,12 +188,12 @@ footer{max-width:1240px;margin:0 auto;padding:0 18px 22px}
   .hero h1{font-size:16px}
   .mode-btn{font-size:11px;padding:7px 10px;min-height:34px}
   .chip,.chip.wk{font-size:11px;min-height:34px;padding:6px 9px}
-  .group-hd{font-size:10px;padding:5px 7px}
-  .group-hd .g-range{font-size:9px}
-  .card{min-height:38px;padding:6px 5px}
-  .card .main{font-size:11px}
-  .card .definition{font-size:10px;-webkit-line-clamp:3}
-  .card .idx{min-width:15px;height:15px;font-size:8.5px;margin-right:4px}
+  .group-hd{font-size:11.5px;padding:7px 10px}
+  .group-hd .g-range{font-size:10px}
+  .card{min-height:42px;padding:8px 9px}
+  .card .main{font-size:12px}
+  .card .definition{font-size:11px;line-height:1.45;-webkit-line-clamp:3}
+  .card .idx{min-width:18px;height:18px;font-size:9px;margin-right:6px}
 }
 
 /* ===== 横屏矮屏手机（高度≤500）：两组并排 + 头部单行化，尽量一屏看全 ===== */
@@ -205,10 +207,10 @@ footer{max-width:1240px;margin:0 auto;padding:0 18px 22px}
   .toolbar{padding:3px 8px;gap:0;flex-direction:row;flex-wrap:wrap;align-items:center}
   .filter-row{width:auto;flex:1 1 auto;border:0;padding:1px 6px 1px 0;gap:4px}
   .filter-label{font-size:9.5px;min-width:26px}
-  .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-  .chips::-webkit-scrollbar{display:none}
+  .chips{flex-wrap:wrap}
   .chip,.chip.wk{min-height:26px;padding:3px 8px;font-size:10px}
-  .mini-btn{min-height:26px;padding:3px 8px;font-size:10px}
+  .mini-btn{min-height:26px;padding:3px 8px;font-size:10px;margin-left:auto}
+  .spacer{display:none}
   .statbar{order:3;width:100%;padding-top:1px;font-size:9.5px;gap:6px}
   .locate{font-size:9px;padding:1px 7px;white-space:nowrap}
   .bar{height:5px;min-width:50px}
