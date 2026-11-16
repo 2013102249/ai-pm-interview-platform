@@ -19,112 +19,138 @@
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 
-/* ===== 顶部 Hero（与词库页一致） ===== */
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1E1B33 0%,#3B2A6B 55%,#4C3A9E 100%);color:#fff;padding:44px 24px 88px}
+/* ===== 顶部 Hero（紧凑，与词库页同款视觉） ===== */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1E1B33 0%,#3B2A6B 55%,#4C3A9E 100%);color:#fff;padding:18px 24px 52px}
 .hero::before{content:"";position:absolute;inset:0;background:
   radial-gradient(600px 300px at 85% -10%,rgba(124,58,237,.45),transparent 60%),
   radial-gradient(500px 260px at 5% 110%,rgba(37,99,235,.35),transparent 60%);pointer-events:none}
 .hero::after{content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;
   background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
   background-size:44px 44px;mask-image:radial-gradient(700px 400px at 70% 20%,#000,transparent)}
-.hero-in{position:relative;max-width:1200px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.14em;color:#C9BFFF;font-weight:600}
-.brand .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#A78BFA,#60A5FA);box-shadow:0 0 12px rgba(167,139,250,.9)}
-.hero h1{margin-top:18px;font-size:clamp(26px,4.2vw,42px);font-weight:800;letter-spacing:.01em}
+.hero-in{position:relative;max-width:1240px;margin:0 auto}
+.brand{display:none}
+.hero-in .title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero h1{margin:0;font-size:clamp(19px,2.6vw,27px);font-weight:800;letter-spacing:.01em}
 .hero h1 .grad{background:linear-gradient(100deg,#C4B5FD 0%,#93C5FD 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero p.sub{margin-top:10px;max-width:680px;color:#BDB6E4;font-size:14.5px}
-.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-.stat{display:flex;align-items:baseline;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);border-radius:12px;padding:10px 16px}
-.stats .stat b{font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
-.stats .stat span{font-size:12.5px;color:#C9C3E8}
-.modebar{position:absolute;right:0;top:6px;display:flex;gap:8px}
-.mode-btn{appearance:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#E4DFFF;font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:999px;cursor:pointer;transition:.18s;text-decoration:none;display:inline-block}
+.hero p.sub{margin-top:4px;max-width:760px;color:#BDB6E4;font-size:12px}
+.stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.stat{display:flex;align-items:baseline;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:4px 10px}
+.stats .stat b{font-size:14px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+.stats .stat span{font-size:10.5px;color:#C9C3E8}
+.modebar{display:flex;gap:7px;flex-wrap:wrap}
+.mode-btn{appearance:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#E4DFFF;font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;cursor:pointer;transition:.18s;text-decoration:none;display:inline-block;white-space:nowrap}
 .mode-btn:hover{background:rgba(255,255,255,.18)}
 .mode-btn.solid{background:#fff;color:var(--primary-deep);border-color:#fff}
 .mode-btn.solid:hover{background:#F5F3FF}
 
-/* ===== 工具栏（悬浮卡） ===== */
-.toolbar-wrap{max-width:1200px;margin:-52px auto 0;padding:0 20px;position:relative;z-index:5}
-.toolbar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
-.filter-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line)}
+/* ===== 工具栏（紧凑悬浮卡） ===== */
+.toolbar-wrap{max-width:1240px;margin:-34px auto 0;padding:0 18px;position:relative;z-index:5}
+.toolbar{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:9px 12px;display:flex;flex-direction:column;gap:2px}
+.filter-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:4px 0;border-bottom:1px dashed var(--line)}
 .filter-row:last-of-type{border-bottom:0}
-.filter-label{font-size:12px;font-weight:800;color:var(--primary-deep);min-width:52px;padding-top:7px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
-.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink-2);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer;transition:.15s}
+.filter-label{font-size:11px;font-weight:800;color:var(--primary-deep);min-width:40px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;flex:1}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink-2);font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;cursor:pointer;transition:.15s;white-space:nowrap}
 .chip:hover{border-color:#C4B5FD;color:var(--primary-deep)}
-.chip.active{background:linear-gradient(120deg,var(--primary),var(--primary-deep));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.3)}
-.chip.wk{font-size:13px;padding:7px 15px}
-.chip .topic{font-weight:500;opacity:.72;margin-left:4px;font-size:11px}
+.chip.active{background:linear-gradient(120deg,var(--primary),var(--primary-deep));border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(124,58,237,.28)}
+.chip.wk{font-size:12px;padding:5px 12px}
+.chip .topic{font-weight:500;opacity:.72;margin-left:4px;font-size:10.5px}
 .spacer{flex:1}
-.mini-btn{appearance:none;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary-deep);font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:12px;cursor:pointer;transition:.15s;white-space:nowrap}
+.mini-btn{appearance:none;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary-deep);font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:10px;cursor:pointer;transition:.15s;white-space:nowrap}
 .mini-btn:hover{background:var(--primary);color:#fff}
-.statbar{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--ink-3);padding-top:8px;flex-wrap:wrap}
-.bar{flex:1;min-width:120px;height:7px;background:var(--bg);border-radius:6px;overflow:hidden}
+.statbar{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--ink-3);padding-top:5px;flex-wrap:wrap}
+.bar{flex:1;min-width:100px;height:6px;background:var(--bg);border-radius:6px;overflow:hidden}
 .bar>i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .3s}
-.statbar b{color:var(--primary-deep);font-size:13px;font-variant-numeric:tabular-nums}
-.locate{font-size:12px;color:var(--primary-deep);font-weight:700;background:var(--primary-ghost);border:1px solid #E4DBFB;border-radius:999px;padding:4px 12px;white-space:nowrap}
-.tip{margin-top:6px;font-size:12px;color:var(--ink-3)}
+.statbar b{color:var(--primary-deep);font-size:12px;font-variant-numeric:tabular-nums}
+.locate{font-size:11px;color:var(--primary-deep);font-weight:700;background:var(--primary-ghost);border:1px solid #E4DBFB;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.tip{margin-top:3px;font-size:11px;color:var(--ink-3)}
 
 /* ===== 引导占位 ===== */
-.gate{max-width:1200px;margin:26px auto 0;padding:0 20px}
-.gate-in{background:var(--surface);border:1.5px dashed #C4B5FD;border-radius:var(--radius);padding:56px 20px;text-align:center;color:var(--ink-2)}
-.gate .g-ico{font-size:38px}
-.gate .g-t{font-size:16px;font-weight:800;color:var(--primary-deep);margin-top:12px}
-.gate .g-s{font-size:13px;margin-top:8px;color:var(--ink-3)}
+.gate{max-width:1240px;margin:16px auto 0;padding:0 18px}
+.gate-in{background:var(--surface);border:1.5px dashed #C4B5FD;border-radius:var(--radius);padding:44px 20px;text-align:center;color:var(--ink-2)}
+.gate .g-ico{font-size:34px}
+.gate .g-t{font-size:15px;font-weight:800;color:var(--primary-deep);margin-top:10px}
+.gate .g-s{font-size:12px;margin-top:6px;color:var(--ink-3)}
 
-/* ===== 配对游戏双栏 ===== */
-main{max-width:1200px;margin:26px auto 0;padding:0 20px 80px}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-.col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.col-hd{padding:13px 18px;font-size:13.5px;font-weight:800;color:#fff;display:flex;justify-content:space-between;align-items:center}
-.col.left .col-hd{background:linear-gradient(100deg,var(--primary),#8B5CF6)}
-.col.right .col-hd{background:linear-gradient(100deg,var(--accent),#3B82F6)}
-.col-hd .hint{font-weight:600;opacity:.85;font-size:11.5px}
-.list{padding:12px;max-height:64vh;overflow-y:auto;scrollbar-width:thin}
-.card{border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px;cursor:pointer;transition:transform .16s,box-shadow .16s,border-color .16s,background .16s;background:var(--surface);position:relative;user-select:none}
-.card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#D8CFF7}
-.card .idx{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;background:var(--bg);color:var(--ink-3);border-radius:7px;font-size:10.5px;font-weight:800;margin-right:8px}
-.card .main{font-size:14px;font-weight:700;line-height:1.45}
-.card .sub{font-size:10.5px;color:var(--ink-3);margin-top:3px;line-height:1.4}
-.card .definition{font-size:13px;line-height:1.6;color:var(--ink-2)}
-.card.selected{border-color:var(--primary);background:var(--primary-ghost);box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+/* ===== 配对游戏：2 组并排，每组 6 对，一屏看全 ===== */
+main{max-width:1240px;margin:14px auto 0;padding:0 18px 24px}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.group{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.group-hd{padding:8px 13px;font-size:12.5px;font-weight:800;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.group.g-a .group-hd{background:linear-gradient(100deg,var(--primary),#8B5CF6)}
+.group.g-b .group-hd{background:linear-gradient(100deg,var(--accent),#3B82F6)}
+.group-hd .g-range{font-weight:600;opacity:.9;font-size:11px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:9px;align-items:start}
+.col-hd{padding:0 2px 5px;font-size:11px;font-weight:800;color:var(--ink-3);letter-spacing:.04em}
+.list{display:flex;flex-direction:column;gap:4px}
+.card{border:1.4px solid var(--line);border-radius:9px;padding:7px 9px;cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s,background .14s;background:var(--surface);position:relative;user-select:none;min-height:38px;display:flex;align-items:center}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:#D8CFF7}
+.card .idx{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;background:var(--bg);color:var(--ink-3);border-radius:6px;font-size:10px;font-weight:800;margin-right:7px;flex:0 0 auto}
+.card .main{font-size:12.5px;font-weight:700;line-height:1.35}
+.card .sub{display:none}
+.card .definition{font-size:11.5px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card.selected{border-color:var(--primary);background:var(--primary-ghost);box-shadow:0 0 0 3px rgba(124,58,237,.12)}
 .card.selected .idx{background:var(--primary);color:#fff}
-.card.matched{border-color:var(--ok-bd);background:var(--ok-bg);cursor:default;opacity:.92}
+.card.matched{border-color:var(--ok-bd);background:var(--ok-bg);cursor:default;opacity:.94}
 .card.matched:hover{transform:none;box-shadow:none}
 .card.matched .idx{background:var(--ok);color:#fff}
 .card.matched .main,.card.matched .definition{color:#065F46}
-.card.matched::after{content:"✓";position:absolute;right:12px;top:9px;color:var(--ok);font-weight:900;font-size:15px}
+.card.matched::after{content:"✓";position:absolute;right:9px;top:7px;color:var(--ok);font-weight:900;font-size:13px}
 .card.wrong{border-color:var(--err-bd);background:var(--err-bg);animation:shake .38s ease}
 .card.wrong .idx{background:var(--err);color:#fff}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-.win{display:none;background:linear-gradient(100deg,#ECFDF5,#D1FAE5);border:1px solid var(--ok-bd);border-radius:var(--radius);padding:16px;text-align:center;color:#065F46;font-weight:800;font-size:15px;margin-top:16px}
+.win{display:none;background:linear-gradient(100deg,#ECFDF5,#D1FAE5);border:1px solid var(--ok-bd);border-radius:12px;padding:11px;text-align:center;color:#065F46;font-weight:800;font-size:13px;margin-top:12px}
 .win.show{display:block;animation:pop .4s ease}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1E1B33;color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:.24s;z-index:99;box-shadow:0 8px 22px rgba(0,0,0,.2)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);background:#1E1B33;color:#fff;font-size:12.5px;font-weight:600;padding:9px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:.24s;z-index:99;box-shadow:0 8px 22px rgba(0,0,0,.2)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ===== 页脚 ===== */
-footer{max-width:1200px;margin:0 auto;padding:0 20px 46px}
-.foot-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;font-size:12.5px;color:var(--ink-3);display:flex;gap:14px;align-items:flex-start}
-.foot-card .fi{font-size:18px;line-height:1}
+footer{max-width:1240px;margin:0 auto;padding:0 18px 22px}
+.foot-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:11px 16px;font-size:11px;color:var(--ink-3);display:flex;gap:10px;align-items:flex-start}
+.foot-card .fi{font-size:16px;line-height:1}
 .foot-card b{color:var(--ink-2)}
 .foot-card a{color:var(--primary-deep);font-weight:700;text-decoration:none}
 .foot-card a:hover{text-decoration:underline}
 
-@media (max-width:640px){
-  .hero{padding:34px 18px 76px}
-  .modebar{position:static;margin-top:18px;flex-wrap:wrap}
-  .toolbar-wrap{margin-top:-46px}
-  .cols{gap:10px}
-  .list{max-height:62vh;padding:8px}
-  .card{padding:9px;margin-bottom:7px}
-  .card .main{font-size:11.5px}.card .sub{font-size:9px}.card .definition{font-size:10.5px;line-height:1.5}
-  .card .idx{min-width:17px;height:17px;font-size:9px;margin-right:5px}
-  .chip{padding:5px 9px;font-size:11px}
-  .chip.wk{font-size:11px;padding:6px 10px}
+/* 平板/窄桌面：两组仍并排，仅微缩卡片（并排是一屏看全的关键） */
+@media (max-width:980px){
+  .groups{gap:10px}
+  .card{padding:6px 8px;min-height:34px}
+  .card .main{font-size:11.5px}
+  .card .definition{font-size:10.5px;line-height:1.4;-webkit-line-clamp:2}
+  .group-hd{padding:7px 10px;font-size:11.5px}
+  .col-hd{padding-bottom:4px;font-size:10.5px}
+}
+/* 窄手机：仍保持两组并排（一屏看全），改窄列 + 小字号 + 截断 */
+@media (max-width:560px){
+  .groups{gap:6px}
+  .hero{padding:12px 13px 30px}
+  .hero h1{font-size:18px}
+  .hero p.sub,.stats{display:none}
+  .modebar .mode-btn{padding:5px 10px;font-size:11px}
+  .toolbar-wrap{margin-top:-20px;padding:0 10px}
+  .toolbar{padding:6px 8px}
+  .filter-row{padding:2px 0;gap:5px}
+  .chip{padding:3px 7px;font-size:10px}
+  .chip.wk{font-size:10.5px;padding:4px 8px}
   .chip .topic{display:none}
-  .filter-label{min-width:40px;font-size:11px;padding-top:6px}
-  .locate{font-size:10px;padding:4px 8px;white-space:normal}
+  .filter-label{min-width:32px;font-size:10px}
+  .statbar{padding-top:3px;font-size:10px}
+  .tip{display:none}
+  main{padding:0 10px 8px;margin-top:8px}
+  .group-hd{padding:5px 9px;font-size:11px}
+  .cols{gap:6px;padding:6px}
+  .col-hd{padding-bottom:3px;font-size:10px}
+  .list{gap:3px}
+  .card{padding:5px 6px;min-height:30px;border-radius:7px}
+  .card .main{font-size:10.5px}
+  .card .definition{font-size:9px;line-height:1.3;-webkit-line-clamp:2}
+  .card .idx{min-width:15px;height:15px;font-size:8.5px;margin-right:4px}
+  .group-hd .g-range{font-size:9.5px}
+  .win{position:fixed;left:10px;right:10px;bottom:10px;margin:0;z-index:50;padding:9px;font-size:12px}
+  footer{padding:0 10px 10px}
+  .foot-card{padding:7px 10px;font-size:9px}
 }
 </style>
 </head>
@@ -132,18 +158,21 @@ footer{max-width:1200px;margin:0 auto;padding:0 20px 46px}
 
 <header class="hero">
   <div class="hero-in">
-    <div class="brand"><span class="dot"></span>AI PM KNOWLEDGE BASE · 新像素教育</div>
-    <h1>AI 产品经理 · <span class="grad">术语配对游戏</span></h1>
-    <p class="sub">从 8 周讲课稿提取 402 个术语与一句话解释，按天打乱配对。先点左侧术语、再点右侧解释；配对正确变绿锁定，错了轻轻晃一下继续，不扣分不惩罚。</p>
+    <div class="title-row">
+      <div>
+        <h1>AI 产品经理 · <span class="grad">术语配对游戏</span></h1>
+        <p class="sub">每天 12 词拆成 2 组，先点术语再点对应解释；正确变绿锁定，错了晃一下继续，不扣分。</p>
+      </div>
+      <div class="modebar">
+        <a class="mode-btn" href="index.html">📖 返回词库</a>
+        <a class="mode-btn solid" href="index.html">🧩 术语概念词库</a>
+      </div>
+    </div>
     <div class="stats">
       <div class="stat"><b>468</b><span>术语记录</span></div>
       <div class="stat"><b>402</b><span>唯一术语</span></div>
       <div class="stat"><b>8</b><span>周次</span></div>
       <div class="stat"><b>40</b><span>讲稿日</span></div>
-    </div>
-    <div class="modebar">
-      <a class="mode-btn" href="index.html">📖 返回词库</a>
-      <a class="mode-btn solid" href="index.html">🧩 术语概念词库</a>
     </div>
   </div>
 </header>
@@ -178,15 +207,33 @@ footer{max-width:1200px;margin:0 auto;padding:0 20px 46px}
 </div>
 
 <main>
-  <div class="cols" id="cols">
-    <div class="col left">
-      <div class="col-hd"><span>术语（点我先）</span><span class="hint" id="leftCount">0 项</span></div>
-      <div class="list" id="leftList"></div>
-    </div>
-    <div class="col right">
-      <div class="col-hd"><span>一句话解释（随机顺序）</span><span class="hint" id="rightCount">0 项</span></div>
-      <div class="list" id="rightList"></div>
-    </div>
+  <div class="groups" id="groups">
+    <section class="group g-a" data-g="a">
+      <div class="group-hd"><span>🧩 第 1 组</span><span class="g-range" id="rangeA">术语 1–6</span></div>
+      <div class="cols">
+        <div class="col left">
+          <div class="col-hd">术语（点我先）</div>
+          <div class="list" id="listATerm"></div>
+        </div>
+        <div class="col right">
+          <div class="col-hd">一句话解释（乱序）</div>
+          <div class="list" id="listADef"></div>
+        </div>
+      </div>
+    </section>
+    <section class="group g-b" data-g="b">
+      <div class="group-hd"><span>🧩 第 2 组</span><span class="g-range" id="rangeB">术语 7–12</span></div>
+      <div class="cols">
+        <div class="col left">
+          <div class="col-hd">术语（点我先）</div>
+          <div class="list" id="listBTerm"></div>
+        </div>
+        <div class="col right">
+          <div class="col-hd">一句话解释（乱序）</div>
+          <div class="list" id="listBDef"></div>
+        </div>
+      </div>
+    </section>
   </div>
   <div class="win" id="win">🎉 本日术语全部配对完成！</div>
 </main>
@@ -255,29 +302,44 @@ function renderChips(){
     state.day=b.dataset.d; reset();
   });
 }
+function termCard(r,i,offset){
+  const n = (offset||0)+i+1;
+  return `<div class="card term" data-id="${r.id}"><span class="idx">${n}</span><span class="main">${esc(r.main)}</span></div>`;
+}
+function defCard(r){
+  return `<div class="card def" data-id="${r.id}" title="${esc(r.def)}"><span class="definition">${esc(r.def)}</span></div>`;
+}
 function render(){
   renderChips();
   const list = currentSet();
-  state.order = derange(list);
   state.selected = null; state.matched = new Set();
   const hasDay = !!state.day;
   $('#gate').style.display = hasDay ? 'none' : 'block';
-  $('#cols').style.display = hasDay ? 'grid' : 'none';
+  $('#groups').style.display = hasDay ? 'grid' : 'none';
   $('#locate').textContent = hasDay
     ? `当前：${state.week}${state.day} · ${topicOf(state.week,state.day)} · ${list.length} 词`
     : `当前：${state.week} · 未选日期`;
-  $('#leftCount').textContent = list.length+' 项';
-  $('#rightCount').textContent = list.length+' 项';
-  $('#leftList').innerHTML = list.map((r,i)=>
-    `<div class="card term" data-id="${r.id}"><span class="idx">${i+1}</span><span class="main">${esc(r.main)}</span>${r.sub?`<div class="sub">${esc(r.sub)}</div>`:''}</div>`).join('');
-  $('#rightList').innerHTML = state.order.map(r=>
-    `<div class="card def" data-id="${r.id}"><span class="definition">${esc(r.def)}</span></div>`).join('');
-  $('#leftList').querySelectorAll('.card').forEach(c=>c.onclick=()=>pickTerm(c));
-  $('#rightList').querySelectorAll('.card').forEach(c=>c.onclick=()=>pickDef(c));
+  const hasList = hasDay && list.length>0;
+  // 按原顺序等分两组；每组术语保持原序、解释各自独立错排
+  const mid = Math.ceil(list.length/2);
+  const groups = [
+    {key:'A', terms:list.slice(0,mid), rangeId:'#rangeA'},
+    {key:'B', terms:list.slice(mid), rangeId:'#rangeB'},
+  ];
+  groups.forEach(g=>{
+    const terms = g.terms;
+    const defs = derange(terms);
+    const start = g.key==='A' ? 1 : mid+1;
+    const end = Math.min(g.key==='A' ? mid : list.length, list.length);
+    $(g.rangeId).textContent = terms.length ? `术语 ${start}–${end}` : '无';
+    $(`#list${g.key}Term`).innerHTML = terms.map((r,i)=>termCard(r,i,g.key==='A'?0:mid)).join('');
+    $(`#list${g.key}Def`).innerHTML = defs.map(defCard).join('');
+  });
+  document.querySelectorAll('.card.term').forEach(c=>c.onclick=()=>pickTerm(c));
+  document.querySelectorAll('.card.def').forEach(c=>c.onclick=()=>pickDef(c));
   $('#win').classList.remove('show');
-  $('#win').style.display = hasDay ? 'block' : 'none';
   $('#tipText').textContent = hasDay
-    ? '提示：点左侧术语，再去右侧找它的一句话解释。'
+    ? '提示：在任一组内点左侧术语，再去同组右侧找它的一句话解释。'
     : '提示：先在上方「每天」一栏选好某一天。';
   updateProgress();
 }
@@ -300,7 +362,7 @@ function pickDef(card){
     left.classList.remove('selected','wrong'); left.classList.add('matched');
     card.classList.remove('selected','wrong'); card.classList.add('matched');
     state.selected = null;
-    $('#tipText').textContent='配对正确 ✓ 已锁定，继续下一组。';
+    $('#tipText').textContent='配对正确 ✓ 已锁定，继续下一对。';
     updateProgress();
     if(state.matched.size === currentSet().length){ $('#win').classList.add('show'); toast('全部完成！'); }
   }else{
