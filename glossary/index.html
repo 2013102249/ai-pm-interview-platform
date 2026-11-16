@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AI 产品经理 · 术语概念词库</title>
 <style>
 :root{
@@ -15,7 +15,9 @@
   --shadow-lg:0 4px 12px rgba(33,29,51,.08),0 24px 60px rgba(93,63,211,.18);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+img,video,canvas,svg{max-width:100%;height:auto}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 
 /* ===== 顶部 Hero ===== */
@@ -160,12 +162,56 @@ footer{max-width:1200px;margin:0 auto;padding:0 20px 46px}
 .foot-card b{color:var(--ink-2)}
 
 @media (max-width:640px){
-  .hero{padding:34px 18px 76px}
-  .modebar{position:static;margin-top:18px}
-  .toolbar-wrap{margin-top:-46px}
-  .flash-card .side{padding:26px 22px}
+  .hero{padding:calc(26px + env(safe-area-inset-top)) 16px 62px}
+  .hero h1{font-size:clamp(24px,6vw,32px)}
+  .hero p.sub{font-size:13px}
+  .modebar{position:static;margin-top:14px;gap:8px;flex-wrap:wrap}
+  .mode-btn{min-height:40px;padding:10px 18px;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+  .toolbar-wrap{margin-top:-40px;padding:0 14px}
+  .toolbar{padding:12px}
+  .tb-row{gap:9px}
+  .search input{min-height:44px;font-size:14px}
+  .sortsel{min-height:44px;font-size:13px}
+  .hot-toggle{min-height:40px}
+  .cat-chip{min-height:38px;padding:8px 14px;font-size:13px}
+  .cats{scrollbar-width:none}
+  .flash-card .side{padding:24px 20px}
   .flash-front h2{font-size:26px}
+  .fb-btn{min-height:46px;padding:12px 20px}
+  .nav-btn{min-height:44px}
   .legend{display:none}
+  /* 弹层：贴边不溢出、可滚动、安全区 */
+  .overlay{padding:8px 8px calc(8px + env(safe-area-inset-bottom))}
+  .modal{border-radius:16px;margin-bottom:0}
+  .modal-head{padding:18px 18px 0}
+  .modal-body{padding:16px 18px 20px;gap:14px}
+  .modal-head h2{font-size:20px}
+  .close-x{width:40px;height:40px;right:12px;top:10px;font-size:17px}
+  .modal-nav{padding:12px 18px}
+  .nav-btn{max-width:48%;font-size:12px}
+  footer{padding:0 14px calc(24px + env(safe-area-inset-bottom))}
+  .foot-card{padding:14px 16px;font-size:11.5px}
+}
+/* 横屏矮屏：压缩首屏，保证搜索与卡片可见 */
+@media (orientation:landscape) and (max-height:500px){
+  .hero{padding:12px 18px 34px}
+  .hero h1{font-size:22px;margin-top:8px}
+  .hero p.sub{display:none}
+  .stats{margin-top:10px}
+  .stat{padding:6px 12px}
+  .toolbar-wrap{margin-top:-26px}
+  .toolbar{padding:10px 12px}
+  .flash-card .side{padding:18px 20px}
+  .flash-front h2{font-size:24px}
+}
+/* 超小屏 */
+@media (max-width:360px){
+  .hero h1{font-size:22px}
+  .mode-btn{min-height:38px;padding:9px 14px;font-size:12px}
+  .cat-chip{min-height:36px;padding:7px 11px;font-size:12px}
+  .search input{font-size:13px}
+  .card h3{font-size:15px}
+  .modal-head h2{font-size:18px}
 }
 /* 嵌入模式（被iframe引用时压缩首屏） */
 body.embedded .hero{padding:28px 20px 64px}
